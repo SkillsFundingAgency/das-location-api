@@ -1,14 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Api", "SFA.DAS.Location.Api\SFA.DAS.Location.Api.csproj", "{F3EDD9B6-AC2F-4D55-B26B-7CACB927FFE4}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Api", "SFA.DAS.Location.Api\SFA.DAS.Location.Api.csproj", "{F3EDD9B6-AC2F-4D55-B26B-7CACB927FFE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Domain", "SFA.DAS.Location.Domain\SFA.DAS.Location.Domain.csproj", "{D2C7D787-53D5-43BD-BFFF-C6FCCE61150E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Domain", "SFA.DAS.Location.Domain\SFA.DAS.Location.Domain.csproj", "{D2C7D787-53D5-43BD-BFFF-C6FCCE61150E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Infrastructure", "SFA.DAS.Location.Infrastructure\SFA.DAS.Location.Infrastructure.csproj", "{E89FD415-230C-4A23-B0D5-F5CEF583C09E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Infrastructure", "SFA.DAS.Location.Infrastructure\SFA.DAS.Location.Infrastructure.csproj", "{E89FD415-230C-4A23-B0D5-F5CEF583C09E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E99E239B-C9EB-4FC8-8D32-FC292CA468E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Api.UnitTests", "SFA.DAS.Location.Api.UnitTests\SFA.DAS.Location.Api.UnitTests.csproj", "{03506945-8B10-41FB-9108-C9E5A3E0D3B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Api.UnitTests", "SFA.DAS.Location.Api.UnitTests\SFA.DAS.Location.Api.UnitTests.csproj", "{03506945-8B10-41FB-9108-C9E5A3E0D3B6}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.Location.Database", "SFA.DAS.Location.Database\SFA.DAS.Location.Database.sqlproj", "{B5442815-7C0F-49D4-BD85-8718528A1539}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +37,20 @@ Global
 		{03506945-8B10-41FB-9108-C9E5A3E0D3B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03506945-8B10-41FB-9108-C9E5A3E0D3B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03506945-8B10-41FB-9108-C9E5A3E0D3B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5442815-7C0F-49D4-BD85-8718528A1539}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{03506945-8B10-41FB-9108-C9E5A3E0D3B6} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8D4C9D0-DB29-42C7-8F69-AFB64BE056CD}
 	EndGlobalSection
 EndGlobal
