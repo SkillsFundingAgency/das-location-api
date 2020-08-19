@@ -60,6 +60,8 @@ namespace SFA.DAS.Location.Api
 
                 services.AddAuthentication(azureAdConfiguration);
             }
+
+            services.AddServiceRegistration();
             
             if (_configuration["Environment"] != "DEV")
             {
