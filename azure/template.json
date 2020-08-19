@@ -17,6 +17,9 @@
         "sharedBackEndAppServicePlanName": {
             "type": "string"
         },
+        "sharedBackEndSubnetResourceId": {
+            "type": "string"
+        },
         "backEndAccessRestrictions": {
             "type": "array",
             "defaultValue": []
