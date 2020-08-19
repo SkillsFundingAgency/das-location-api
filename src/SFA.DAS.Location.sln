@@ -17,6 +17,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.Location.Database",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Infrastructure.UnitTests", "SFA.DAS.Location.Infrastructure.UnitTests\SFA.DAS.Location.Infrastructure.UnitTests.csproj", "{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Data.UnitTests", "SFA.DAS.Location.Data.UnitTests\SFA.DAS.Location.Data.UnitTests.csproj", "{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Data", "SFA.DAS.Location.Data\SFA.DAS.Location.Data.csproj", "{632189EE-70C6-4FA8-8B1C-A15ED41964AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{632189EE-70C6-4FA8-8B1C-A15ED41964AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632189EE-70C6-4FA8-8B1C-A15ED41964AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632189EE-70C6-4FA8-8B1C-A15ED41964AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632189EE-70C6-4FA8-8B1C-A15ED41964AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +68,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{03506945-8B10-41FB-9108-C9E5A3E0D3B6} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
 		{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
+		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8D4C9D0-DB29-42C7-8F69-AFB64BE056CD}
