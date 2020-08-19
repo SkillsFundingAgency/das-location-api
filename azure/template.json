@@ -17,7 +17,7 @@
         "sharedBackEndAppServicePlanName": {
             "type": "string"
         },
-        "appServiceAllowedIPs": {
+        "backEndAccessRestrictions": {
             "type": "array",
             "defaultValue": []
         },   
