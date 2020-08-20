@@ -18,7 +18,7 @@ namespace SFA.DAS.Location.Domain.ImportTypes
     public class Attributes
     {
         [JsonProperty("placeid")]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("place15nm")]
         public string LocationName { get; set; }
