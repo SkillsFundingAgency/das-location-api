@@ -10,6 +10,7 @@ namespace SFA.DAS.Location.Data
     {
         DbSet<Domain.Entities.Location> Locations { get; set; }
         DbSet<Domain.Entities.LocationImport> LocationImports { get; set; }
+        DbSet<Domain.Entities.ImportAudit> ImportAudit { get; set; }
         int SaveChanges();
         string GetProviderName();
     }
@@ -22,6 +23,7 @@ namespace SFA.DAS.Location.Data
 
         public DbSet<Domain.Entities.Location> Locations { get; set; }
         public DbSet<Domain.Entities.LocationImport> LocationImports { get; set; }
+        public DbSet<Domain.Entities.ImportAudit> ImportAudit { get; set; }
 
         public LocationDataContext()
         {
@@ -61,6 +63,7 @@ namespace SFA.DAS.Location.Data
         {
             modelBuilder.ApplyConfiguration(new Configuration.Location());
             modelBuilder.ApplyConfiguration(new Configuration.LocationImport());
+            modelBuilder.ApplyConfiguration(new Configuration.ImportAudit());
         }
     }
 }
