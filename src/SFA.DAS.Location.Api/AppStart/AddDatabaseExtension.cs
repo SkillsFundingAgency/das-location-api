@@ -3,7 +3,9 @@ using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SFA.DAS.Location.Data;
+using SFA.DAS.Location.Data.Repository;
 using SFA.DAS.Location.Domain.Configuration;
+using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Api.AppStart
 {
@@ -27,7 +29,10 @@ namespace SFA.DAS.Location.Api.AppStart
             
             services.AddTransient<ILocationDataContext, LocationDataContext>(provider => provider.GetService<LocationDataContext>());
             services.AddTransient(provider => new Lazy<LocationDataContext>(provider.GetService<LocationDataContext>()));
-            
+
+            services.AddTransient<IImportAuditRepository, ImportAuditRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
+            services.AddTransient<ILocationImportRepository, LocationImportRepository>();
         }
     }
 }

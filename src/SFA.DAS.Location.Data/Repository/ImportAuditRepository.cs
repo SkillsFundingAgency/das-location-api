@@ -2,10 +2,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SFA.DAS.Location.Domain.Entities;
+using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Data.Repository
 {
-    public class ImportAuditRepository
+    public class ImportAuditRepository : IImportAuditRepository
     {
         private readonly ILocationDataContext _dataContext;
 
