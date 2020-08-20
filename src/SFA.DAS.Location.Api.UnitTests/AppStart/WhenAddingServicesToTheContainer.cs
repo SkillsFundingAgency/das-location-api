@@ -7,7 +7,7 @@ using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Api.UnitTests.AppStart
 {
-    public class WhenAddingToTheContainer
+    public class WhenAddingServicesToTheContainer
     {
         [TestCase(typeof(ILocationService))]
         public void Then_The_Dependencies_Are_Correctly_Resolved(Type toResolve)

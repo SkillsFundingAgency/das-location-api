@@ -51,6 +51,8 @@ namespace SFA.DAS.Location.Api
             services.AddOptions();
             services.Configure<AzureActiveDirectoryConfiguration>(_configuration.GetSection("AzureAd"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
+            services.Configure<LocationApiConfiguration>(_configuration.GetSection(nameof(LocationApiConfiguration)));
+            services.AddSingleton(cfg => cfg.GetService<IOptions<LocationApiConfiguration>>().Value);
             
             if (!ConfigurationIsLocalOrDev())
             {
@@ -60,7 +62,11 @@ namespace SFA.DAS.Location.Api
 
                 services.AddAuthentication(azureAdConfiguration);
             }
-
+            var locationApiConfiguration = _configuration
+                .GetSection(nameof(LocationApiConfiguration))
+                .Get<LocationApiConfiguration>();
+            
+            services.AddDatabaseRegistration(locationApiConfiguration, _configuration["Environment"]);
             services.AddServiceRegistration();
             
             if (_configuration["Environment"] != "DEV")

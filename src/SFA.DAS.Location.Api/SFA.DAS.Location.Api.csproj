@@ -36,6 +36,7 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\SFA.DAS.Location.Data\SFA.DAS.Location.Data.csproj" />
       <ProjectReference Include="..\SFA.DAS.Location.Domain\SFA.DAS.Location.Domain.csproj" />
       <ProjectReference Include="..\SFA.DAS.Location.Infrastructure\SFA.DAS.Location.Infrastructure.csproj" />
     </ItemGroup>

@@ -11,6 +11,7 @@ namespace SFA.DAS.Location.Data
         DbSet<Domain.Entities.Location> Locations { get; set; }
         DbSet<Domain.Entities.LocationImport> LocationImports { get; set; }
         int SaveChanges();
+        string GetProviderName();
     }
     
     public class LocationDataContext : DbContext, ILocationDataContext
@@ -34,6 +35,11 @@ namespace SFA.DAS.Location.Data
         {
             _configuration = config.Value;
             _azureServiceTokenProvider = azureServiceTokenProvider;
+        }
+
+        public string GetProviderName()
+        {
+            return base.Database.ProviderName;
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
