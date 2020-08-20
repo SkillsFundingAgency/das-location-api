@@ -17,7 +17,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
     {
         [Test, AutoData]
         public async Task Then_The_Endpoint_Is_Called_And_Location_Data_Returned(
-            List<LocationApiItem> importLocations)
+            LocationApiItem importLocations)
         {
             //Arrange
             var response = new HttpResponseMessage

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -18,7 +17,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             _client = client;
         }
 
-        public async Task<IEnumerable<LocationApiItem>> GetLocations()
+        public async Task<LocationApiItem> GetLocations()
         {
             var response = await _client.GetAsync(new Uri(Constants.NationalOfficeOfStatisticsLocationUrl));
             
@@ -26,7 +25,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             
             var jsonResponse = await response.Content.ReadAsStringAsync();
             
-            return JsonConvert.DeserializeObject<List<LocationApiItem>>(jsonResponse);
+            return JsonConvert.DeserializeObject<LocationApiItem>(jsonResponse);
         }
     }
 }
