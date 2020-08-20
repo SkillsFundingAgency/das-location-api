@@ -30,7 +30,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<ILocationRepository> repository,
             LocationImportService importService)
         {
-            service.Setup(x => x.GetLocations()).ReturnsAsync(new LocationApiItem());
+            service.Setup(x => x.GetLocations()).ReturnsAsync(new List<LocationApiItem>());
 
             await importService.Import();
             
@@ -39,12 +39,15 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         }
 
         [Test, MoqAutoData]
-        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_From_The_Api_Are_Added_To_The_Import_Repository(
-            LocationApiItem apiResponse,
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Distinct_Location_Items_From_The_Api_Are_Added_To_The_Import_Repository(
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
             [Frozen]Mock<ILocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
+            apiResponse.Add(apiFeature);
+            apiResponse.Add(apiFeature);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             
             await importService.Import();
@@ -53,12 +56,64 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             importRepository.Verify(
                 x => x.InsertMany(
                     It.Is<List<Domain.Entities.LocationImport>>(
-                        c => c.Count.Equals(apiResponse.Features.Count))), Times.Once);
+                        c => c.Count.Equals(apiResponse.Count-1))), Times.Once);
         }
 
+        
+        [Test, MoqAutoData]
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_Distinct_Name_And_Location_From_The_Api_Are_Added_To_The_Import_Repository(
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
+            LocationApiItem apiFeature1,
+            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            LocationImportService importService)
+        {
+            apiFeature1.Attributes.CountyName = apiFeature.Attributes.CountyName;
+            apiFeature1.Attributes.LocationName = apiFeature.Attributes.LocationName;
+                
+            apiResponse.Add(apiFeature);
+            apiResponse.Add(apiFeature1);
+            service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            
+            await importService.Import();
+
+            importRepository.Verify(x=>x.DeleteAll(), Times.Once);
+            importRepository.Verify(
+                x => x.InsertMany(
+                    It.Is<List<Domain.Entities.LocationImport>>(
+                        c => c.Count.Equals(apiResponse.Count-1))), Times.Once);
+        }
+        
+        
+        [Test, MoqAutoData]
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_A_CountName_Are_Added_To_The_Import_Repository(
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
+            LocationApiItem apiFeature1,
+            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            LocationImportService importService)
+        {
+            apiFeature.Attributes.CountyName = null;
+            apiFeature1.Attributes.CountyName = "";
+            
+            apiResponse.Add(apiFeature);
+            apiResponse.Add(apiFeature1);
+            service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            
+            await importService.Import();
+
+            importRepository.Verify(x=>x.DeleteAll(), Times.Once);
+            importRepository.Verify(
+                x => x.InsertMany(
+                    It.Is<List<Domain.Entities.LocationImport>>(
+                        c => c.Count.Equals(apiResponse.Count-2))), Times.Once);
+        }
+        
         [Test, MoqAutoData]
         public async Task Then_The_Items_Are_Deleted_From_The_Repository_And_The_LocationImport_Items_Are_Added_To_The_Location_Repository(
-            LocationApiItem apiResponse,
+            List<LocationApiItem> apiResponse,
             List<Domain.Entities.LocationImport> importItems,
             [Frozen]Mock<ILocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
@@ -79,7 +134,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
 
         [Test, MoqAutoData]
         public async Task Then_An_Audit_Record_Is_Created(
-            LocationApiItem apiResponse,
+            List<LocationApiItem> apiResponse,
             List<Domain.Entities.LocationImport> importItems,
             [Frozen]Mock<ILocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,

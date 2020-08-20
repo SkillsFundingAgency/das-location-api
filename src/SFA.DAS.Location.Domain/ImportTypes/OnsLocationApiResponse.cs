@@ -3,13 +3,15 @@ using Newtonsoft.Json;
 
 namespace SFA.DAS.Location.Domain.ImportTypes
 {
-    public class LocationApiItem
+    public class OnsLocationApiResponse
     {
         [JsonProperty("features")]
-        public List<Feature> Features { get; set; }
+        public List<LocationApiItem> Features { get; set; }
+        [JsonProperty("exceededTransferLimit")]
+        public bool ExceededTransferLimit { get; set; }
     }
     
-    public class Feature
+    public class LocationApiItem
     {
         [JsonProperty("attributes")]
         public Attributes Attributes { get; set; }

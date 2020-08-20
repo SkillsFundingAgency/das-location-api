@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,15 +16,16 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
     {
         [Test, AutoData]
         public async Task Then_The_Endpoint_Is_Called_And_Location_Data_Returned(
-            LocationApiItem importLocations)
+            OnsLocationApiResponse importLocations)
         {
             //Arrange
+            importLocations.ExceededTransferLimit = false;
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(importLocations)),
                 StatusCode = HttpStatusCode.Accepted
             };
-            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(Constants.NationalOfficeOfStatisticsLocationUrl));
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,2000,0)));
             var client = new HttpClient(httpMessageHandler.Object);
             var locationService = new LocationService(client);
             
@@ -33,7 +33,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await locationService.GetLocations();
             
             //Assert
-            actual.Should().BeEquivalentTo(importLocations);
+            actual.Should().BeEquivalentTo(importLocations.Features);
         }
         
         [Test]
@@ -45,7 +45,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
                 Content = new StringContent(""),
                 StatusCode = HttpStatusCode.BadRequest
             };
-            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(Constants.NationalOfficeOfStatisticsLocationUrl));
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,2000,0)));
             var client = new HttpClient(httpMessageHandler.Object);
             var locationService = new LocationService(client);
             

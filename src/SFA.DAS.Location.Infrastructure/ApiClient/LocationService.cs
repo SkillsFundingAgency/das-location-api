@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -17,15 +18,30 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             _client = client;
         }
 
-        public async Task<LocationApiItem> GetLocations()
+        public async Task<IEnumerable<LocationApiItem>> GetLocations()
         {
-            var response = await _client.GetAsync(new Uri(Constants.NationalOfficeOfStatisticsLocationUrl));
+            var moreData = true;
+            var items = new List<LocationApiItem>();
+            var offSet = 0;
+            var recordSize = 2000;
             
-            response.EnsureSuccessStatusCode();
+            while (moreData)
+            {
+                var response = await _client.GetAsync(new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,recordSize,offSet)));
             
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+                response.EnsureSuccessStatusCode();
             
-            return JsonConvert.DeserializeObject<LocationApiItem>(jsonResponse);
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var item = JsonConvert.DeserializeObject<OnsLocationApiResponse>(jsonResponse);
+
+                moreData = item.ExceededTransferLimit;
+
+                offSet += recordSize;
+                
+                items.AddRange(item.Features);
+            }
+
+            return items;
         }
     }
 }

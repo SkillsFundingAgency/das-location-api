@@ -6,6 +6,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
 {
     public interface ILocationService
     {
-        Task<LocationApiItem> GetLocations();
+        Task<IEnumerable<LocationApiItem>> GetLocations();
     }
 }

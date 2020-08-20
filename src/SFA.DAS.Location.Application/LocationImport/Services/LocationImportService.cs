@@ -33,9 +33,9 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             _logger.LogInformation("Import starting");
             var timeStarted = DateTime.UtcNow;
             
-            var items = await _locationService.GetLocations();
+            var items = (await _locationService.GetLocations()).ToList();
 
-            if (items.Features == null || !items.Features.Any())
+            if (!items.Any())
             {
                 _logger.LogWarning("No items to import");
                 return;
@@ -44,7 +44,16 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             _logger.LogInformation("Deleting from Import table");
             _importRepository.DeleteAll();
             _logger.LogInformation("Inserting into Import table");
-            await _importRepository.InsertMany(items.Features.Select(c => (Domain.Entities.LocationImport) c.Attributes).ToList());
+            
+            var featureItems = items
+                .GroupBy(c => new {c.Attributes.Id})
+                .Select(item => item.First())
+                .GroupBy(c=>new {c.Attributes.CountyName, c.Attributes.LocationName})
+                .Select(item => item.First())
+                .Where(item=>!string.IsNullOrEmpty(item.Attributes.CountyName))
+                .ToList();
+            
+            await _importRepository.InsertMany(featureItems.Select(c => (Domain.Entities.LocationImport) c.Attributes).ToList());
             
             var importedItems = (await _importRepository.GetAll()).ToList();
 
