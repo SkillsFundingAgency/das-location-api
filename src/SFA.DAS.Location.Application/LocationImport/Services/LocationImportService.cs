@@ -48,9 +48,9 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             var featureItems = items
                 .GroupBy(c => new {c.Attributes.Id})
                 .Select(item => item.First())
+                .Where(item=>!string.IsNullOrEmpty(item.Attributes.CountyName))
                 .GroupBy(c=>new {c.Attributes.CountyName, c.Attributes.LocationName})
                 .Select(item => item.First())
-                .Where(item=>!string.IsNullOrEmpty(item.Attributes.CountyName))
                 .ToList();
             
             await _importRepository.InsertMany(featureItems.Select(c => (Domain.Entities.LocationImport) c.Attributes).ToList());
