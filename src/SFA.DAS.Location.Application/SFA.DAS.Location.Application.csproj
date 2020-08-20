@@ -5,14 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="LocationImport\Handlers\ImportLocations" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\SFA.DAS.Location.Domain\SFA.DAS.Location.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MediatR" Version="8.0.2" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
     </ItemGroup>
 

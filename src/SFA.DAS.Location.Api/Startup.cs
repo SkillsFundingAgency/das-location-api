@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.Location.Api.AppStart;
 using SFA.DAS.Location.Api.Infrastructure;
+using SFA.DAS.Location.Application.LocationImport.Handlers.ImportLocations;
 using SFA.DAS.Location.Domain.Configuration;
 
 namespace SFA.DAS.Location.Api
@@ -68,6 +70,7 @@ namespace SFA.DAS.Location.Api
             
             services.AddDatabaseRegistration(locationApiConfiguration, _configuration["Environment"]);
             services.AddServiceRegistration();
+            services.AddMediatR(typeof(ImportDataCommand).Assembly);
             
             if (_configuration["Environment"] != "DEV")
             {
