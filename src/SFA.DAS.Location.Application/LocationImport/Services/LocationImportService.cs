@@ -7,7 +7,7 @@ using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Application.LocationImport.Services
 {
-    public class LocationImportService
+    public class LocationImportService : ILocationImportService
     {
         private readonly ILocationService _locationService;
         private readonly ILocationImportRepository _importRepository;
