@@ -7,6 +7,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
     {
         Task InsertMany(IEnumerable<Domain.Entities.Location> apprenticeshipFundingImports);
         void DeleteAll();
-        Task<IEnumerable<Domain.Entities.Location>> GetAll();
+        Task<IEnumerable<Domain.Entities.Location>> GetAllStartingWith(string query, int resultCount = 10);
     }
 }

@@ -5,7 +5,7 @@ namespace SFA.DAS.Location.Api.Controllers
     [ApiVersion("1.0")]
     [ApiController]
     [Route("/api/[controller]/")]
-    public class LocationController : ControllerBase
+    public class LocationsController : ControllerBase
     {
         [HttpGet]
         [Route("")]
