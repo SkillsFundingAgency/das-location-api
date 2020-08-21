@@ -4,7 +4,7 @@ using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Application.Location.Services
 {
-    public class LocationService
+    public class LocationService : ILocationService
     {
         private readonly ILocationRepository _repository;
 

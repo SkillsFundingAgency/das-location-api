@@ -11,6 +11,7 @@ namespace SFA.DAS.Location.Api.UnitTests.AppStart
     public class WhenAddingServicesToTheContainer
     {
         [TestCase(typeof(INationalStatisticsLocationService))]
+        [TestCase(typeof(ILocationService))]
         [TestCase(typeof(ILocationImportService))]
         public void Then_The_Dependencies_Are_Correctly_Resolved(Type toResolve)
         {
