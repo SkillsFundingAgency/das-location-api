@@ -87,7 +87,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         
         
         [Test, MoqAutoData]
-        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_A_CountName_Are_Added_To_The_Import_Repository(
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_A_CountyName_Are_Added_To_The_Import_Repository(
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
             LocationApiItem apiFeature1,
@@ -97,6 +97,32 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         {
             apiFeature.Attributes.CountyName = null;
             apiFeature1.Attributes.CountyName = "";
+            
+            apiResponse.Add(apiFeature);
+            apiResponse.Add(apiFeature1);
+            service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            
+            await importService.Import();
+
+            importRepository.Verify(x=>x.DeleteAll(), Times.Once);
+            importRepository.Verify(
+                x => x.InsertMany(
+                    It.Is<List<Domain.Entities.LocationImport>>(
+                        c => c.Count.Equals(apiResponse.Count-2))), Times.Once);
+        }
+        
+        
+        [Test, MoqAutoData]
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_A_LocalAuthorityName_Are_Added_To_The_Import_Repository(
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
+            LocationApiItem apiFeature1,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            LocationImportService importService)
+        {
+            apiFeature.Attributes.LocalAuthorityName= null;
+            apiFeature1.Attributes.LocalAuthorityName = "";
             
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature1);

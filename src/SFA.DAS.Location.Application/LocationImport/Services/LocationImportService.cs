@@ -49,6 +49,7 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
                 .GroupBy(c => new {c.Attributes.Id})
                 .Select(item => item.First())
                 .Where(item=>!string.IsNullOrEmpty(item.Attributes.CountyName))
+                .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocalAuthorityName))
                 .GroupBy(c=>new {c.Attributes.CountyName, c.Attributes.LocationName})
                 .Select(item => item.First())
                 .ToList();
