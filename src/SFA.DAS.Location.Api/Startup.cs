@@ -15,6 +15,7 @@ using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.Location.Api.AppStart;
 using SFA.DAS.Location.Api.Infrastructure;
 using SFA.DAS.Location.Application.LocationImport.Handlers.ImportLocations;
+using SFA.DAS.Location.Data;
 using SFA.DAS.Location.Domain.Configuration;
 using SFA.DAS.Location.Infrastructure.HealthCheck;
 
@@ -77,6 +78,7 @@ namespace SFA.DAS.Location.Api
             if (_configuration["Environment"] != "DEV")
             {
                 services.AddHealthChecks()
+                    .AddDbContextCheck<LocationDataContext>()
                     .AddCheck<LocationImportHealthCheck>("ONS Location Data Health Check",
                     HealthStatus.Unhealthy,
                     new[] {"ready"});
