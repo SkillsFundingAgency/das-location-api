@@ -17,6 +17,9 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
             var actual = (GetLocationsListItem) location;
             
             actual.Should().BeEquivalentTo(location, options=> options.ExcludingMissingMembers());
+            actual.Location.Coordinates.FirstOrDefault().Should().Be(location.Lat);
+            actual.Location.Coordinates.LastOrDefault().Should().Be(location.Long);
+            GetLocationsListItem.Geometry.Type.Should().Be("Point");
         }
     }
 }
