@@ -15,7 +15,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
     {
         [Test, MoqAutoData]
         public async Task Then_The_Location_Items_Are_Retrieved_From_The_Api(
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             LocationImportService importService)
         {
             await importService.Import();
@@ -25,7 +25,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
 
         [Test, MoqAutoData]
         public async Task Then_If_No_Locations_Are_Returned_From_The_Api_Nothing_Is_Imported(
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             [Frozen]Mock<ILocationRepository> repository,
             LocationImportService importService)
@@ -42,7 +42,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Distinct_Location_Items_From_The_Api_Are_Added_To_The_Import_Repository(
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
@@ -65,7 +65,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
             LocationApiItem apiFeature1,
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
@@ -91,7 +91,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
             LocationApiItem apiFeature1,
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
@@ -115,7 +115,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         public async Task Then_The_Items_Are_Deleted_From_The_Repository_And_The_LocationImport_Items_Are_Added_To_The_Location_Repository(
             List<LocationApiItem> apiResponse,
             List<Domain.Entities.LocationImport> importItems,
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             [Frozen]Mock<ILocationRepository> repository,
             LocationImportService importService)
@@ -136,7 +136,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         public async Task Then_An_Audit_Record_Is_Created(
             List<LocationApiItem> apiResponse,
             List<Domain.Entities.LocationImport> importItems,
-            [Frozen]Mock<ILocationService> service,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             [Frozen]Mock<ILocationRepository> repository,
             [Frozen]Mock<IImportAuditRepository> auditRepository,

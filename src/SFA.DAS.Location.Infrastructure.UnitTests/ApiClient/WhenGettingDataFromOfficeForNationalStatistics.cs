@@ -27,7 +27,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,2000,0)));
             var client = new HttpClient(httpMessageHandler.Object);
-            var locationService = new LocationService(client);
+            var locationService = new NationalStatisticsLocationService(client);
             
             //Act
             var actual = await locationService.GetLocations();
@@ -47,7 +47,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,2000,0)));
             var client = new HttpClient(httpMessageHandler.Object);
-            var locationService = new LocationService(client);
+            var locationService = new NationalStatisticsLocationService(client);
             
             //Act Assert
             Assert.ThrowsAsync<HttpRequestException>(() => locationService.GetLocations());

@@ -9,20 +9,20 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
 {
     public class LocationImportService : ILocationImportService
     {
-        private readonly ILocationService _locationService;
+        private readonly INationalStatisticsLocationService _nationalStatisticsLocationService;
         private readonly ILocationImportRepository _importRepository;
         private readonly ILocationRepository _repository;
         private readonly IImportAuditRepository _auditRepository;
         private readonly ILogger<LocationImportService> _logger;
 
         public LocationImportService (
-            ILocationService locationService, 
+            INationalStatisticsLocationService nationalStatisticsLocationService, 
             ILocationImportRepository importRepository,
             ILocationRepository repository, 
             IImportAuditRepository auditRepository, 
             ILogger<LocationImportService> logger)
         {
-            _locationService = locationService;
+            _nationalStatisticsLocationService = nationalStatisticsLocationService;
             _importRepository = importRepository;
             _repository = repository;
             _auditRepository = auditRepository;
@@ -33,7 +33,7 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             _logger.LogInformation("Import starting");
             var timeStarted = DateTime.UtcNow;
             
-            var items = (await _locationService.GetLocations()).ToList();
+            var items = (await _nationalStatisticsLocationService.GetLocations()).ToList();
 
             if (!items.Any())
             {

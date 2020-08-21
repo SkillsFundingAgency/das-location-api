@@ -9,11 +9,11 @@ using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Infrastructure.ApiClient
 {
-    public class LocationService : ILocationService
+    public class NationalStatisticsLocationService : INationalStatisticsLocationService
     {
         private readonly HttpClient _client;
 
-        public LocationService(HttpClient client)
+        public NationalStatisticsLocationService(HttpClient client)
         {
             _client = client;
         }

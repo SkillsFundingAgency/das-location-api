@@ -9,7 +9,7 @@ namespace SFA.DAS.Location.Api.AppStart
     {
         public static void AddServiceRegistration(this IServiceCollection services)
         {
-            services.AddHttpClient<ILocationService, LocationService>();
+            services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
             services.AddTransient<ILocationImportService, LocationImportService>();
         }
     }
