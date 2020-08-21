@@ -25,7 +25,7 @@ namespace SFA.DAS.Location.Api.Controllers
         
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> Index([FromQuery]string query, [FromQuery]int results)
+        public async Task<IActionResult> Index([FromQuery]string query, [FromQuery]int results = 20)
         {
             try
             {

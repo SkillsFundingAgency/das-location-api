@@ -39,6 +39,29 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
             model.Locations.Should().BeEquivalentTo(queryResult.Locations, options=>options.ExcludingMissingMembers());
         }
+        
+        
+        [Test, MoqAutoData]
+        public async Task Then_Gets_Locations_List_From_Mediator_Defaulting_To_Twenty_Items(
+            string query,
+            GetLocationsQueryResult queryResult,
+            [Frozen] Mock<IMediator> mockMediator,
+            [Greedy] LocationsController controller)
+        {
+            mockMediator
+                .Setup(mediator => mediator.Send(
+                    It.Is<GetLocationsQuery>(request => 
+                        request.Query == query && 
+                        request.ResultCount.Equals(20)), 
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(queryResult);
+
+            var controllerResult = await controller.Index(query) as ObjectResult;
+
+            var model = controllerResult.Value as GetLocationsListResponse;
+            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            model.Locations.Should().BeEquivalentTo(queryResult.Locations, options=>options.ExcludingMissingMembers());
+        }
 
         [Test, MoqAutoData]
         public async Task And_Exception_Then_Returns_Bad_Request(
