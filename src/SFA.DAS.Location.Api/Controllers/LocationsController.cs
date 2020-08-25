@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Location.Queries;
+using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
+using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -24,7 +26,7 @@ namespace SFA.DAS.Location.Api.Controllers
         }
         
         [HttpGet]
-        [Route("")]
+        [Route("search")]
         public async Task<IActionResult> Index([FromQuery]string query, [FromQuery]int results = 20)
         {
             try
@@ -45,6 +47,34 @@ namespace SFA.DAS.Location.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e,$"Unable to get location data for {query} - number of results {results}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetByLocationAndAuthorityName(string locationName, string authorityName)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetLocationQuery
+                {
+                    LocationName = locationName,
+                    AuthorityName = authorityName
+                });
+
+                if (queryResult.Location == null)
+                {
+                    return NotFound();
+                }
+
+                var response = (GetLocationsListItem) queryResult.Location; 
+                
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e,$"Unable to get location data for location:{locationName} authority:{authorityName}");
                 return BadRequest();
             }
         }
