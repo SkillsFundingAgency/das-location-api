@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SFA.DAS.Location.Domain.Interfaces;
 
-namespace SFA.DAS.Location.Application.Location.Queries
+namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
 {
     public class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery,GetLocationsQueryResult>
     {

@@ -6,6 +6,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Application.Location.Queries;
+using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Testing.AutoFixture;
 
