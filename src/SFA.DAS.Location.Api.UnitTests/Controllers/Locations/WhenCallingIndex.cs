@@ -11,6 +11,7 @@ using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
 using SFA.DAS.Location.Application.Location.Queries;
+using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
 using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations

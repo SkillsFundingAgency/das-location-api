@@ -5,29 +5,29 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
+using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Application.UnitTests.Location.Queries
 {
-    public class WhenHandlingTheSearchLocationRequest
+    public class WhenHandlingTheGetByLocationAndAuthorityName
     {
         [Test, MoqAutoData]
         public async Task Then_The_Service_Is_Called(
-            GetLocationsQuery query,
-            List<Domain.Entities.Location> locations,
+            GetLocationQuery query,
+            Domain.Entities.Location location,
             [Frozen] Mock<ILocationService> service,
-            GetLocationsQueryHandler handler)
+            GetLocationQueryHandler handler)
         {
             //Arrange
-            service.Setup(x => x.GetLocationsByQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+            service.Setup(x => x.GetLocationsByLocationAuthorityName(query.LocationName, query.AuthorityName)).ReturnsAsync(location);
             
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
             
             //Assert
-            actual.Locations.Should().BeEquivalentTo(locations);
+            actual.Location.Should().BeEquivalentTo(location);
         }
     }
 }

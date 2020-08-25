@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SFA.DAS.Location.Application.Location.Queries
+namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
 {
     public class GetLocationsQueryResult
     {
