@@ -8,7 +8,7 @@ using SFA.DAS.Location.Data.UnitTests.DatabaseMock;
 
 namespace SFA.DAS.Location.Data.UnitTests.Repository.Location
 {
-    public class WhenGettingAllMathcingQuery
+    public class WhenGettingAllMatchingQuery
     {
         private Mock<ILocationDataContext> _locationDataContext;
         private List<Domain.Entities.Location> _items;

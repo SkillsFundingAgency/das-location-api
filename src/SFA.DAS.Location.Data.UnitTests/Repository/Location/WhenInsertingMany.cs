@@ -24,7 +24,7 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.Location
                 },
                 new Domain.Entities.Location
                 {
-                    Id = 1
+                    Id = 2
                 }
             };
         
