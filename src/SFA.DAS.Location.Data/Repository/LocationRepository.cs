@@ -10,12 +10,10 @@ namespace SFA.DAS.Location.Data.Repository
     public class LocationRepository : ILocationRepository
     {
         private readonly ILocationDataContext _dataContext;
-        // private readonly IHttpClient _clientFactory;
 
         public LocationRepository(ILocationDataContext dataContext)
         {
             _dataContext = dataContext;
-            // _clientFactory = clientFactory;
         }
         public async Task InsertMany(IEnumerable<Domain.Entities.Location> apprenticeshipFundingImports)
         {

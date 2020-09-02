@@ -26,12 +26,5 @@ namespace SFA.DAS.Location.Application.Location.Services
 
             return result;
         }
-
-        public async Task<IEnumerable<SuggestedLocation>> GetLocationsByOuterPostcode(string query, int resultCount)
-        {
-            var result = await _repository.GetAllStartingWithOutcode(query, resultCount);
-
-            throw new System.NotImplementedException();
-        }
     }
 }
