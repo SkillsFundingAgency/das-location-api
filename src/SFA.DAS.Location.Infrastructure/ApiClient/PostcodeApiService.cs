@@ -17,7 +17,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
         {
             _client = client;
         }
-        public async Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount = 10)
+        public async Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10)
         {
             var items = new List<PostcodesLocationApiItem>();
             var response = await _client.GetAsync(new Uri(string.Format(Constants.PostcodesUrl, query, resultCount)));

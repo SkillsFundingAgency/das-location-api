@@ -6,6 +6,6 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 {
     public interface IPostcodeApiService
     {
-        Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount = 10);
+        Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10);
     }
 }

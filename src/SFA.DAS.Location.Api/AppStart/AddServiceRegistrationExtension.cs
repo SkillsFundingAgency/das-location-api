@@ -20,12 +20,8 @@ namespace SFA.DAS.Location.Api.AppStart
             services.AddTransient<ILocationImportService, LocationImportService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IPostcodeService, PostcodeService>();
-            services.AddHttpClient<IPostcodeRepository, PostcodeRepository>
-                    (
-                        options => options.Timeout = TimeSpan.FromMinutes(10)
-                    )
-                    .SetHandlerLifetime(TimeSpan.FromMinutes(10))
-                    .AddPolicyHandler(HttpClientRetryPolicy());
+            services.AddHttpClient<IPostcodeApiService, PostcodeApiService>()
+                .AddPolicyHandler(HttpClientRetryPolicy());
         }
         private static IAsyncPolicy<HttpResponseMessage> HttpClientRetryPolicy()
         {

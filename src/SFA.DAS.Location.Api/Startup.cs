@@ -53,7 +53,6 @@ namespace SFA.DAS.Location.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
             services.AddOptions();
             services.Configure<AzureActiveDirectoryConfiguration>(_configuration.GetSection("AzureAd"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
