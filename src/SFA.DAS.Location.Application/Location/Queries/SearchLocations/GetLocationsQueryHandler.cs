@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +24,7 @@ namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
             
             if (Regex.IsMatch(request.Query, regex))
             {
-                var postcodes = await _postcodeService.GetLocationsByOuterPostcode(request.Query, request.ResultCount);
+                var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
 
                 return new GetLocationsQueryResult
                 {

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SFA.DAS.Location.Domain.Configuration;
 using SFA.DAS.Location.Domain.ImportTypes;
-using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,16 +8,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.Location.Data.Repository
+namespace SFA.DAS.Location.Infrastructure.ApiClient
 {
-    public class PostcodeRepository : IPostcodeRepository
+    public class PostcodeApiService : IPostcodeApiService
     {
         private readonly HttpClient _client;
-        public PostcodeRepository(HttpClient client)
+        public PostcodeApiService(HttpClient client)
         {
             _client = client;
         }
-        public async Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10)
+        public async Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount = 10)
         {
             var items = new List<PostcodesLocationApiItem>();
             var response = await _client.GetAsync(new Uri(string.Format(Constants.PostcodesUrl, query, resultCount)));

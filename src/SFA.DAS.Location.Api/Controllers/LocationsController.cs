@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
-using SFA.DAS.Location.Application.Location.Queries;
 using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
 using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
 
@@ -39,7 +38,7 @@ namespace SFA.DAS.Location.Api.Controllers
                 
                 var response = new GetLocationsListResponse
                 {
-                    Locations = queryResult.Locations.Select(c=>(GetLocationsListItem)c).ToList()
+                    Locations = queryResult.SuggestedLocations.Select(c=>(GetLocationsListItem)c).ToList()
                 };
                 
                 return Ok(response);

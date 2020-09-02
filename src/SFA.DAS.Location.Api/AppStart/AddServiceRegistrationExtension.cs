@@ -4,6 +4,7 @@ using Polly.Extensions.Http;
 using SFA.DAS.Location.Application.Location.Services;
 using SFA.DAS.Location.Application.LocationImport.Services;
 using SFA.DAS.Location.Application.Postcode.Services;
+using SFA.DAS.Location.Data.Repository;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;
@@ -18,7 +19,8 @@ namespace SFA.DAS.Location.Api.AppStart
             services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
             services.AddTransient<ILocationImportService, LocationImportService>();
             services.AddTransient<ILocationService, LocationService>();
-            services.AddHttpClient<IPostcodeService, PostcodeService>
+            services.AddTransient<IPostcodeService, PostcodeService>();
+            services.AddHttpClient<IPostcodeRepository, PostcodeRepository>
                     (
                         options => options.Timeout = TimeSpan.FromMinutes(10)
                     )

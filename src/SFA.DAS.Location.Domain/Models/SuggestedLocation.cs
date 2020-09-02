@@ -1,7 +1,4 @@
 ﻿using SFA.DAS.Location.Domain.ImportTypes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SFA.DAS.Location.Domain.Models
 {
@@ -14,7 +11,7 @@ namespace SFA.DAS.Location.Domain.Models
         public double Lat { get; set; }
         public double Long { get; set; }
 
-        public static implicit operator SuggestedLocation(PostcodesLocationApiResponse source)
+        public static implicit operator SuggestedLocation(PostcodesLocationApiItem source)
         {
             return new SuggestedLocation
             {

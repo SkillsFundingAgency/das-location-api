@@ -8,6 +8,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
 {
     public interface IPostcodeService
     {
-        Task<IEnumerable<SuggestedLocation>> GetLocationsByOuterPostcode(string query, int resultCount)
+        Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount);
     }
 }

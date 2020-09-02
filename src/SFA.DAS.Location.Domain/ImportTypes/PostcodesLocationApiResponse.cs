@@ -1,11 +1,15 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SFA.DAS.Location.Domain.ImportTypes
 {
     public class PostcodesLocationApiResponse
+    {
+        [JsonProperty("result")]
+        public List<PostcodesLocationApiItem> Result { get; set; }
+    }
+
+    public class PostcodesLocationApiItem
     {
         [JsonProperty("postcode")]
         public string Postcode { get; set; }
@@ -15,6 +19,5 @@ namespace SFA.DAS.Location.Domain.ImportTypes
 
         [JsonProperty("longitude")]
         public double Long { get; set; }
-
     }
 }
