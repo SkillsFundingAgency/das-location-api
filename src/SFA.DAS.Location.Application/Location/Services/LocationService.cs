@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Interfaces;
+using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Application.Location.Services
 {
@@ -24,6 +25,13 @@ namespace SFA.DAS.Location.Application.Location.Services
             var result = await _repository.GetByLocationAndAuthorityName(locationName, authorityName);
 
             return result;
+        }
+
+        public async Task<IEnumerable<SuggestedLocation>> GetLocationsByOuterPostcode(string query, int resultCount)
+        {
+            var result = await _repository.GetAllStartingWithOutcode(query, resultCount);
+
+            throw new System.NotImplementedException();
         }
     }
 }

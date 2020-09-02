@@ -3,16 +3,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SFA.DAS.Location.Domain.Interfaces;
+using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Data.Repository
 {
     public class LocationRepository : ILocationRepository
     {
         private readonly ILocationDataContext _dataContext;
+        // private readonly IHttpClient _clientFactory;
 
         public LocationRepository(ILocationDataContext dataContext)
         {
             _dataContext = dataContext;
+            // _clientFactory = clientFactory;
         }
         public async Task InsertMany(IEnumerable<Domain.Entities.Location> apprenticeshipFundingImports)
         {
@@ -42,6 +45,11 @@ namespace SFA.DAS.Location.Data.Repository
                 c.LocationName.Equals(locationName) && c.LocalAuthorityName.Equals(authorityName));
 
             return result;
+        }
+
+        public async Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10)
+        {
+          // var result = await ...
         }
     }
 }
