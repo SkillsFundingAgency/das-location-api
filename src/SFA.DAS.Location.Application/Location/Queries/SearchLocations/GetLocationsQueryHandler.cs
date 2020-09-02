@@ -13,10 +13,12 @@ namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
     public class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery, GetLocationsQueryResult>
     {
         private readonly ILocationService _locationService;
+        private readonly IPostcodeService _postcodeService;
 
-        public GetLocationsQueryHandler(ILocationService locationService)
+        public GetLocationsQueryHandler(ILocationService locationService, IPostcodeService postcodeService)
         {
             _locationService = locationService;
+            _postcodeService = postcodeService;
         }
         public async Task<GetLocationsQueryResult> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
         {
@@ -24,7 +26,7 @@ namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
             
             if (Regex.IsMatch(request.Query, regex))
             {
-                var postcodes = await _locationService.GetLocationsByOuterPostcode(request.Query, request.ResultCount);
+                var postcodes = await _postcodeService.GetLocationsByOuterPostcode(request.Query, request.ResultCount);
 
                 return new GetLocationsQueryResult
                 {

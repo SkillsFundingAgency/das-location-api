@@ -45,9 +45,5 @@ namespace SFA.DAS.Location.Data.Repository
             return result;
         }
 
-        public async Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10)
-        {
-          // var result = await ...
-        }
     }
 }
