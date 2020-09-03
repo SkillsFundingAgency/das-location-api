@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
+namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
 {
     public class GetLocationsQuery : IRequest<GetLocationsQueryResult>
     {

@@ -6,12 +6,12 @@ using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
+using SFA.DAS.Location.Application.Search.Queries.SearchLocations;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 using SFA.DAS.Testing.AutoFixture;
 
-namespace SFA.DAS.Location.Application.UnitTests.Location.Queries
+namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
 {
     public class WhenHandlingTheSearchLocationRequest
     {

@@ -3,10 +3,11 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SFA.DAS.Location.Application.Search.Queries.SearchLocations;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 
-namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
+namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
 {
     public class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery, GetLocationsQueryResult>
     {
@@ -20,8 +21,8 @@ namespace SFA.DAS.Location.Application.Location.Queries.SearchLocations
         }
         public async Task<GetLocationsQueryResult> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
         {
-            var regex = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}$";
-            
+            var regex = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}";
+
             if (Regex.IsMatch(request.Query, regex))
             {
                 var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
