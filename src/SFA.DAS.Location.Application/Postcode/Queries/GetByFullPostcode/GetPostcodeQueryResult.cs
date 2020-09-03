@@ -7,6 +7,6 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode
 {
     public class GetPostcodeQueryResult
     {
-        public SuggestedLocation Location { get; set; }
+        public PostcodeData Postcode { get; set; }
 }
 }

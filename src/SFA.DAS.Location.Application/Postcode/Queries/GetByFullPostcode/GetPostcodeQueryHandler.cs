@@ -22,7 +22,7 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode
 
             return new GetPostcodeQueryResult
             {
-                Location = result
+                Postcode = result
             };
         }
     }
