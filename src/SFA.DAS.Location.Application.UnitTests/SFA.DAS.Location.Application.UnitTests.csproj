@@ -26,7 +26,6 @@
 
     <ItemGroup>
       <Folder Include="Postcode\Services\" />
-      <Folder Include="Postcode\Queries\" />
     </ItemGroup>
 
 </Project>
