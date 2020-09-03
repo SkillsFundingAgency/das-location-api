@@ -17,6 +17,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
         {
             _client = client;
         }
+
         public async Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount = 10)
         {
             var items = new List<PostcodesLocationApiItem>();
@@ -29,6 +30,19 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             items.AddRange(item.Result);
 
             return items.Select(c => (SuggestedLocation)c);
+        }
+
+        public async Task<SuggestedLocation> GetPostcodeData(string query)
+        {
+            var response = await _client.GetAsync(new Uri(string.Format(Constants.PostcodesUrl, query, 1)));
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var item = JsonConvert.DeserializeObject<PostcodesLocationApiResponse>(jsonResponse);
+            var result = item.Result[0];
+
+            return (SuggestedLocation)result;
         }
     }
 }

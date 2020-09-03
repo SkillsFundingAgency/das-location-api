@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
 using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
+using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -74,6 +75,33 @@ namespace SFA.DAS.Location.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e,$"Unable to get location data for location:{locationName} authority:{authorityName}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("postcode")]
+        public async Task<IActionResult> GetByFullPostcode(string postcode)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetPostcodeQuery
+                {
+                    Postcode = postcode
+                }); ;
+
+                if (queryResult.Location == null)
+                {
+                    return NotFound();
+                }
+
+                var response = (GetLocationsListItem)queryResult.Location;
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get location data for postcode:{postcode}");
                 return BadRequest();
             }
         }

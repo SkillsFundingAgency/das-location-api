@@ -14,6 +14,13 @@ namespace SFA.DAS.Location.Application.Postcode.Services
         {
             _postcodeApiService = postcodeApiService;
         }
+
+        public async Task<SuggestedLocation> GetPostcodeByFullPostcode(string query)
+        {
+            var result = await _postcodeApiService.GetPostcodeData(query);
+            return result;
+        }
+
         public async Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount)
         {
             var result = await _postcodeApiService.GetAllStartingWithOutcode(query, resultCount);
