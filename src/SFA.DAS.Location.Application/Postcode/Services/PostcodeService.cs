@@ -15,7 +15,7 @@ namespace SFA.DAS.Location.Application.Postcode.Services
             _postcodeApiService = postcodeApiService;
         }
 
-        public async Task<SuggestedLocation> GetPostcodeByFullPostcode(string query)
+        public async Task<PostcodeData> GetPostcodeByFullPostcode(string query)
         {
             var result = await _postcodeApiService.GetPostcodeData(query);
             return result;
