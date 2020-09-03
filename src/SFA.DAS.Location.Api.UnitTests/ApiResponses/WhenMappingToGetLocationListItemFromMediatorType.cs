@@ -13,7 +13,7 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
         [Test, AutoData]
         public void Then_The_Fields_Are_Correctly_Mapped(GetLocationsQueryResult source)
         {
-            var location = source.Locations.FirstOrDefault();
+            var location = source.SuggestedLocations.FirstOrDefault();
             
             var actual = (GetLocationsListItem) location;
             
