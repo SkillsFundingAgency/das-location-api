@@ -24,8 +24,4 @@
       <ProjectReference Include="..\SFA.DAS.Location.Domain\SFA.DAS.Location.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Postcode\Services\" />
-    </ItemGroup>
-
 </Project>
