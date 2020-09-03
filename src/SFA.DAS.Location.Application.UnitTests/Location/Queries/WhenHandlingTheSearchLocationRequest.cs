@@ -15,14 +15,16 @@ namespace SFA.DAS.Location.Application.UnitTests.Location.Queries
 {
     public class WhenHandlingTheSearchLocationRequest
     {
-        [Test, MoqAutoData]
+        [Test, MoqInlineAutoData("Man")]
         public async Task Then_The_Service_Is_Called(
+            string searchTerm,
             GetLocationsQuery query,
             List<Domain.Entities.Location> locations,
             [Frozen] Mock<ILocationService> service,
             GetLocationsQueryHandler handler)
         {
             //Arrange
+            query.Query = searchTerm;
             service.Setup(x => x.GetLocationsByQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
