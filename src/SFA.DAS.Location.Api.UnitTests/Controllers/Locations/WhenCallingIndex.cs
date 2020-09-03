@@ -10,7 +10,6 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
-using SFA.DAS.Location.Application.Location.Queries;
 using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
 using SFA.DAS.Testing.AutoFixture;
 
@@ -38,10 +37,34 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations
 
             var model = controllerResult.Value as GetLocationsListResponse;
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Locations.Should().BeEquivalentTo(queryResult.Locations, options=>options.ExcludingMissingMembers());
+            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options=>options.ExcludingMissingMembers());
         }
-        
-        
+
+
+        //TODO
+        [Test, MoqAutoData]
+        public async Task Then_Gets_Locations_List_From_Mediator_When_Query_Is_Outcode(
+            string query,
+            int results,
+            GetLocationsQueryResult queryResult,
+            [Frozen] Mock<IMediator> mockMediator,
+            [Greedy] LocationsController controller)
+        {
+            mockMediator
+                .Setup(mediator => mediator.Send(
+                    It.Is<GetLocationsQuery>(request =>
+                        request.Query == query &&
+                        request.ResultCount.Equals(results)),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(queryResult);
+
+            var controllerResult = await controller.Index(query, results) as ObjectResult;
+
+            var model = controllerResult.Value as GetLocationsListResponse;
+            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options => options.ExcludingMissingMembers());
+        }
+
         [Test, MoqAutoData]
         public async Task Then_Gets_Locations_List_From_Mediator_Defaulting_To_Twenty_Items(
             string query,
@@ -61,7 +84,7 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations
 
             var model = controllerResult.Value as GetLocationsListResponse;
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Locations.Should().BeEquivalentTo(queryResult.Locations, options=>options.ExcludingMissingMembers());
+            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options=>options.ExcludingMissingMembers());
         }
 
         [Test, MoqAutoData]
