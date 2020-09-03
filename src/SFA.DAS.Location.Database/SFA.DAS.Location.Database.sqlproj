@@ -57,4 +57,9 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\ImportAudit.sql" />
+    <Build Include="Tables\Location.sql" />
+    <Build Include="Tables\Location_Import.sql" />
+  </ItemGroup>
 </Project>
