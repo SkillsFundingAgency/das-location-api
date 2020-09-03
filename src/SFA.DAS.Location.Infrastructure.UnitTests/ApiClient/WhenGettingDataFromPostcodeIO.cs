@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Configuration;
 using FluentAssertions;
+using System.Net;
 
 namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 {
@@ -36,6 +37,24 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 
             //Assert
             actual.Should().BeEquivalentTo(postcodeResponse.Result);
+        }
+
+        [Test]
+        public void Then_If_It_Is_Not_Successful_An_Exception_Is_Thrown()
+        {
+            //Arrange
+            var response = new HttpResponseMessage
+            {
+                Content = new StringContent(""),
+                StatusCode = HttpStatusCode.BadRequest
+            };
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, null, 10)));
+            var client = new HttpClient(httpMessageHandler.Object);
+            var postcodeService = new PostcodeApiService(client);
+
+            //Act Assert
+            Assert.ThrowsAsync<HttpRequestException>(() => postcodeService.GetAllStartingWithOutcode(null, 10) );
+
         }
     }
 }
