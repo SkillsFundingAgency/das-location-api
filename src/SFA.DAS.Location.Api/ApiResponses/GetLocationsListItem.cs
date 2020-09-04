@@ -1,4 +1,6 @@
 
+using SFA.DAS.Location.Domain.Models;
+
 namespace SFA.DAS.Location.Api.ApiResponses
 {
     public class GetLocationsListItem
@@ -29,6 +31,18 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 LocationName = source.LocationName,
                 CountyName = source.CountyName,
                 LocalAuthorityName = source.LocalAuthorityName,
+                Postcode = source.Postcode,
+                Location = new Geometry
+                {
+                    Coordinates = new[] { source.Lat, source.Long }
+                }
+            };
+        }
+
+        public static implicit operator GetLocationsListItem(PostcodeData source)
+        {
+            return new GetLocationsListItem
+            {
                 Postcode = source.Postcode,
                 Location = new Geometry
                 {

@@ -10,7 +10,8 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
-using SFA.DAS.Location.Application.Location.Queries.SearchLocations;
+using SFA.DAS.Location.Application.Location.Queries;
+using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
 using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations
@@ -18,89 +19,62 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Locations
     public class WhenCallingIndex
     {
         [Test, MoqAutoData]
-        public async Task Then_Gets_Locations_List_From_Mediator(
-            string query,
-            int results,
-            GetLocationsQueryResult queryResult,
+        public async Task Then_Gets_Location_From_Mediator(
+            string authorityName,
+            string locationName,
+            GetLocationQueryResult queryResult,
             [Frozen] Mock<IMediator> mockMediator,
             [Greedy] LocationsController controller)
         {
             mockMediator
                 .Setup(mediator => mediator.Send(
-                    It.Is<GetLocationsQuery>(request => 
-                        request.Query == query && 
-                        request.ResultCount.Equals(results)), 
+                    It.Is<GetLocationQuery>(request => 
+                        request.LocationName == locationName && 
+                        request.AuthorityName == authorityName), 
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(queryResult);
 
-            var controllerResult = await controller.Index(query, results) as ObjectResult;
+            var controllerResult = await controller.Index(locationName, authorityName) as ObjectResult;
 
-            var model = controllerResult.Value as GetLocationsListResponse;
+            var model = controllerResult.Value as GetLocationsListItem;
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options=>options.ExcludingMissingMembers());
+            model.Should().BeEquivalentTo(queryResult.Location, options=>options.ExcludingMissingMembers());
         }
-
-
-        //TODO
+        
         [Test, MoqAutoData]
-        public async Task Then_Gets_Locations_List_From_Mediator_When_Query_Is_Outcode(
-            string query,
-            int results,
-            GetLocationsQueryResult queryResult,
+        public async Task And_Returns_Null_Returns_Not_Found(
+            string authorityName,
+            string locationName,
             [Frozen] Mock<IMediator> mockMediator,
             [Greedy] LocationsController controller)
         {
             mockMediator
                 .Setup(mediator => mediator.Send(
-                    It.Is<GetLocationsQuery>(request =>
-                        request.Query == query &&
-                        request.ResultCount.Equals(results)),
-                    It.IsAny<CancellationToken>()))
-                .ReturnsAsync(queryResult);
+                    It.IsAny<GetLocationQuery>(),
+                    It.IsAny<CancellationToken>())).ReturnsAsync(new GetLocationQueryResult
+                {
+                    Location = null
+                });
+            
+            var controllerResult = await controller.Index(locationName, authorityName) as StatusCodeResult;
 
-            var controllerResult = await controller.Index(query, results) as ObjectResult;
-
-            var model = controllerResult.Value as GetLocationsListResponse;
-            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options => options.ExcludingMissingMembers());
+            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }
-
-        [Test, MoqAutoData]
-        public async Task Then_Gets_Locations_List_From_Mediator_Defaulting_To_Twenty_Items(
-            string query,
-            GetLocationsQueryResult queryResult,
-            [Frozen] Mock<IMediator> mockMediator,
-            [Greedy] LocationsController controller)
-        {
-            mockMediator
-                .Setup(mediator => mediator.Send(
-                    It.Is<GetLocationsQuery>(request => 
-                        request.Query == query && 
-                        request.ResultCount.Equals(20)), 
-                    It.IsAny<CancellationToken>()))
-                .ReturnsAsync(queryResult);
-
-            var controllerResult = await controller.Index(query) as ObjectResult;
-
-            var model = controllerResult.Value as GetLocationsListResponse;
-            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Locations.Should().BeEquivalentTo(queryResult.SuggestedLocations, options=>options.ExcludingMissingMembers());
-        }
-
+        
         [Test, MoqAutoData]
         public async Task And_Exception_Then_Returns_Bad_Request(
-            string query,
-            int results,
+            string authorityName,
+            string locationName,
             [Frozen] Mock<IMediator> mockMediator,
             [Greedy] LocationsController controller)
         {
             mockMediator
                 .Setup(mediator => mediator.Send(
-                    It.IsAny<GetLocationsQuery>(),
+                    It.IsAny<GetLocationQuery>(),
                     It.IsAny<CancellationToken>()))
                 .Throws<InvalidOperationException>();
 
-            var controllerResult = await controller.Index(query, results) as StatusCodeResult;
+            var controllerResult = await controller.Index(locationName, authorityName) as StatusCodeResult;
 
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
         }

@@ -16,21 +16,20 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
     {
         [Test, MoqAutoData]
         public async Task Then_The_Postcode_API_Is_Called_With_Query_And_Count(
-            int resultCount,
             string query,
-            List<SuggestedLocation> postcodes,
+            PostcodeData postcode,
             [Frozen] Mock<IPostcodeApiService> postcodeApiService,
             PostcodeService postcodeService)
         {
             //Arrange
-            postcodeApiService.Setup(x => x.GetAllStartingWithOutcode(query, resultCount))
-                .ReturnsAsync(postcodes);
+            postcodeApiService.Setup(x => x.GetPostcodeData(query))
+                .ReturnsAsync(postcode);
 
             //Act
-            var actual = await postcodeService.GetPostcodeByOutcodeQuery(query, resultCount);
+            var actual = await postcodeService.GetPostcodeByFullPostcode(query);
 
             //Assert
-            actual.Equals(postcodes);
+            actual.Equals(postcode);
         }
     }
 }
