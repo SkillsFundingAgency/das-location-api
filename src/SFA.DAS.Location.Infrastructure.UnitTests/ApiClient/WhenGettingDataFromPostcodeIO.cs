@@ -39,20 +39,15 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             actual.Should().BeEquivalentTo(postcodeResponse.Result);
         }
 
-<<<<<<< HEAD
+
         [Test]
         public void Then_If_It_Is_Not_Successful_An_Exception_Is_Thrown()
-=======
-        [Test, AutoData]
-        public async Task Then_The_Endpoint_Is_Called_And_Postcode_Data_Returned(
-            PostcodeLocationApiResponse postcodeResponse,
-            string query)
->>>>>>> 1bdb1c9172feeef4d89fbde566654a416d427a19
+
         {
             //Arrange
             var response = new HttpResponseMessage
             {
-<<<<<<< HEAD
+
                 Content = new StringContent(""),
                 StatusCode = HttpStatusCode.BadRequest
             };
@@ -61,11 +56,18 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var postcodeService = new PostcodeApiService(client);
 
             //Act Assert
-            Assert.ThrowsAsync<HttpRequestException>(() => postcodeService.GetAllStartingWithOutcode(null, 10) );
+            Assert.ThrowsAsync<HttpRequestException>(() => postcodeService.GetAllStartingWithOutcode(null, 10));
+        }
 
-=======
+        [Test, AutoData]
+        public async Task Then_The_Endpoint_Is_Called_And_Postcode_Data_Returned(
+        PostcodeLocationApiResponse postcodeResponse,
+        string query)
+        {
+            var response = new HttpResponseMessage
+            {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
-                StatusCode = System.Net.HttpStatusCode.Accepted
+                StatusCode = HttpStatusCode.Accepted,
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodeUrl, query)));
             var client = new HttpClient(httpMessageHandler.Object);
@@ -76,7 +78,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 
             //Assert
             actual.Should().BeEquivalentTo(postcodeResponse.Result);
->>>>>>> 1bdb1c9172feeef4d89fbde566654a416d427a19
         }
     }
 }
+
