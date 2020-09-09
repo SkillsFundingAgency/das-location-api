@@ -15,7 +15,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
 {
     public class WhenHandlingTheSearchLocationRequest
     {
-        [Test, MoqInlineAutoData("Man")]
+        [Test, MoqAutoData]
         public async Task Then_The_Service_Is_Called(
             string searchTerm,
             GetLocationsQuery query,
