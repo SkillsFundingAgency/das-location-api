@@ -31,5 +31,25 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
             //Assert
             actual.SuggestedLocations.Should().BeEquivalentTo(locations.Select(c => (SuggestedLocation)c));
         }
+
+        [Test, MoqInlineAutoData("AA")]
+        public async Task If_Query_Is_Two_Letter_String_Then_Service_Is_Not_Called(
+            string searchTerm,
+            GetLocationsQuery query,
+            List<Domain.Entities.Location> locations,
+            [Frozen] Mock<ILocationService> service,
+            GetLocationsQueryHandler handler)
+        {
+            //Arrange
+            query.Query = searchTerm;
+            service.Setup(x => x.GetLocationsByQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+
+            //Act
+            var actual = await handler.Handle(query, CancellationToken.None);
+
+            //Assert 
+            service.Verify(x => x.GetLocationsByQuery(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+            actual.SuggestedLocations.Should().BeNull();
+        }
     }
 }

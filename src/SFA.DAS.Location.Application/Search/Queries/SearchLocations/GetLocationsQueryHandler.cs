@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -21,9 +22,10 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
         }
         public async Task<GetLocationsQueryResult> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
         {
-            var postcodeRegex = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}";
+            var postcodeRegexFull = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}";
+            var postcodeRegexOneLetterOneNumber = @"^[A-Za-z]{1}[0-9]{1}";
 
-            if (Regex.IsMatch(request.Query, postcodeRegex))
+            if (request.Query.Length < 3 && Regex.IsMatch(request.Query, postcodeRegexOneLetterOneNumber))
             {
                 var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
 
@@ -32,7 +34,16 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                     SuggestedLocations = postcodes.ToList()
                 };
             }
-            else
+            else if (request.Query.Length >= 3 && Regex.IsMatch(request.Query, postcodeRegexFull))
+            {
+                var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
+
+                return new GetLocationsQueryResult
+                {
+                    SuggestedLocations = postcodes.ToList()
+                };
+            }
+            else if (request.Query.Length >= 3)
             {
                 var result = await _locationService.GetLocationsByQuery(request.Query, request.ResultCount);
 
@@ -40,7 +51,12 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 {
                     SuggestedLocations = result.Select(c => (SuggestedLocation)c).ToList()
                 };
-            }            
+            }
+
+            return new GetLocationsQueryResult
+            {
+                SuggestedLocations = null
+            };
         }
     }
 }
