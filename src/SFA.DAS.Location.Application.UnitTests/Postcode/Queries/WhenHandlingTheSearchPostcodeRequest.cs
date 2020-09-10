@@ -1,4 +1,5 @@
 ﻿using AutoFixture.NUnit3;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
@@ -29,7 +30,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Queries
             var actual = await handler.Handle(query, CancellationToken.None);
 
             //Assert
-            actual.Postcode.Equals(postcode);
+            actual.Postcode.Should().Be(postcode);
         }
 
     }

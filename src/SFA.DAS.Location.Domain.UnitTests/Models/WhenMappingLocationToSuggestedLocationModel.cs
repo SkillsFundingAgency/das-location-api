@@ -1,18 +1,17 @@
 ﻿using AutoFixture.NUnit3;
 using FluentAssertions;
 using NUnit.Framework;
-using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Domain.UnitTests.Models
 {
-    public class WhenMappingPostcodeApiItemToSuggestedLocationModel
+    public class WhenMappingLocationToSuggestedLocationModel
     {
         [Test, AutoData]
-        public void Then_The_Fields_Are_Correctly_Mapped(PostcodesLocationApiItem source, PostcodesLocationApiItem test)
+        public void Then_The_Fields_Are_Correctly_Mapped(Domain.Entities.Location source)
         {
             //Arrange & Act
-            var actual = (SuggestedLocation) source;
+            var actual = (SuggestedLocation)source;
 
             //Assert
             actual.Should().BeEquivalentTo(source, options => options.ExcludingMissingMembers());

@@ -21,9 +21,9 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
         }
         public async Task<GetLocationsQueryResult> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
         {
-            var regex = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}";
+            var postcodeRegex = @"^[A-Za-z]{1,2}[0-9]{1}([0-9]|[A-Za-z]){0,1}";
 
-            if (Regex.IsMatch(request.Query, regex))
+            if (Regex.IsMatch(request.Query, postcodeRegex))
             {
                 var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
 
