@@ -26,5 +26,8 @@ namespace SFA.DAS.Location.Domain.ImportTypes
 
         [JsonProperty("longitude")]
         public double Long { get; set; }
+
+        [JsonProperty("country")]
+        public string Country { get; set; }
     }
 }

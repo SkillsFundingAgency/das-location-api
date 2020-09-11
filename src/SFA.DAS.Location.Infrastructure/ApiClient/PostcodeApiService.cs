@@ -28,9 +28,13 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var item = JsonConvert.DeserializeObject<PostcodesLocationApiResponse>(jsonResponse);
-                items.AddRange(item.Result);
 
-                return items.Select(c => (SuggestedLocation)c);
+                if (item.Result != null)
+                {
+                    items.AddRange(item.Result);
+                }
+
+                return items.Where(c => c.Country == "England").Select(c => (SuggestedLocation)c);
             }
             else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {
@@ -52,7 +56,14 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
                 var result = item.Result;
 
-                return result;
+                if (result.Country == "England")
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {

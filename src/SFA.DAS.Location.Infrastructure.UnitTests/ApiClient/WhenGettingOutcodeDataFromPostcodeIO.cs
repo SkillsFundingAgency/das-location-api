@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Configuration;
 using FluentAssertions;
 using System.Net;
+using System.Reflection.PortableExecutable;
+using System.Linq;
 
 namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 {
@@ -22,6 +24,10 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             string query,
             int count)
         {
+            foreach (var postcode in postcodeResponse.Result)
+            {
+                postcode.Country = "England";
+            }
             //Arrange
             var response = new HttpResponseMessage
             {
@@ -36,8 +42,33 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result);
-        }     
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
+        }
+
+        [Test, AutoData]
+        public async Task Then_Only_Returns_English_Postcodes(
+            PostcodesLocationApiResponse postcodeResponse,
+            string query,
+            int count)
+        {
+            postcodeResponse.Result[0].Country = "England";
+            //Arrange
+            var response = new HttpResponseMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
+                StatusCode = System.Net.HttpStatusCode.Accepted
+            };
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, query, count)));
+            var client = new HttpClient(httpMessageHandler.Object);
+            var postcodeService = new PostcodeApiService(client);
+
+            //Act
+            var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
+
+            //Assert
+            actual.Should().BeEquivalentTo(postcodeResponse.Result.Where(c => c.Country == "England"), options => options.ExcludingMissingMembers());
+            actual.Count().Should().Be(1);
+        }
 
         [Test, AutoData]
         public async Task Then_If_NotFound_Result_Then_Service_Returns_Null(

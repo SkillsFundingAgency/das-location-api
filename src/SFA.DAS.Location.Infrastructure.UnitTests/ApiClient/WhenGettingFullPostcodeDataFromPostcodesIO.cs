@@ -19,6 +19,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
         PostcodeLocationApiResponse postcodeResponse,
         string query)
         {
+            postcodeResponse.Result.Country = "England";
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
@@ -32,7 +33,29 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetPostcodeData(query);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result);
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
+        }
+
+        [Test, AutoData]
+        public async Task Then_If_Postcode_Is_Not_English_Returns_Null(
+        PostcodeLocationApiResponse postcodeResponse,
+        string query)
+        {
+            postcodeResponse.Result.Country = "Scotland";
+            var response = new HttpResponseMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
+                StatusCode = HttpStatusCode.Accepted,
+            };
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodeUrl, query)));
+            var client = new HttpClient(httpMessageHandler.Object);
+            var postcodeService = new PostcodeApiService(client);
+
+            //Act
+            var actual = await postcodeService.GetPostcodeData(query);
+
+            //Assert
+            actual.Should().BeNull();
         }
 
         [Test, AutoData]
