@@ -35,7 +35,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
                 if (queryResult.Postcode == null)
                 {
-                    return NotFound();
+                    return Ok(new GetLocationsListItem());
                 }
 
                 var response = (GetLocationsListItem)queryResult.Postcode;
