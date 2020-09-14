@@ -11,6 +11,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SFA.DAS.Api.Common.Configuration;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.Location.Api.AppStart;
 using SFA.DAS.Location.Api.Infrastructure;

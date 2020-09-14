@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using SFA.DAS.Api.Common.Configuration;
+using SFA.DAS.Api.Common.Infrastructure.Configuration;
 using SFA.DAS.Location.Api.Infrastructure;
 using SFA.DAS.Location.Domain.Configuration;
 using SFA.DAS.Location.Infrastructure.Configuration;
