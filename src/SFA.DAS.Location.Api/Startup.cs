@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SFA.DAS.Api.Common.AppStart;
+using SFA.DAS.Api.Common.Configuration;
+using SFA.DAS.Api.Common.Infrastructure;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.Location.Api.AppStart;
 using SFA.DAS.Location.Api.Infrastructure;
@@ -65,7 +69,13 @@ namespace SFA.DAS.Location.Api
                     .GetSection("AzureAd")
                     .Get<AzureActiveDirectoryConfiguration>();
 
-                services.AddAuthentication(azureAdConfiguration);
+                var policies = new Dictionary<string, string>
+                {
+                    {PolicyNames.Default, RoleNames.Default},
+                    {PolicyNames.DataLoad, RoleNames.DataLoad}
+                };
+
+                services.AddAuthentication(azureAdConfiguration, policies);
             }
             var locationApiConfiguration = _configuration
                 .GetSection(nameof(LocationApiConfiguration))
@@ -89,7 +99,7 @@ namespace SFA.DAS.Location.Api
                 {
                     if (!ConfigurationIsLocalOrDev())
                     {
-                        o.Conventions.Add(new AuthorizeControllerModelConvention());
+                        o.Conventions.Add(new AuthorizeControllerModelConvention(new List<string>{PolicyNames.DataLoad}));
                     }
                     o.Conventions.Add(new ApiExplorerGroupPerVersionConvention());
                 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
