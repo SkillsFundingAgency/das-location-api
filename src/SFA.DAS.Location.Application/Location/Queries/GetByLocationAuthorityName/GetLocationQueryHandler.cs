@@ -15,9 +15,10 @@ namespace SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityNa
         }
         public async Task<GetLocationQueryResult> Handle(GetLocationQuery request, CancellationToken cancellationToken)
         {
-            var result =
-                await _service.GetLocationsByLocationAuthorityName(request.LocationName, request.AuthorityName);
-            
+            var result = request.AuthorityName != null ?
+                await _service.GetLocationsByLocationAuthorityName(request.LocationName, request.AuthorityName) :
+                await _service.GetLocationsByLocationName(request.LocationName);
+
             return new GetLocationQueryResult
             {
                 Location = result

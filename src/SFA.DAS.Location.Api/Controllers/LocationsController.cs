@@ -31,7 +31,7 @@ namespace SFA.DAS.Location.Api.Controllers
                 var queryResult = await _mediator.Send(new GetLocationQuery
                 {
                     LocationName = locationName,
-                    AuthorityName = authorityName
+                    AuthorityName = authorityName != null ? authorityName : null
                 });
 
                 if (queryResult.Location == null)
