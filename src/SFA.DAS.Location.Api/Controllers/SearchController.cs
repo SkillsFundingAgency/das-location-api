@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Search.Queries.SearchLocations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace SFA.DAS.Location.Api.Controllers
                     ResultCount = results
                 });
 
+                if (queryResult.SuggestedLocations == null)
+                {
+                    return Ok(new GetLocationsListResponse {Locations = new List<GetLocationsListItem>()});
+                }
+                
                 var response = new GetLocationsListResponse
                 {
                     Locations = queryResult.SuggestedLocations.Select(c => (GetLocationsListItem)c).ToList()
