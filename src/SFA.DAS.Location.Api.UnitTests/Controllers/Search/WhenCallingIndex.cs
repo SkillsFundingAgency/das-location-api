@@ -63,6 +63,28 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Search
         }
 
         [Test, MoqAutoData]
+        public async Task Then_No_Results_From_Mediator_Returns_Empty_Ok_Response(
+            string query,
+            GetLocationsQueryResult queryResult,
+            [Frozen] Mock<IMediator> mockMediator,
+            [Greedy] SearchController controller)
+        {
+            mockMediator
+                .Setup(mediator => mediator.Send(
+                    It.Is<GetLocationsQuery>(request => 
+                        request.Query == query && 
+                        request.ResultCount.Equals(20)), 
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new GetLocationsQueryResult{SuggestedLocations = null});
+            
+            var controllerResult = await controller.Index(query) as ObjectResult;
+
+            var model = controllerResult.Value as GetLocationsListResponse;
+            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            model.Locations.Should().BeEmpty();
+        }
+
+        [Test, MoqAutoData]
         public async Task And_Exception_Then_Returns_Bad_Request(
             string query,
             int results,

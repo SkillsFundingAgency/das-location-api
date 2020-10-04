@@ -28,7 +28,7 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("cty15nm")]
         public string CountyName { get; set; }
 
-        [JsonProperty("lad15nm")]
+        [JsonProperty("ctyltnm")]
         public string LocalAuthorityName { get; set; }
 
         [JsonProperty("lat")]
