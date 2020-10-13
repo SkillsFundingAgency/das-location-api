@@ -10,10 +10,14 @@ namespace SFA.DAS.Location.Api.ApiResponses
         public string LocationName { get ; set ; }
         public string Postcode { get; set; }
         public Geometry Location { get; set; }
+        public string DistrictName { get; set; }
+
         public static implicit operator GetLocationsListItem(Domain.Entities.Location source)
         {
             return new GetLocationsListItem
             {
+                // does the below return an authority name?
+
                 LocationName = source.LocationName,
                 CountyName = source.CountyName,
                 LocalAuthorityName = source.LocalAuthorityName,
@@ -32,6 +36,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 CountyName = source.CountyName,
                 LocalAuthorityName = source.LocalAuthorityName,
                 Postcode = source.Postcode,
+                DistrictName = source.DistrictName,
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
