@@ -10,14 +10,18 @@ namespace SFA.DAS.Location.Domain.Models
         public string Postcode { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }
+        public string DistrictName { get; set; }
 
         public static implicit operator SuggestedLocation(PostcodesLocationApiItem source)
         {
             return new SuggestedLocation
             {
+                // does the below return an authority name?
+
                 Lat = source.Lat,
                 Long = source.Long,
-                Postcode = source.Postcode
+                Postcode = source.Postcode,
+                DistrictName = source.AdminDistrict
             };
         }
 
