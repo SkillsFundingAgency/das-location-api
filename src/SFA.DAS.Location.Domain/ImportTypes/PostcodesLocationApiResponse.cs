@@ -18,6 +18,8 @@ namespace SFA.DAS.Location.Domain.ImportTypes
 
     public class PostcodesLocationApiItem
     {
+        // does the below return an authority name?
+
         [JsonProperty("postcode")]
         public string Postcode { get; set; }
 
@@ -29,5 +31,8 @@ namespace SFA.DAS.Location.Domain.ImportTypes
 
         [JsonProperty("country")]
         public string Country { get; set; }
+        [JsonProperty("admin_district")]
+        public string AdminDistrict { get; set; }
+
     }
 }
