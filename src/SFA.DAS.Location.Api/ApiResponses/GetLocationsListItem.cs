@@ -27,7 +27,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
             };
         }
 
-        public static implicit operator GetLocationsListItem(Domain.Models.SuggestedLocation source)
+        public static implicit operator GetLocationsListItem(SuggestedLocation source)
         {
             return new GetLocationsListItem
             {
@@ -36,7 +36,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 LocalAuthorityName = source.LocalAuthorityName,
                 Postcode = source.Postcode,
                 Outcode = source.Outcode,
-                DistrictName = source.AdminDistrict[0],
+                DistrictName = source.AdminDistrict,
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }

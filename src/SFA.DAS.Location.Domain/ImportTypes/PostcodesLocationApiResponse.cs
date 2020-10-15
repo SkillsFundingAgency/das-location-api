@@ -16,7 +16,13 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         public PostcodesLocationApiItem Result { get; set; }
     }
 
-    public class PostcodesLocationApiItem
+    public class PostcodeLocationDistrictApiResponse
+    {
+        [JsonProperty("result")]
+        public PostcodeDistrictLocationApiResponse Result { get; set; }
+    }
+
+    public class PostcodesLocationApi
     {
         [JsonProperty("postcode")]
         public string Postcode { get; set; }
@@ -27,11 +33,22 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("longitude")]
         public double Long { get; set; }
 
-        [JsonProperty("country")]
-        public string Country { get; set; }
-        [JsonProperty("admin_district")]
-        public string[] AdminDistrict { get; set; }
+        
+        
         [JsonProperty("outcode")]
         public string Outcode { get; set; }
+    }
+    public class PostcodesLocationApiItem : PostcodesLocationApi
+    {
+        [JsonProperty("country")]
+        public string Country { get; set; }
+    }
+
+    public class PostcodeDistrictLocationApiResponse : PostcodesLocationApi
+    {
+        [JsonProperty("admin_district")]
+        public string[] AdminDistrict { get; set; }
+        [JsonProperty("country")]
+        public string[] Country { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
+                var item = JsonConvert.DeserializeObject<PostcodeLocationDistrictApiResponse>(jsonResponse);
                 var result = (SuggestedLocation)item.Result;
                 
                 if (result.Country == "England")
