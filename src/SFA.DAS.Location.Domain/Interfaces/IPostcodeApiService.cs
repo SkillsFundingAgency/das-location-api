@@ -9,5 +9,6 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
         Task<IEnumerable<SuggestedLocation>> GetAllStartingWithOutcode(string query, int resultCount);
 
         Task<PostcodeData> GetPostcodeData(string query);
+        Task<AdminDistrictData> GetDistrictData(string query);
     }
 }

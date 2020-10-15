@@ -46,6 +46,11 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             }
         }
 
+        public Task<AdminDistrictData> GetDistrictData(string query)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<PostcodeData> GetPostcodeData(string query)
         {
             var response = await _client.GetAsync(new Uri(string.Format(Constants.PostcodeUrl, query)));
