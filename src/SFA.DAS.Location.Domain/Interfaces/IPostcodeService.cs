@@ -10,6 +10,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
     {
         Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount);
         Task<PostcodeData> GetPostcodeByFullPostcode(string query);
-        Task<AdminDistrictData> GetDistrictNameByOutcodeQuery(string query);
+        Task<SuggestedLocation> GetDistrictNameByOutcodeQuery(string query);
     }
 }

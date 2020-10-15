@@ -46,9 +46,33 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             }
         }
 
-        public Task<AdminDistrictData> GetDistrictData(string query)
+        public async Task<SuggestedLocation> GetDistrictData(string query)
         {
-            throw new NotImplementedException();
+
+            var response = await _client.GetAsync(new Uri(string.Format(Constants.DistrictNameUrl, query)));
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
+                var result = (SuggestedLocation)item.Result;
+                
+                if (result.Country == "England")
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            {
+                return null;
+            }
+            else
+            {
+                throw new HttpRequestException();
+            }
         }
 
         public async Task<PostcodeData> GetPostcodeData(string query)

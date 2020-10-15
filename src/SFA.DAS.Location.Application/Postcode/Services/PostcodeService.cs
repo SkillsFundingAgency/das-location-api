@@ -15,9 +15,10 @@ namespace SFA.DAS.Location.Application.Postcode.Services
             _postcodeApiService = postcodeApiService;
         }
 
-        public Task<AdminDistrictData> GetDistrictNameByOutcodeQuery(string query)
+        public async Task<SuggestedLocation> GetDistrictNameByOutcodeQuery(string query)
         {
-            throw new System.NotImplementedException();
+            var result = await _postcodeApiService.GetDistrictData(query);
+            return result;
         }
 
         public async Task<PostcodeData> GetPostcodeByFullPostcode(string query)
