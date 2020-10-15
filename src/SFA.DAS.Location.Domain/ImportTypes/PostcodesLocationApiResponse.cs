@@ -30,7 +30,7 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("country")]
         public string Country { get; set; }
         [JsonProperty("admin_district")]
-        public string AdminDistrict { get; set; }
+        public string[] AdminDistrict { get; set; }
         [JsonProperty("outcode")]
         public string Outcode { get; set; }
     }
