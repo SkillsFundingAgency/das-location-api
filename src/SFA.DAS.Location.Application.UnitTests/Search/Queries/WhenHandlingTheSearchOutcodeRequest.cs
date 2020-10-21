@@ -47,18 +47,22 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
             string searchTerm,
             GetLocationsQuery query,
             IEnumerable<SuggestedLocation> locations,
+            SuggestedLocation district,
             [Frozen] Mock<IPostcodeService> service,
             GetLocationsQueryHandler handler)
         {
             //Arrange
             query.Query = searchTerm;
             service.Setup(x => x.GetPostcodeByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+            service.Setup(y => y.GetDistrictNameByOutcodeQuery(query.Query)).ReturnsAsync(district);
 
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
 
             //Assert 
             service.Verify(x => x.GetPostcodeByOutcodeQuery(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+            service.Verify(y => y.GetDistrictNameByOutcodeQuery(It.IsAny<string>()), Times.Never);
+
             actual.SuggestedLocations.Should().BeNull();
         }
     }

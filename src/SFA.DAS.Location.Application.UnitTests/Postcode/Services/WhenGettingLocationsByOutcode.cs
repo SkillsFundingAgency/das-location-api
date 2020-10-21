@@ -18,7 +18,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
     public class WhenGettingLocationsByOutcode
     {
         [Test, MoqAutoData]
-        public async Task Then_The_Api_Is_Called_With_The_Query_And_Count(
+        public async Task Then_The_Api_Is_Called_With_The_Query_And_Count_And_Returns_Postcode_Data(
             int resultCount,
             string query,
             IEnumerable<SuggestedLocation> locations,
@@ -35,6 +35,24 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
 
             //Assert
             actual.Should().BeEquivalentTo(locations);
+        }
+
+        [Test, MoqAutoData]
+        public async Task Then_The_Outcode_Api_Is_Called_With_The_Query_And_Returns_District_Data(
+            string query,
+            SuggestedLocation location,
+            [Frozen] Mock<IPostcodeApiService> apiService,
+            PostcodeService service
+            )
+        {
+            //Arrange
+            apiService.Setup(x => x.GetDistrictData(query)).ReturnsAsync(location);
+
+            //Act
+            var actual = await service.GetDistrictNameByOutcodeQuery(query);
+
+            //Assert
+            actual.Should().BeEquivalentTo(location);
         }
     }
 }
