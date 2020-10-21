@@ -34,9 +34,10 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                     items.AddRange(item.Result);
                 }
 
-                return items.Where(c => c.Country == "England").Select(c => (SuggestedLocation)c);
+                return items.Where(c => c.Country.Equals( "England", StringComparison.CurrentCultureIgnoreCase))
+                    .Select(c => (SuggestedLocation)c);
             }
-            else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {
                 return null;
             }
@@ -55,23 +56,15 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 var item = JsonConvert.DeserializeObject<PostcodeDistrictLocationApiResponse>(jsonResponse);
                 var result = (SuggestedLocation)item;
                 
-                if (result.Country == "England")
-                {
-                    return result;
-                }
-                else
-                {
-                    return null;
-                }
+                return result.Country.Equals( "England", StringComparison.CurrentCultureIgnoreCase) ? result : null;
             }
-            else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {
                 return null;
             }
-            else
-            {
-                throw new HttpRequestException();
-            }
+            
+            throw new HttpRequestException();
+            
         }
 
         public async Task<PostcodeData> GetPostcodeData(string query)
@@ -84,23 +77,15 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
                 var result = item.Result;
 
-                if (result.Country == "England")
-                {
-                    return result;
-                }
-                else
-                {
-                    return null;
-                }
+                return result.Country.Equals( "England", StringComparison.CurrentCultureIgnoreCase) ? result : null;
             }
-            else if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {
                 return null;
             }
-            else
-            {
-                throw new HttpRequestException();
-            }
+            
+            throw new HttpRequestException();
+            
         }
     }
 }

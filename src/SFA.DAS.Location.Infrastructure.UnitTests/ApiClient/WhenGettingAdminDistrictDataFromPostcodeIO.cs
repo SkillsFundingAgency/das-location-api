@@ -6,6 +6,7 @@ using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;
 using SFA.DAS.Location.Domain.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,11 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             string query)
         {
             //Arrange
+            postcodeResponse.Country = postcodeResponse.Country.Select(c => {c = "England"; return c;}).ToArray();
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
-                StatusCode = System.Net.HttpStatusCode.Accepted
+                StatusCode = HttpStatusCode.Accepted
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.DistrictNameUrl, query)));
             var client = new HttpClient(httpMessageHandler.Object);
@@ -35,7 +37,12 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetDistrictData(query);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcodeResponse, options => options
+                .Excluding(c=>c.Country)
+                .Excluding(c=>c.AdminDistrict)
+            );
+            actual.Country.Should().Be(postcodeResponse.Country.First());
+            actual.AdminDistrict.Should().Be(postcodeResponse.AdminDistrict.First());
         }
 
         [Test, AutoData]
@@ -43,18 +50,15 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
            PostcodeDistrictLocationApiResponse postcodeResponse,
            string query)
         {
-            for (var i = 0; i < postcodeResponse.Country.Length; i++)
-            {
-                postcodeResponse.Country[i] = "England";
-            }
-
+            
             //Arrange
+            postcodeResponse.Country = postcodeResponse.Country.Select(c => {c = "England"; return c;}).ToArray();
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
                 StatusCode = System.Net.HttpStatusCode.Accepted
             };
-            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, query)));
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.DistrictNameUrl, query)));
             var client = new HttpClient(httpMessageHandler.Object);
             var postcodeService = new PostcodeApiService(client);
 
@@ -94,7 +98,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
                 Content = new StringContent(""),
                 StatusCode = HttpStatusCode.BadRequest
             };
-            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, query)));
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.DistrictNameUrl, query)));
             var client = new HttpClient(httpMessageHandler.Object);
             var postcodeService = new PostcodeApiService(client);
 
