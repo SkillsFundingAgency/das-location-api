@@ -31,7 +31,11 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 var districtName = await _postcodeService.GetDistrictNameByOutcodeQuery(request.Query);
 
                 var results = postcodes.ToList();
-                results.Insert(0, districtName);
+                
+                if (districtName != null)
+                {
+                    results.Insert(0, districtName);    
+                }
 
                 return new GetLocationsQueryResult
                 {
@@ -44,9 +48,12 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
                 var districtName = await _postcodeService.GetDistrictNameByOutcodeQuery(request.Query);
 
-                var results = postcodes.ToList();
-                results.Insert(0, districtName);
-
+                var results = postcodes.ToList(); 
+                if (districtName != null)
+                {
+                    results.Insert(0, districtName);    
+                }
+                
                 return new GetLocationsQueryResult
                 {
                     SuggestedLocations = results
