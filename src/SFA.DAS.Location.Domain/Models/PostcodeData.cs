@@ -13,6 +13,11 @@ namespace SFA.DAS.Location.Domain.Models
 
         public static implicit operator PostcodeData(PostcodesLocationApiItem source)
         {
+            if (source == null)
+            {
+                return null;
+            }
+            
             return new PostcodeData
             {
                 Postcode = source.Postcode,

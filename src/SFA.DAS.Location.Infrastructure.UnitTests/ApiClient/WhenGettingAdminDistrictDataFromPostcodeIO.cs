@@ -18,12 +18,12 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
     public class WhenGettingAdminDistrictDataFromPostcodeIO
     {
         [Test, AutoData]
-        public async Task Then_The_Endpoint_Is_Called_And_District_Data_Returned(
-            PostcodeDistrictLocationApiResponse postcodeResponse,
+        public async Task Then_The_Endpoint_Is_Called_And_District_Data_Returned_For_English_Postcodes(
+            PostcodeLocationDistrictApiResponse postcodeResponse,
             string query)
         {
             //Arrange
-            postcodeResponse.Country = postcodeResponse.Country.Select(c => {c = "England"; return c;}).ToArray();
+            postcodeResponse.Result.Country = postcodeResponse.Result.Country.Select(c => {c = "England"; return c;}).ToArray();
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
@@ -37,40 +37,17 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetDistrictData(query);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse, options => options
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options
                 .Excluding(c=>c.Country)
                 .Excluding(c=>c.AdminDistrict)
             );
-            actual.Country.Should().Be(postcodeResponse.Country.First());
-            actual.AdminDistrict.Should().Be(postcodeResponse.AdminDistrict.First());
+            actual.Country.Should().Be(postcodeResponse.Result.Country.First());
+            actual.AdminDistrict.Should().Be(postcodeResponse.Result.AdminDistrict.First());
         }
 
-        [Test, AutoData]
-        public async Task Then_Only_Returns_English_Postcodes(
-           PostcodeDistrictLocationApiResponse postcodeResponse,
-           string query)
-        {
-            
-            //Arrange
-            postcodeResponse.Country = postcodeResponse.Country.Select(c => {c = "England"; return c;}).ToArray();
-            var response = new HttpResponseMessage
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
-                StatusCode = System.Net.HttpStatusCode.Accepted
-            };
-            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.DistrictNameUrl, query)));
-            var client = new HttpClient(httpMessageHandler.Object);
-            var postcodeService = new PostcodeApiService(client);
-
-            //Act
-            var actual = await postcodeService.GetDistrictData(query);
-
-            //Assert
-            actual.Country.Should().NotBeNullOrEmpty();
-        }
         [Test, AutoData]
         public async Task Then_If_NotFound_Result_Then_Service_Returns_Null(
-        PostcodeDistrictLocationApiResponse postcodeResponse,
+            PostcodeLocationDistrictApiResponse postcodeResponse,
         string query)
         {
             var response = new HttpResponseMessage
