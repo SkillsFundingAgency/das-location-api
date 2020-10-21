@@ -33,8 +33,6 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("longitude")]
         public double Long { get; set; }
 
-        
-        
         [JsonProperty("outcode")]
         public string Outcode { get; set; }
     }
