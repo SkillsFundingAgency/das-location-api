@@ -50,7 +50,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
 
             //Act
             var actual = await service.GetDistrictNameByOutcodeQuery(query);
-
+            actual.Lat.Should().Be(location.Lat);
             //Assert
             actual.Should().BeEquivalentTo(location);
         }

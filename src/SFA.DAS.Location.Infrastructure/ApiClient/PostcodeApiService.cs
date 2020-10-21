@@ -48,13 +48,12 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
         public async Task<SuggestedLocation> GetDistrictData(string query)
         {
-
             var response = await _client.GetAsync(new Uri(string.Format(Constants.DistrictNameUrl, query)));
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                var item = JsonConvert.DeserializeObject<PostcodeLocationDistrictApiResponse>(jsonResponse);
-                var result = (SuggestedLocation)item.Result;
+                var item = JsonConvert.DeserializeObject<PostcodeDistrictLocationApiResponse>(jsonResponse);
+                var result = (SuggestedLocation)item;
                 
                 if (result.Country == "England")
                 {
