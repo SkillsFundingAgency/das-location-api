@@ -112,13 +112,10 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 
         [Test, AutoData]
         public async Task Then_The_Endpoint_Is_Called_And_Postcode_Data_Returned(
-            PostcodesLocationApiResponse postcodeResponse,
+            PostcodeLocationApiResponse postcodeResponse,
             string query)
         {
-            foreach (var postcode in postcodeResponse.Result)
-            {
-                postcode.Country = "England";
-            }
+            postcodeResponse.Result.Country = "England";
             //Arrange
             var response = new HttpResponseMessage
             {
