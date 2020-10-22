@@ -33,7 +33,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
         {
             //Arrange
             query.Query = searchTerm;
-            service.Setup(x => x.GetPostcodeByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+            service.Setup(x => x.GetPostcodesByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
             service.Setup(y => y.GetDistrictNameByOutcodeQuery(query.Query)).ReturnsAsync(district);
 
             //Act
@@ -55,14 +55,14 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
         {
             //Arrange
             query.Query = searchTerm;
-            service.Setup(x => x.GetPostcodeByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+            service.Setup(x => x.GetPostcodesByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
             service.Setup(y => y.GetDistrictNameByOutcodeQuery(query.Query)).ReturnsAsync(district);
 
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
 
             //Assert 
-            service.Verify(x => x.GetPostcodeByOutcodeQuery(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+            service.Verify(x => x.GetPostcodesByOutcodeQuery(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
             service.Verify(y => y.GetDistrictNameByOutcodeQuery(It.IsAny<string>()), Times.Never);
 
             actual.SuggestedLocations.Should().BeNull();
@@ -81,7 +81,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
         {
             //Arrange
             query.Query = searchTerm;
-            service.Setup(x => x.GetPostcodeByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
+            service.Setup(x => x.GetPostcodesByOutcodeQuery(query.Query, query.ResultCount)).ReturnsAsync(locations);
             service.Setup(y => y.GetDistrictNameByOutcodeQuery(query.Query)).ReturnsAsync((SuggestedLocation) null);
 
             //Act

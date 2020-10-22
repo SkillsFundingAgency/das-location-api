@@ -90,5 +90,27 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
             return null;
         }
+
+        public async Task<PostcodeData> GetFullPostcodeDataByOutcode(string query)
+        {
+            var response = await _client.GetAsync(new Uri(string.Format(Constants.DistrictNameUrl, query)));
+
+            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+            {
+                return null;
+            }
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
+                var result = item.Result;
+
+                return result.Country.Equals("England", StringComparison.CurrentCultureIgnoreCase) ? result : default;
+            }
+
+            response.EnsureSuccessStatusCode();
+
+            return null;
+        }
     }
 }
