@@ -109,6 +109,34 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 
             Assert.ThrowsAsync<HttpRequestException>(() => postcodeService.GetAllStartingWithOutcode(query, 10));
         }
+
+        [Test, AutoData]
+        public async Task Then_The_Endpoint_Is_Called_And_Postcode_Data_Returned(
+            PostcodesLocationApiResponse postcodeResponse,
+            string query)
+        {
+            foreach (var postcode in postcodeResponse.Result)
+            {
+                postcode.Country = "England";
+            }
+            //Arrange
+            var response = new HttpResponseMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
+                StatusCode = System.Net.HttpStatusCode.Accepted
+            };
+            var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.DistrictNameUrl, query)));
+            var client = new HttpClient(httpMessageHandler.Object);
+            var postcodeService = new PostcodeApiService(client);
+
+            //Act
+            var actual = await postcodeService.GetFullPostcodeDataByOutcode(query);
+
+            //Assert
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
+        }
+
+
     }
 }
 
