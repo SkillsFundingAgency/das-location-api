@@ -31,7 +31,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
                 .ReturnsAsync(locations);
 
             //Act
-            var actual = await service.GetPostcodeByOutcodeQuery(query, resultCount);
+            var actual = await service.GetPostcodesByOutcodeQuery(query, resultCount);
 
             //Assert
             actual.Should().BeEquivalentTo(locations);
