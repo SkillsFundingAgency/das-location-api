@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
+using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using System;
 using System.Threading.Tasks;
 
@@ -55,17 +56,17 @@ namespace SFA.DAS.Location.Api.Controllers
         {
             try
             {
-                var queryResult = await _mediator.Send(new GetPostcodeQuery
+                var queryResult = await _mediator.Send(new GetOutcodeQuery
                 {
-                    Postcode = outcode
+                    Outcode = outcode
                 }); 
 
-                if (queryResult.Postcode == null)
+                if (queryResult.Outcode == null)
                 {
                     return Ok(new GetLocationsListItem());
                 }
 
-                var response = (GetLocationsListItem)queryResult.Postcode;
+                var response = (GetLocationsListItem)queryResult.Outcode;
 
                 return Ok(response);
             }
