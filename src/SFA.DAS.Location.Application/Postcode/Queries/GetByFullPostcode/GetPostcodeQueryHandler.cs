@@ -19,24 +19,13 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode
         }
         public async Task<GetPostcodeQueryResult> Handle(GetPostcodeQuery request, CancellationToken cancellationToken)
         {
-            string FullPostcodeRegex = @"^[A-Za-z]{1,2}\d[A-Za-z\d]?\s*\d[A-Za-z]{2}$";
 
-            if (Regex.IsMatch(FullPostcodeRegex, request.Postcode))
-            {
-                var result = await _service.GetPostcodeByFullPostcode(request.Postcode);
+            var result = await _service.GetPostcodeByFullPostcode(request.Postcode);
 
-                return new GetPostcodeQueryResult
-                {
-                    Postcode = result
-                };
-            }
-
-            var outcodeResult = await _service.GetPostcodeDataByOutcode(request.Postcode);
             return new GetPostcodeQueryResult
             {
-                Postcode = outcodeResult
+                Postcode = result
             };
-            
         }
     }
 }
