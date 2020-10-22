@@ -48,5 +48,32 @@ namespace SFA.DAS.Location.Api.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("outcode")]
+        public async Task<IActionResult> Outcode(string outcode)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetPostcodeQuery
+                {
+                    Postcode = outcode
+                }); 
+
+                if (queryResult.Postcode == null)
+                {
+                    return Ok(new GetLocationsListItem());
+                }
+
+                var response = (GetLocationsListItem)queryResult.Postcode;
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get location data for postcode:{outcode}");
+                return BadRequest();
+            }
+        }
     }
 }
