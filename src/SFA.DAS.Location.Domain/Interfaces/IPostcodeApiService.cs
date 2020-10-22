@@ -10,5 +10,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
         Task<PostcodeData> GetPostcodeData(string query);
         Task<SuggestedLocation> GetDistrictData(string query);
+
+        Task<PostcodeData> GetFullPostcodeDataByOutcode(string query);
     }
 }
