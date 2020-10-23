@@ -19,13 +19,13 @@ namespace SFA.DAS.Location.Application.UnitTests.Postcode.Queries
         [Test, MoqAutoData]
         public async Task Then_The_Postcode_Service_Is_Called(
             GetOutcodeQuery query,
-            PostcodeData postcode,
+            SuggestedLocation postcode,
             [Frozen] Mock<IPostcodeService> service,
             GetOutcodeQueryHandler handler
             )
         {
             //Arrange
-            service.Setup(x => x.GetPostcodeDataByOutcode(query.Outcode)).ReturnsAsync(postcode);
+            service.Setup(x => x.GetDistrictNameByOutcodeQuery(query.Outcode)).ReturnsAsync(postcode);
 
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
