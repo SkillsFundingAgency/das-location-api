@@ -19,7 +19,7 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode
         public async Task<GetOutcodeQueryResult> Handle(GetOutcodeQuery request, CancellationToken cancellationToken)
         {
 
-            var result = await _service.GetPostcodeDataByOutcode(request.Outcode );
+            var result = await _service.GetDistrictNameByOutcodeQuery(request.Outcode );
 
             return new GetOutcodeQueryResult
             {

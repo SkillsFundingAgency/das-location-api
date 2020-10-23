@@ -7,7 +7,7 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode
 {
     public class GetOutcodeQueryResult
     {
-        public PostcodeData Outcode { get; set; }
+        public SuggestedLocation Outcode { get; set; }
 
     }
 }
