@@ -1,13 +1,14 @@
-﻿using SFA.DAS.Location.Domain.Interfaces;
+using SFA.DAS.Location.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode
 {
-    public class GetOutcodeQueryHandler
+    public class GetOutcodeQueryHandler : IRequestHandler<GetOutcodeQuery, GetOutcodeQueryResult>
     {
         private readonly IPostcodeService _service;
 

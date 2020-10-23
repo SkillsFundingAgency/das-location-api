@@ -52,7 +52,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("outcode")]
-        public async Task<IActionResult> Outcode(string outcode)
+        public async Task<IActionResult> Outcode([FromQuery]string outcode)
         {
             try
             {
