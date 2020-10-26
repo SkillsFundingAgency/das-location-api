@@ -7,6 +7,7 @@ using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
+using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using SFA.DAS.Testing.AutoFixture;
 using System;
 using System.Collections.Generic;
@@ -22,22 +23,22 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Postcodes
         [Test, MoqAutoData]
         public async Task Then_Gets_Location_From_Mediator(
             string query,
-            GetPostcodeQueryResult queryResult,
+            GetOutcodeQueryResult queryResult,
             [Frozen] Mock<IMediator> mockMediator,
             [Greedy] PostcodesController controller)
         {
             mockMediator
                 .Setup(mediator => mediator.Send(
-                    It.Is<GetPostcodeQuery>(request =>
-                        request.Postcode == query),
+                    It.Is<GetOutcodeQuery>(request =>
+                        request.Outcode == query),
                     It.IsAny<CancellationToken>()))
                 .ReturnsAsync(queryResult);
 
-            var controllerResult = await controller.Index(query) as ObjectResult;
+            var controllerResult = await controller.Outcode(query) as ObjectResult;
 
             var model = controllerResult.Value as GetLocationsListItem;
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.OK);
-            model.Should().BeEquivalentTo(queryResult.Postcode, options => options.ExcludingMissingMembers());
+            model.Should().BeEquivalentTo(queryResult.Outcode, options => options.ExcludingMissingMembers());
         }
     }
 }
