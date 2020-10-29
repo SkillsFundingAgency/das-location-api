@@ -27,20 +27,36 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
 
             if (request.Query.Length < 3 && Regex.IsMatch(request.Query, postcodeRegexOneLetterOneNumber))
             {
-                var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
+                var postcodes = await _postcodeService.GetPostcodesByOutcodeQuery(request.Query, request.ResultCount);
+                var districtName = await _postcodeService.GetDistrictNameByOutcodeQuery(request.Query);
+
+                var results = postcodes.ToList();
+                
+                if (districtName != null)
+                {
+                    results.Insert(0, districtName);    
+                }
 
                 return new GetLocationsQueryResult
                 {
-                    SuggestedLocations = postcodes.ToList()
+                    SuggestedLocations = results
                 };
             }
+
             else if (request.Query.Length >= 3 && Regex.IsMatch(request.Query, postcodeRegexFull))
             {
-                var postcodes = await _postcodeService.GetPostcodeByOutcodeQuery(request.Query, request.ResultCount);
+                var postcodes = await _postcodeService.GetPostcodesByOutcodeQuery(request.Query, request.ResultCount);
+                var districtName = await _postcodeService.GetDistrictNameByOutcodeQuery(request.Query);
 
+                var results = postcodes.ToList(); 
+                if (districtName != null)
+                {
+                    results.Insert(0, districtName);    
+                }
+                
                 return new GetLocationsQueryResult
                 {
-                    SuggestedLocations = postcodes.ToList()
+                    SuggestedLocations = results
                 };
             }
             else if (request.Query.Length >= 3)

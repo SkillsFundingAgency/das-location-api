@@ -15,13 +15,25 @@ namespace SFA.DAS.Location.Application.Postcode.Services
             _postcodeApiService = postcodeApiService;
         }
 
+        public async Task<SuggestedLocation> GetDistrictNameByOutcodeQuery(string query)
+        {
+            var result = await _postcodeApiService.GetDistrictData(query);
+            return result;
+        }
+
         public async Task<PostcodeData> GetPostcodeByFullPostcode(string query)
         {
             var result = await _postcodeApiService.GetPostcodeData(query);
             return result;
         }
 
-        public async Task<IEnumerable<SuggestedLocation>> GetPostcodeByOutcodeQuery(string query, int resultCount)
+        public async Task<PostcodeData> GetPostcodeDataByOutcode(string query)
+        {
+            var result = await _postcodeApiService.GetFullPostcodeDataByOutcode(query);
+            return result;
+        }
+
+        public async Task<IEnumerable<SuggestedLocation>> GetPostcodesByOutcodeQuery(string query, int resultCount = 20)
         {
             var result = await _postcodeApiService.GetAllStartingWithOutcode(query, resultCount);
             return result;

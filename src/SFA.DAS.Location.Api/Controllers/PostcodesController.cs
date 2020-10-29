@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
+using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using System;
 using System.Threading.Tasks;
 
@@ -45,6 +46,33 @@ namespace SFA.DAS.Location.Api.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"Unable to get location data for postcode:{postcode}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("outcode")]
+        public async Task<IActionResult> Outcode([FromQuery]string outcode)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetOutcodeQuery
+                {
+                    Outcode = outcode
+                }); 
+
+                if (queryResult.Outcode == null)
+                {
+                    return Ok(new GetLocationsListItem());
+                }
+
+                var response = (GetLocationsListItem)queryResult.Outcode;
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get location data for postcode:{outcode}");
                 return BadRequest();
             }
         }
