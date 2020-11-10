@@ -34,7 +34,7 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("lat")]
         public double Lat { get; set; }
 
-        [JsonProperty("long")]
+        [JsonProperty("long_")]
         public double Long { get; set; }
 
     }
