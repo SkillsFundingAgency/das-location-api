@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture.NUnit3;
 using Moq;
@@ -48,6 +49,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         {
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature);
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             
             await importService.Import();
@@ -69,11 +71,11 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
-            apiFeature1.Attributes.CountyName = apiFeature.Attributes.CountyName;
+            apiFeature1.Attributes.LocalAuthorityName = apiFeature.Attributes.LocalAuthorityName;
             apiFeature1.Attributes.LocationName = apiFeature.Attributes.LocationName;
-                
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature1);
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             
             await importService.Import();
@@ -87,7 +89,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         
         
         [Test, MoqAutoData]
-        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_A_CountyName_Are_Added_To_The_Import_Repository(
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_Without_A_LocalAuthorityName_Are_Not_Added_To_The_Import_Repository(
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
             LocationApiItem apiFeature1,
@@ -95,11 +97,11 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
-            apiFeature.Attributes.CountyName = null;
-            apiFeature1.Attributes.CountyName = "";
-            
+            apiFeature.Attributes.LocalAuthorityName = null;
+            apiFeature1.Attributes.LocalAuthorityName = "";
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature1);
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             
             await importService.Import();
@@ -121,8 +123,11 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<ILocationImportRepository> importRepository,
             LocationImportService importService)
         {
-            apiFeature.Attributes.LocalAuthorityName= null;
-            apiFeature1.Attributes.LocalAuthorityName = "";
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
+            apiFeature.Attributes.PlaceNameDescription = "BUA";
+            apiFeature1.Attributes.PlaceNameDescription = "BUA";
+            apiFeature.Attributes.LocationName= null;
+            apiFeature1.Attributes.LocationName = "";
             
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature1);
@@ -136,7 +141,34 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
                     It.Is<List<Domain.Entities.LocationImport>>(
                         c => c.Count.Equals(apiResponse.Count-2))), Times.Once);
         }
-        
+
+        [Test, MoqAutoData]
+        public async Task Then_Only_The_Items_In_The_Allowed_Place_Name_Descriptions_Are_Added(
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
+            LocationApiItem apiFeature1,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            LocationImportService importService)
+        {
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
+            
+            apiFeature.Attributes.PlaceNameDescription = "test";
+            apiFeature1.Attributes.PlaceNameDescription = "";
+            
+            apiResponse.Add(apiFeature);
+            apiResponse.Add(apiFeature1);
+            service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            
+            await importService.Import();
+
+            importRepository.Verify(x=>x.DeleteAll(), Times.Once);
+            importRepository.Verify(
+                x => x.InsertMany(
+                    It.Is<List<Domain.Entities.LocationImport>>(
+                        c => c.Count.Equals(apiResponse.Count-2))), Times.Once);
+        }
+
         [Test, MoqAutoData]
         public async Task Then_The_Items_Are_Deleted_From_The_Repository_And_The_LocationImport_Items_Are_Added_To_The_Location_Repository(
             List<LocationApiItem> apiResponse,
@@ -146,6 +178,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<ILocationRepository> repository,
             LocationImportService importService)
         {
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             importRepository.Setup(x => x.GetAll()).ReturnsAsync(importItems);
             
@@ -168,12 +201,23 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
             [Frozen]Mock<IImportAuditRepository> auditRepository,
             LocationImportService importService)
         {
+            apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
             importRepository.Setup(x => x.GetAll()).ReturnsAsync(importItems);
             
             await importService.Import();
             
             auditRepository.Verify(x=>x.Insert(It.Is<ImportAudit>(c=>c.RowsImported.Equals(importItems.Count))));
+        }
+
+        private static List<LocationApiItem> SetValidPlaceNameDescription(List<LocationApiItem> apiResponse)
+        {
+            apiResponse = apiResponse.Select(c =>
+            {
+                c.Attributes.PlaceNameDescription = "BUA";
+                return c;
+            }).ToList();
+            return apiResponse;
         }
     }
 }
