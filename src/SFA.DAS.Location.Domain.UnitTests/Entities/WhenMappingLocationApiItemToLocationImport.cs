@@ -13,7 +13,12 @@ namespace SFA.DAS.Location.Domain.UnitTests.Entities
         {
             var actual = (LocationImport) source;
             
-            actual.Should().BeEquivalentTo(source);
+            actual.Should().BeEquivalentTo(source, options=>options
+                .Excluding(c=>c.PlaceNameDescription)
+                .Excluding(c=>c.PlaceName)
+                .Excluding(c=>c.LocalAuthorityDistrictDescription)
+                .Excluding(c=>c.LocalAuthorityDistrict)
+            );
         }
     }
 }

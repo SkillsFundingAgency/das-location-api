@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -34,8 +35,46 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("lat")]
         public double Lat { get; set; }
 
-        [JsonProperty("long_")]
+        [JsonProperty("long")]
         public double Long { get; set; }
+        
+        [JsonProperty("descnm")] 
+        public string PlaceNameDescription { get; set; }
 
+        [JsonProperty("laddescnm")] 
+        public string LocalAuthorityDistrictDescription { get; set; }
+
+        [JsonIgnore]
+        public PlaceNameDescription PlaceName => MapDescription<PlaceNameDescription>(PlaceNameDescription);
+
+        [JsonIgnore]
+        public LocalAuthorityDistrict LocalAuthorityDistrict => MapDescription<LocalAuthorityDistrict>(LocalAuthorityDistrictDescription);
+
+        private TEnum MapDescription<TEnum>(string localAuthorityDistrictDescription) where TEnum : struct
+        {
+            Enum.TryParse<TEnum>(localAuthorityDistrictDescription,out var result);
+            return result;
+        }
     }
+
+    public enum PlaceNameDescription
+    {
+        None = 0,
+        BUA = 1,
+        BUASD = 2,
+        LONB = 3,
+        NMD = 4,
+        WD = 5,
+        MD = 6,
+        LOC = 7
+    }
+
+    public enum LocalAuthorityDistrict
+    {
+        NMD=1,
+        LONB=2,
+        MD=3,
+        UA=4
+    }
+    
 }
