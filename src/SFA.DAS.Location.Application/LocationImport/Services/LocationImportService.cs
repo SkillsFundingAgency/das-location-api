@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Domain.Entities;
+using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Application.LocationImport.Services
@@ -46,13 +48,16 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             _logger.LogInformation("Inserting into Import table");
             
             var featureItems = items
-                .GroupBy(c => new {c.Attributes.Id})
-                .Select(item => item.First())
-                .Where(item=>!string.IsNullOrEmpty(item.Attributes.CountyName))
+                .ToList()
+                .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocationName))
                 .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocalAuthorityName))
-                .GroupBy(c=>new {c.Attributes.CountyName, c.Attributes.LocationName})
+                .Where(item => item.Attributes.PlaceName != PlaceNameDescription.None).ToList()
+                .GroupBy(c=>new {c.Attributes.LocalAuthorityName, c.Attributes.LocationName})
                 .Select(item => item.First())
+                .GroupBy(c => new {c.Attributes.Id})
+                .Select(SelectDuplicateByLocalAuthorityDistrictDescription)
                 .ToList();
+
             
             await _importRepository.InsertMany(featureItems.Select(c => (Domain.Entities.LocationImport) c.Attributes).ToList());
             
@@ -65,6 +70,19 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             await _repository.InsertMany(importedItems.Select(c => (Domain.Entities.Location) c).ToList());
 
             await _auditRepository.Insert(new ImportAudit(timeStarted, importedItems.Count));
+        }
+
+        private static LocationApiItem SelectDuplicateByLocalAuthorityDistrictDescription(IEnumerable<LocationApiItem> item)
+        {
+            var values = item.ToList();
+            
+            if (values.Count > 1)
+            {
+                return values.OrderByDescending(c=>c.Attributes.LocalAuthorityDistrict)
+                    .FirstOrDefault(c => !string.IsNullOrEmpty(c.Attributes.LocalAuthorityDistrictDescription));
+            }
+            
+            return values.FirstOrDefault();
         }
     }
 }
