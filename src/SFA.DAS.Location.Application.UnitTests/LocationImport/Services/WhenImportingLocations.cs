@@ -63,7 +63,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
 
         
         [Test, MoqAutoData]
-        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_Distinct_Name_And_Location_From_The_Api_Are_Added_To_The_Import_Repository(
+        public async Task Then_The_Items_Are_Deleted_From_The_ImportRepository_And_Location_Items_With_Distinct_Name_And_Location_And_LocationAuthorityDistrict_From_The_Api_Are_Added_To_The_Import_Repository(
             List<LocationApiItem> apiResponse,
             LocationApiItem apiFeature,
             LocationApiItem apiFeature1,
@@ -73,6 +73,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         {
             apiFeature1.Attributes.LocalAuthorityName = apiFeature.Attributes.LocalAuthorityName;
             apiFeature1.Attributes.LocationName = apiFeature.Attributes.LocationName;
+            apiFeature1.Attributes.LocationAuthorityDistrict = apiFeature.Attributes.LocationAuthorityDistrict;
             apiResponse.Add(apiFeature);
             apiResponse.Add(apiFeature1);
             apiResponse = SetValidPlaceNameDescription(apiResponse);
@@ -140,6 +141,43 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
                 x => x.InsertMany(
                     It.Is<List<Domain.Entities.LocationImport>>(
                         c => c.Count.Equals(apiResponse.Count-2))), Times.Once);
+        }
+
+        [Test, MoqAutoData]
+        public async Task Then_If_There_Are_Multiple_Matches_Then_Takes_Matching_LocationAuthorityDistrict_Matching_PlaceName(
+            string expectedName,
+            int locationId,
+            List<LocationApiItem> apiResponse,
+            LocationApiItem apiFeature,
+            LocationApiItem apiFeature1,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            LocationImportService importService
+            )
+        {
+            expectedName = "z" + expectedName;
+            apiFeature.Attributes.Id = locationId;
+            apiFeature1.Attributes.Id = locationId;
+            apiFeature.Attributes.LocalAuthorityDistrictDescription = "MD";
+            apiFeature1.Attributes.LocalAuthorityDistrictDescription = "MD";
+            apiFeature.Attributes.PlaceNameDescription = "BUA";
+            apiFeature1.Attributes.PlaceNameDescription = "BUA";
+            apiFeature.Attributes.LocationName= expectedName;
+            apiFeature1.Attributes.LocationName = "Not valid";
+            apiFeature.Attributes.LocationAuthorityDistrict = expectedName;
+            apiFeature1.Attributes.LocationAuthorityDistrict = "a Not Valid";
+            
+            
+            apiResponse.Add(apiFeature1);
+            apiResponse.Add(apiFeature);
+            service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            
+            await importService.Import();
+            
+            importRepository.Verify(
+                x => x.InsertMany(
+                    It.Is<List<Domain.Entities.LocationImport>>(
+                        c => c.TrueForAll(a=>a.LocationName.Equals(expectedName)))),Times.Once);
         }
 
         [Test, MoqAutoData]
