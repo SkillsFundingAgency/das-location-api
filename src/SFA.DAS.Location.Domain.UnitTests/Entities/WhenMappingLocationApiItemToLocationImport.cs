@@ -18,6 +18,7 @@ namespace SFA.DAS.Location.Domain.UnitTests.Entities
                 .Excluding(c=>c.PlaceName)
                 .Excluding(c=>c.LocalAuthorityDistrictDescription)
                 .Excluding(c=>c.LocalAuthorityDistrict)
+                .Excluding(c=>c.LocationAuthorityDistrict)
             );
         }
     }

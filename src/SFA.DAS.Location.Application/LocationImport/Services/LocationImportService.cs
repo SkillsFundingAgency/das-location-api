@@ -51,8 +51,9 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
                 .ToList()
                 .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocationName))
                 .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocalAuthorityName))
+                .Where(item=>!string.IsNullOrEmpty(item.Attributes.LocationAuthorityDistrict))
                 .Where(item => item.Attributes.PlaceName != PlaceNameDescription.None).ToList()
-                .GroupBy(c=>new {c.Attributes.LocalAuthorityName, c.Attributes.LocationName})
+                .GroupBy(c=>new {c.Attributes.LocalAuthorityName, c.Attributes.LocationName, c.Attributes.LocationAuthorityDistrict})
                 .Select(item => item.First())
                 .GroupBy(c => new {c.Attributes.Id})
                 .Select(SelectDuplicateByLocalAuthorityDistrictDescription)
@@ -78,7 +79,14 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             
             if (values.Count > 1)
             {
-                return values.OrderByDescending(c=>c.Attributes.LocalAuthorityDistrict)
+                var orderByDescending = values.OrderByDescending(c=>c.Attributes.LocalAuthorityDistrict).ToList();
+                var locationApiItem = orderByDescending.FirstOrDefault(c => !string.IsNullOrEmpty(c.Attributes.LocalAuthorityDistrictDescription) 
+                                                                            && c.Attributes.LocationName.Equals(c.Attributes.LocationAuthorityDistrict, StringComparison.CurrentCultureIgnoreCase));
+                if(locationApiItem != null)
+                {
+                    return locationApiItem;
+                }
+                return orderByDescending
                     .FirstOrDefault(c => !string.IsNullOrEmpty(c.Attributes.LocalAuthorityDistrictDescription));
             }
             
