@@ -2,6 +2,8 @@
 
 [![Build Status](https://sfa-gov-uk.visualstudio.com/Digital%20Apprenticeship%20Service/_apis/build/status/das-location-api?repoName=SkillsFundingAgency%2Fdas-location-api&branchName=master)](https://sfa-gov-uk.visualstudio.com/Digital%20Apprenticeship%20Service/_build/latest?definitionId=2255&repoName=SkillsFundingAgency%2Fdas-location-api&branchName=master)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SkillsFundingAgency_das-location-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=SkillsFundingAgency_das-location-api)
+
 ## Requirements
 
 - DotNet Core 3.1 and any supported IDE for DEV running.
@@ -11,8 +13,8 @@
 
 ## About
 
-das-location-api represents the inner api definition for location based information, with data taken from The Office for National Statistics. 
-The API creates a local copy of the data for querying over.
+das-location-api represents the inner api definition for location based information, with data taken from The Office for National Statistics and [Postcodes IO](https://postcodes.io/). 
+The API creates a local copy of the data for querying over, allowing you to search for locations by name or postcode
 
 ## Local running
 
@@ -36,7 +38,7 @@ Data: {"LocationApiConfiguration":{"ConnectionString":"DBCONNECTIONSTRING"}}
 
 * Start the api project ```SFA.DAS.Location.Api```
 
-Sending the following to the API
+Select the operations V1 definition and choose the dataload action
 
 ```POST /ops/dataload```
 
