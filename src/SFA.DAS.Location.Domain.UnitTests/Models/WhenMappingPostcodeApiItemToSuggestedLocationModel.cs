@@ -15,7 +15,9 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
             var actual = (SuggestedLocation) source;
 
             //Assert
-            actual.Should().BeEquivalentTo(source);
+            actual.Should().BeEquivalentTo(source, options=>options
+                .Excluding(x=>x.AdminDistrict));
+            actual.AdminDistrict.Should().BeEmpty();
         }
     }
 }

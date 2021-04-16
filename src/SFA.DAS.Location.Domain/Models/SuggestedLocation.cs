@@ -24,7 +24,7 @@ namespace SFA.DAS.Location.Domain.Models
                 Lat = source.Lat,
                 Long = source.Long,
                 Postcode = source.Postcode,
-                AdminDistrict = source.AdminDistrict,
+                AdminDistrict = "",
                 Outcode =source.Outcode,
                 Country = source.Country
             };
