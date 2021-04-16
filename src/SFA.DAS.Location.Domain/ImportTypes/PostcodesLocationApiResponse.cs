@@ -38,6 +38,8 @@ namespace SFA.DAS.Location.Domain.ImportTypes
     }
     public class PostcodesLocationApiItem : PostcodesLocationApi
     {
+        [JsonProperty("admin_district")]
+        public string AdminDistrict { get; set; }
         [JsonProperty("country")]
         public string Country { get; set; }
     }

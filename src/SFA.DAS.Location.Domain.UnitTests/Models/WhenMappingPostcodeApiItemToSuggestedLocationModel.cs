@@ -9,13 +9,13 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
     public class WhenMappingPostcodeApiItemToSuggestedLocationModel
     {
         [Test, AutoData]
-        public void Then_The_Fields_Are_Correctly_Mapped(PostcodesLocationApiItem source, PostcodesLocationApiItem test)
+        public void Then_The_Fields_Are_Correctly_Mapped(PostcodesLocationApiItem source)
         {
-            //Arrange & Act
+            //Act
             var actual = (SuggestedLocation) source;
 
             //Assert
-            actual.Should().BeEquivalentTo(source, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(source);
         }
     }
 }
