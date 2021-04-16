@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http;
 
 namespace SFA.DAS.Location.Domain.ImportTypes
 {

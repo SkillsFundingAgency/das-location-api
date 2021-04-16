@@ -4,14 +4,11 @@ using NUnit.Framework;
 using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Configuration;
 using FluentAssertions;
 using System.Net;
-using System.Reflection.PortableExecutable;
 using System.Linq;
 
 namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient

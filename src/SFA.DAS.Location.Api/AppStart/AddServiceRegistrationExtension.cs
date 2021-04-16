@@ -4,7 +4,6 @@ using Polly.Extensions.Http;
 using SFA.DAS.Location.Application.Location.Services;
 using SFA.DAS.Location.Application.LocationImport.Services;
 using SFA.DAS.Location.Application.Postcode.Services;
-using SFA.DAS.Location.Data.Repository;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;

@@ -6,13 +6,9 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
-using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using SFA.DAS.Testing.AutoFixture;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

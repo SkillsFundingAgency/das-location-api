@@ -2,15 +2,11 @@
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.Location.Application.Location.Services;
 using SFA.DAS.Location.Application.Postcode.Services;
-using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using SFA.DAS.Testing.AutoFixture;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
