@@ -39,7 +39,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options=> options.Excluding(c=>c.AdminDistrict));
         }
 
         [Test, AutoData]
@@ -53,7 +53,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
-                StatusCode = System.Net.HttpStatusCode.Accepted
+                StatusCode = HttpStatusCode.Accepted
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, query, count)));
             var client = new HttpClient(httpMessageHandler.Object);
@@ -63,7 +63,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result.Where(c => c.Country == "England"), options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcodeResponse.Result.Where(c => c.Country == "England"), options=> options.Excluding(c=>c.AdminDistrict));
             actual.Count().Should().Be(1);
         }
 

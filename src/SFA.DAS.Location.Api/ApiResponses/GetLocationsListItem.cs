@@ -49,6 +49,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
             return new GetLocationsListItem
             {
                 Postcode = source.Postcode,
+                DistrictName = source.AdminDistrict,
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }

@@ -15,7 +15,6 @@ namespace SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode
         }
         public async Task<GetPostcodeQueryResult> Handle(GetPostcodeQuery request, CancellationToken cancellationToken)
         {
-
             var result = await _service.GetPostcodeByFullPostcode(request.Postcode);
 
             return new GetPostcodeQueryResult
