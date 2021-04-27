@@ -10,7 +10,6 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
-using SFA.DAS.Location.Application.Location.Queries;
 using SFA.DAS.Location.Application.Location.Queries.GetByLocationAuthorityName;
 using SFA.DAS.Testing.AutoFixture;
 

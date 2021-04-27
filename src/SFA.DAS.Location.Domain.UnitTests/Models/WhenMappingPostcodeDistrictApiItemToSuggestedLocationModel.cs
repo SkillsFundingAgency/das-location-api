@@ -3,9 +3,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SFA.DAS.Location.Domain.UnitTests.Models
 {

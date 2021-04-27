@@ -1,10 +1,8 @@
-using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SFA.DAS.Location.Application.Search.Queries.SearchLocations;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 

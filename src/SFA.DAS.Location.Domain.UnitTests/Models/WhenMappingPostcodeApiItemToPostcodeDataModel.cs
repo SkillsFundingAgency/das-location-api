@@ -11,11 +11,14 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
         [Test, AutoData]
         public void Then_The_Fields_Are_Correctly_Mapped(PostcodesLocationApiItem source)
         {
-            //Arrange & Act
+            //Act
             var actual = (PostcodeData)source;
 
             //Assert
-            actual.Should().BeEquivalentTo(source, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(source, options => options
+                .Excluding(c=>c.Country)
+                .Excluding(c=>c.Outcode)
+                );
         }
     }
 }

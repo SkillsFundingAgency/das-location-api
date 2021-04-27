@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SFA.DAS.Location.Domain.Interfaces;
-using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Data.Repository
 {

@@ -4,14 +4,11 @@ using NUnit.Framework;
 using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Configuration;
 using FluentAssertions;
 using System.Net;
-using System.Reflection.PortableExecutable;
 using System.Linq;
 
 namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
@@ -42,7 +39,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options=> options.Excluding(c=>c.AdminDistrict));
         }
 
         [Test, AutoData]
@@ -56,7 +53,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var response = new HttpResponseMessage
             {
                 Content = new StringContent(JsonConvert.SerializeObject(postcodeResponse)),
-                StatusCode = System.Net.HttpStatusCode.Accepted
+                StatusCode = HttpStatusCode.Accepted
             };
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(string.Format(Constants.PostcodesUrl, query, count)));
             var client = new HttpClient(httpMessageHandler.Object);
@@ -66,7 +63,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetAllStartingWithOutcode(query, count);
 
             //Assert
-            actual.Should().BeEquivalentTo(postcodeResponse.Result.Where(c => c.Country == "England"), options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcodeResponse.Result.Where(c => c.Country == "England"), options=> options.Excluding(c=>c.AdminDistrict));
             actual.Count().Should().Be(1);
         }
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Interfaces;
-using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Application.Location.Services
 {

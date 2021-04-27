@@ -34,6 +34,7 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
             actual.Should().BeEquivalentTo(postcode, options => options.ExcludingMissingMembers());
             actual.Location.Coordinates.FirstOrDefault().Should().Be(postcode.Lat);
             actual.Location.Coordinates.LastOrDefault().Should().Be(postcode.Long);
+            actual.DistrictName.Should().Be(source.Postcode.AdminDistrict);
             GetLocationsListItem.Geometry.Type.Should().Be("Point");
         }
 
