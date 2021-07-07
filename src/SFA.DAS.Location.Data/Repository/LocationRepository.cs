@@ -44,5 +44,19 @@ namespace SFA.DAS.Location.Data.Repository
             return result;
         }
 
+        public async Task<Domain.Entities.Location> GetByLocationName(string locationName)
+        {
+            var result = await _dataContext.Locations.FirstOrDefaultAsync(c =>
+                c.LocationName.Equals(locationName));
+
+            if (result == null)
+            {
+                result = await _dataContext.Locations.FirstOrDefaultAsync(c =>
+                c.LocationName.Contains(locationName));
+            }
+
+            return result;
+        }
+
     }
 }

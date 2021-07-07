@@ -25,5 +25,11 @@ namespace SFA.DAS.Location.Application.Location.Services
 
             return result;
         }
+
+        public async Task<Domain.Entities.Location> GetLocationsByLocationName(string locationName)
+        {
+            var result = await _repository.GetByLocationName(locationName);
+            return result;
+        }
     }
 }
