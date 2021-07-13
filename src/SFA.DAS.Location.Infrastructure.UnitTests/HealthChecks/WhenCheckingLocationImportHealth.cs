@@ -45,38 +45,5 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.HealthChecks
             //Assert
             actual.Status.Should().Be(HealthStatus.Unhealthy);
         }
-
-        
-        [Test, MoqAutoData]
-        public async Task Then_If_The_Import_Is_Over_Twenty_Five_Hours_Old_Show_Degraded(
-            [Frozen] Mock<IImportAuditRepository> auditRepository,
-            HealthCheckContext context,
-            LocationImportHealthCheck healthCheck)
-        {
-            //Arrange
-            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(-25),10,""));
-            
-            //Act
-            var actual = await healthCheck.CheckHealthAsync(context);
-            
-            //Assert
-            actual.Status.Should().Be(HealthStatus.Degraded);
-        }
-
-        [Test, MoqAutoData]
-        public async Task Then_If_The_Import_Is_Under_Twenty_Five_Hours_Old_Show_Healthy(
-            [Frozen] Mock<IImportAuditRepository> auditRepository,
-            HealthCheckContext context,
-            LocationImportHealthCheck healthCheck)
-        {
-            //Arrange
-            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(25).AddMinutes(-1),10, ""));
-            
-            //Act
-            var actual = await healthCheck.CheckHealthAsync(context);
-            
-            //Assert
-            actual.Status.Should().Be(HealthStatus.Healthy);
-        }
     }
 }
