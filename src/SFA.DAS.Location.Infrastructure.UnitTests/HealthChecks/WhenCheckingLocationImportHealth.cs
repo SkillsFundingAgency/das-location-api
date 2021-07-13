@@ -37,7 +37,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.HealthChecks
             LocationImportHealthCheck healthCheck)
         {
             //Arrange
-            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.Now,0));
+            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.Now,0, ""));
             
             //Act
             var actual = await healthCheck.CheckHealthAsync(context);
@@ -54,7 +54,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.HealthChecks
             LocationImportHealthCheck healthCheck)
         {
             //Arrange
-            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(-25),10));
+            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(-25),10,""));
             
             //Act
             var actual = await healthCheck.CheckHealthAsync(context);
@@ -70,7 +70,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.HealthChecks
             LocationImportHealthCheck healthCheck)
         {
             //Arrange
-            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(25).AddMinutes(-1),10));
+            auditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(new ImportAudit(DateTime.UtcNow.AddHours(25).AddMinutes(-1),10, ""));
             
             //Act
             var actual = await healthCheck.CheckHealthAsync(context);
