@@ -4,6 +4,7 @@ CREATE TABLE [dbo].[ImportAudit]
 	[TimeStarted] DATETIME NOT NULL,
 	[TimeFinished] DATETIME NOT NULL,
 	[RowsImported] INT NOT NULL,
-	[ImportType] TINYINT NOT NULL DEFAULT(0)
+	[ImportType] TINYINT NOT NULL DEFAULT(0),
+    [FileName] VARCHAR(256) NULL
 )
 GO

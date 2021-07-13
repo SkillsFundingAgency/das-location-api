@@ -16,6 +16,7 @@ namespace SFA.DAS.Location.Domain.Entities
         public DateTime TimeStarted { get;  set; }
         public DateTime TimeFinished { get;  set; }
         public int RowsImported { get;  set; }
+        public string FileName { get; set; }
         public ImportType ImportType { get ;  set; }
     }
 
