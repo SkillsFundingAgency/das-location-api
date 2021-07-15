@@ -20,8 +20,8 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
         {
             _importAudits = new List<Domain.Entities.ImportAudit>
             {
-                new Domain.Entities.ImportAudit(new DateTime(2020,10,01), 200),
-                new Domain.Entities.ImportAudit(new DateTime(2020,09,30), 100)
+                new Domain.Entities.ImportAudit(new DateTime(2020,10,01), 200, "test"),
+                new Domain.Entities.ImportAudit(new DateTime(2020,09,30), 100, "")
             };
             
             _locationDataContext = new Mock<ILocationDataContext>();
@@ -40,6 +40,7 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
             //Assert
             Assert.IsNotNull(auditRecord);
             auditRecord.RowsImported.Should().Be(200);
+            auditRecord.Name.Should().Be("test");
         }
 
         [Test]

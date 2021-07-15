@@ -26,15 +26,42 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
 
         [Test, MoqAutoData]
         public async Task Then_If_No_Locations_Are_Returned_From_The_Api_Nothing_Is_Imported(
+            ImportAudit auditRecord,
+            [Frozen]Mock<IImportAuditRepository> importAuditRepository,
             [Frozen]Mock<INationalStatisticsLocationService> service,
             [Frozen]Mock<ILocationImportRepository> importRepository,
             [Frozen]Mock<ILocationRepository> repository,
             LocationImportService importService)
         {
+            auditRecord.Name = null;
+            importAuditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(auditRecord);
             service.Setup(x => x.GetLocations()).ReturnsAsync(new List<LocationApiItem>());
 
             await importService.Import();
             
+            importRepository.Verify(x=>x.DeleteAll(), Times.Never);
+            repository.Verify(x=>x.DeleteAll(), Times.Never);
+        }
+
+        [Test, MoqAutoData]
+        public async Task Then_If_The_Last_Imported_File_Is_The_Same_Then_No_Records_Imported(
+            string name,
+            ImportAudit auditRecord,
+            [Frozen]Mock<IImportAuditRepository> importAuditRepository,
+            [Frozen]Mock<INationalStatisticsLocationService> service,
+            [Frozen]Mock<ILocationImportRepository> importRepository,
+            [Frozen]Mock<ILocationRepository> repository,
+            LocationImportService importService)
+        {
+            //Arrange
+            auditRecord.Name = name;
+            importAuditRepository.Setup(x => x.GetLastImportByType(ImportType.OnsLocation)).ReturnsAsync(auditRecord);
+            service.Setup(x => x.GetName()).Returns(name);
+            
+            //Act
+            await importService.Import();
+            
+            //Assert
             importRepository.Verify(x=>x.DeleteAll(), Times.Never);
             repository.Verify(x=>x.DeleteAll(), Times.Never);
         }
@@ -231,6 +258,7 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
 
         [Test, MoqAutoData]
         public async Task Then_An_Audit_Record_Is_Created(
+            string name,
             List<LocationApiItem> apiResponse,
             List<Domain.Entities.LocationImport> importItems,
             [Frozen]Mock<INationalStatisticsLocationService> service,
@@ -241,11 +269,12 @@ namespace SFA.DAS.Location.Application.UnitTests.LocationImport.Services
         {
             apiResponse = SetValidPlaceNameDescription(apiResponse);
             service.Setup(x => x.GetLocations()).ReturnsAsync(apiResponse);
+            service.Setup(x => x.GetName()).Returns(name);
             importRepository.Setup(x => x.GetAll()).ReturnsAsync(importItems);
             
             await importService.Import();
             
-            auditRepository.Verify(x=>x.Insert(It.Is<ImportAudit>(c=>c.RowsImported.Equals(importItems.Count))));
+            auditRepository.Verify(x=>x.Insert(It.Is<ImportAudit>(c=>c.RowsImported.Equals(importItems.Count) && c.Name.Equals(name))));
         }
 
         private static List<LocationApiItem> SetValidPlaceNameDescription(List<LocationApiItem> apiResponse)

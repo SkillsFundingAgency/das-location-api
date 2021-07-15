@@ -15,6 +15,7 @@ namespace SFA.DAS.Location.Data.Configuration
             builder.Property(x => x.TimeFinished).HasColumnName("TimeFinished").HasColumnType("DateTime").IsRequired();
             builder.Property(x => x.RowsImported).HasColumnName("RowsImported").HasColumnType("int").IsRequired();
             builder.Property(x => x.ImportType).HasColumnName("ImportType").HasColumnType("tinyint").IsRequired();
+            builder.Property(x => x.Name).HasColumnName("Name").HasColumnType("varchar").HasMaxLength(500).IsRequired(false);
      
             builder.HasIndex(x => x.Id).IsUnique();
         }

@@ -7,5 +7,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
     public interface INationalStatisticsLocationService
     {
         Task<IEnumerable<LocationApiItem>> GetLocations();
+        string GetName();
     }
 }

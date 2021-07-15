@@ -34,6 +34,16 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
         {
             _logger.LogInformation("Import starting");
             var timeStarted = DateTime.UtcNow;
+
+            var downloadName = _nationalStatisticsLocationService.GetName();
+            var previousImport = await _auditRepository.GetLastImportByType(ImportType.OnsLocation);
+
+            if (previousImport?.Name != null &&
+                previousImport.Name.Equals(downloadName, StringComparison.CurrentCultureIgnoreCase))
+            {
+                _logger.LogWarning("No new items to import");
+                return;
+            }
             
             var items = (await _nationalStatisticsLocationService.GetLocations()).ToList();
 
@@ -70,7 +80,7 @@ namespace SFA.DAS.Location.Application.LocationImport.Services
             _logger.LogInformation("Inserting into main table");
             await _repository.InsertMany(importedItems.Select(c => (Domain.Entities.Location) c).ToList());
 
-            await _auditRepository.Insert(new ImportAudit(timeStarted, importedItems.Count));
+            await _auditRepository.Insert(new ImportAudit(timeStarted, importedItems.Count, downloadName));
         }
 
         private static LocationApiItem SelectDuplicateByLocalAuthorityDistrictDescription(IEnumerable<LocationApiItem> item)

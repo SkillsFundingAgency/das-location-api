@@ -12,22 +12,28 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
     public class NationalStatisticsLocationService : INationalStatisticsLocationService
     {
         private readonly HttpClient _client;
-
+        private int _offSet = 0;
+        private readonly int recordSize = 2000;
+        
         public NationalStatisticsLocationService(HttpClient client)
         {
             _client = client;
+        }
+
+        public string GetName()
+        {
+            return string.Format(Constants.NationalOfficeOfStatisticsLocationUrl, recordSize, _offSet);
         }
 
         public async Task<IEnumerable<LocationApiItem>> GetLocations()
         {
             var moreData = true;
             var items = new List<LocationApiItem>();
-            var offSet = 0;
-            var recordSize = 2000;
+            
             
             while (moreData)
             {
-                var response = await _client.GetAsync(new Uri(string.Format(Constants.NationalOfficeOfStatisticsLocationUrl,recordSize,offSet)));
+                var response = await _client.GetAsync(new Uri(GetName()));
             
                 response.EnsureSuccessStatusCode();
             
@@ -36,7 +42,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
                 moreData = item.ExceededTransferLimit;
 
-                offSet += recordSize;
+                _offSet += recordSize;
                 
                 items.AddRange(item.Features);
             }

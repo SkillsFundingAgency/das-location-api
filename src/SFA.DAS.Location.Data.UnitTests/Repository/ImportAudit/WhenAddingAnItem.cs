@@ -15,11 +15,12 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
         private Data.Repository.ImportAuditRepository _importAuditRepository;
         private readonly DateTime _expectedDate = new DateTime(2020,10,30);
         private const int ExpectedRowsImported = 100;
-        
+        private  const string Name = "TestName";
+
         [SetUp]
         public void Arrange()
         {
-            _importAudit = new Domain.Entities.ImportAudit(_expectedDate, 100);
+            _importAudit = new Domain.Entities.ImportAudit(_expectedDate, ExpectedRowsImported, Name);
             
             _locationDataContext = new Mock<ILocationDataContext>();
             _locationDataContext.Setup(x => x.ImportAudit).ReturnsDbSet(new List<Domain.Entities.ImportAudit>());
@@ -36,7 +37,9 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
             _locationDataContext.Verify(x=>
                     x.ImportAudit.AddAsync(
                         It.Is<Domain.Entities.ImportAudit>(c=>c.TimeStarted.Equals(_expectedDate)
-                                                              && c.RowsImported.Equals(ExpectedRowsImported))
+                                                              && c.RowsImported.Equals(ExpectedRowsImported)
+                                                              && c.Name.Equals(Name)
+                                                              )
                         ,It.IsAny<CancellationToken>())
                 , Times.Once);
             _locationDataContext.Verify(x=>x.SaveChanges(), Times.Once);
