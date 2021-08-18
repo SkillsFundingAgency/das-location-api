@@ -206,10 +206,7 @@
                         "value": "[parameters('backEndAccessRestrictions')]"
                     }
                 }
-            },
-            "dependsOn": [
-                "[variables('resourceGroupName')]"
-            ]
+            }
         },
         {
             "apiVersion": "2021-04-01",
