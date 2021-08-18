@@ -1,7 +1,13 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "tags": {
+            "type": "object"
+        },
+        "resourceGroupLocation": {
+            "type": "string"
+        },
         "resourceEnvironmentName": {
             "type": "string"
         },
@@ -21,8 +27,7 @@
             "type": "string"
         },
         "backEndAccessRestrictions": {
-            "type": "array",
-            "defaultValue": []
+            "type": "array"
         },
         "apiCustomHostname": {
             "type": "string"
@@ -71,12 +76,22 @@
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
+        "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
         "apiAppServiceName": "[concat(variables('resourceNamePrefix'), 'api-as')]",
         "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]"
     },
     "resources": [
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2021-04-01",
+            "name": "[variables('resourceGroupName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "location": "[parameters('resourceGroupLocation')]",
+            "tags": "[parameters('tags')]",
+            "properties": {
+            }
+        },
+        {
+            "apiVersion": "2021-04-01",
             "name": "api-app-service-certificate",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
@@ -100,8 +115,9 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2021-04-01",
             "name": "api-application-insights",
+            "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -117,11 +133,15 @@
                         "value": "[variables('apiAppServiceName')]"
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[variables('resourceGroupName')]"
+            ]
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2021-04-01",
             "name": "api-app-service",
+            "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -189,7 +209,7 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2021-04-01",
             "name": "sql-database",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
@@ -229,6 +249,10 @@
         }
     ],
     "outputs": {
+        "ResourceGroupName": {
+            "type": "string",
+            "value": "[variables('resourceGroupName')]"
+        },
         "ApiAppServiceName": {
             "type": "string",
             "value": "[variables('apiAppServiceName')]"
