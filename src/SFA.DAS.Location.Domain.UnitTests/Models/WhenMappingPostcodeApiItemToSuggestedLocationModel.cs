@@ -16,7 +16,7 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
 
             //Assert
             actual.Should().BeEquivalentTo(source, options=>options
-                .Excluding(x=>x.AdminDistrict));
+                .Excluding(x=>x.AdminDistrict).ExcludingMissingMembers());
             actual.AdminDistrict.Should().BeEmpty();
         }
     }

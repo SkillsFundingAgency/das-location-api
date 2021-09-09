@@ -31,7 +31,7 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
 
             var actual = (GetLocationsListItem)postcode;
 
-            actual.Should().BeEquivalentTo(postcode, options => options.ExcludingMissingMembers());
+            actual.Should().BeEquivalentTo(postcode, options => options.ExcludingMissingMembers().ExcludingFields().Excluding(p => p.AreaName));
             actual.Location.Coordinates.FirstOrDefault().Should().Be(postcode.Lat);
             actual.Location.Coordinates.LastOrDefault().Should().Be(postcode.Long);
             actual.DistrictName.Should().Be(source.Postcode.AdminDistrict);

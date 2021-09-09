@@ -53,7 +53,8 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
-                }
+                },
+                Outcode = source.Outcode
             };
         }
 

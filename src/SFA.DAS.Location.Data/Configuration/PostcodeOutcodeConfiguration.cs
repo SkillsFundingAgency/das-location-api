@@ -8,7 +8,7 @@ namespace SFA.DAS.Location.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<PostcodeOutcode> builder)
         {
-            builder.ToTable("Location");
+            builder.ToTable("PostcodeOutcode");
             builder.HasKey(x => x.Outcode);
             builder.Property(x => x.Outcode).HasColumnName("Outcode");
             builder.Property(x => x.AreaName).HasColumnName("AreaName");

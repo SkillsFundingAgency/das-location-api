@@ -11,6 +11,7 @@ namespace SFA.DAS.Location.Domain.Models
         public string Outcode { get; set; }
         public string AreaName { get; set; }
         public string PostalTown { get; set; }
+        public string Region { get; set; }
 
         public static implicit operator PostcodeData(PostcodesLocationApiItem source)
         {
@@ -25,7 +26,8 @@ namespace SFA.DAS.Location.Domain.Models
                 Lat = source.Lat,
                 Long = source.Long,
                 AdminDistrict = source.AdminDistrict,
-                Outcode = source.Outcode
+                Outcode = source.Outcode,
+                Region = source.Region 
             };
         }
     }
