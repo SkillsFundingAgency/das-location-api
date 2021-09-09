@@ -33,6 +33,7 @@ namespace SFA.DAS.Location.Api.AppStart
             services.AddTransient<IImportAuditRepository, ImportAuditRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ILocationImportRepository, LocationImportRepository>();
+            services.AddTransient<IPostcodeOutcodeRepository, PostcodeOutcodeRepository>();
         }
     }
 }
