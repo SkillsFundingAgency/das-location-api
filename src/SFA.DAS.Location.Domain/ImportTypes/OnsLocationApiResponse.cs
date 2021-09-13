@@ -46,7 +46,10 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         
         [JsonProperty("lad15nm")]
         public string LocationAuthorityDistrict { get; set; }
-        
+
+        [JsonProperty("rgn15nm")]
+        public string Region { get; set; }
+
         [JsonIgnore]
         public PlaceNameDescription PlaceName => MapDescription<PlaceNameDescription>(PlaceNameDescription);
 

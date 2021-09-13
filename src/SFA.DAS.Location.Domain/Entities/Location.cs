@@ -11,7 +11,9 @@ namespace SFA.DAS.Location.Domain.Entities
                 Long = source.Long,
                 CountyName = source.CountyName,
                 LocationName = source.LocationName,
-                LocalAuthorityName = source.LocalAuthorityName
+                LocalAuthorityName = source.LocalAuthorityName,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
     }

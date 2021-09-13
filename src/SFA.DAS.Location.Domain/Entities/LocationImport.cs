@@ -13,7 +13,9 @@ namespace SFA.DAS.Location.Domain.Entities
                 LocationName = source.LocationName,
                 LocalAuthorityName = source.LocalAuthorityName,
                 Lat = source.Lat,
-                Long = source.Long
+                Long = source.Long,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocationAuthorityDistrict
             };
         }
     }

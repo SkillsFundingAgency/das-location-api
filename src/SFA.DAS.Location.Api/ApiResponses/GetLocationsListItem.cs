@@ -15,6 +15,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
         public string PostalArea { get; set; }
         public string PostalTown { get; set; }
         public string Region { get; set; }
+        public string LocalAuthorityDistrict { get; set; }
 
         public static implicit operator GetLocationsListItem(Domain.Entities.Location source)
         {
@@ -26,7 +27,9 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
-                }
+                },
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 
@@ -61,7 +64,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 PostalTown = source.PostalTown,
                 PostalArea = source.AreaName,
                 Region = source.Region,
-                LocalAuthorityName = source.AdminDistrict
+                LocalAuthorityDistrict = source.AdminDistrict,
             };
         }
 

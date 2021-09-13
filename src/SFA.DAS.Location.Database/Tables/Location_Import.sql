@@ -5,6 +5,8 @@ CREATE TABLE [dbo].[Location_Import]
 	[CountyName] VARCHAR(256) NULL,
 	[LocalAuthorityName] VARCHAR(256) NULL,
 	[Lat] FLOAT NOT NULL,
-	[Long] FLOAT NOT NULL
+	[Long] FLOAT NOT NULL,
+	[LocalAuthorityDistrict] VARCHAR(256) NULL,
+	[Region]  VARCHAR(256) NULL
 )
 GO
