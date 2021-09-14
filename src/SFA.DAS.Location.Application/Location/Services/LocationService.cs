@@ -7,7 +7,6 @@ namespace SFA.DAS.Location.Application.Location.Services
     public class LocationService : ILocationService
     {
         private readonly ILocationRepository _repository;
-
         public LocationService (ILocationRepository repository)
         {
             _repository = repository;
@@ -24,6 +23,27 @@ namespace SFA.DAS.Location.Application.Location.Services
             var result = await _repository.GetByLocationAndAuthorityName(locationName, authorityName);
 
             return result;
+        }
+
+        public Task<List<string>> GetRegions()
+        {
+            return Task.FromResult(new List<string>
+            {
+                "London",
+                "East of England",
+                "South East",
+                "West Midlands",
+                "North West",
+                "North East",
+                "East Midlands",
+                "Yorkshire and The Humber",
+                "South West"
+            });
+        }
+
+        public async Task<List<string>> GetLocalAuthorities()
+        {
+            return await _repository.GetLocalAuthorities();
         }
     }
 }

@@ -14,7 +14,8 @@ namespace SFA.DAS.Location.Domain.Models
         public string AdminDistrict { get; set; }
         public string Outcode { get; set; }
         public string Country { get; set; }
-
+        public string Region { get; set; }
+        public string LocalAuthorityDistrict { get; set; }
 
 
         public static implicit operator SuggestedLocation(PostcodesLocationApiItem source)
@@ -26,7 +27,9 @@ namespace SFA.DAS.Location.Domain.Models
                 Postcode = source.Postcode,
                 AdminDistrict = "",
                 Outcode =source.Outcode,
-                Country = source.Country
+                Country = source.Country,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.AdminDistrict
             };
         }
 
@@ -39,6 +42,8 @@ namespace SFA.DAS.Location.Domain.Models
                 CountyName = source.CountyName,
                 LocationName = source.LocationName,
                 LocalAuthorityName = source.LocalAuthorityName,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 
@@ -55,5 +60,4 @@ namespace SFA.DAS.Location.Domain.Models
             };
         }
     }
-
 }

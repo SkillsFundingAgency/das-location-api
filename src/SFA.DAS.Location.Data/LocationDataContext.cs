@@ -12,6 +12,7 @@ namespace SFA.DAS.Location.Data
         DbSet<Domain.Entities.LocationImport> LocationImports { get; set; }
         DbSet<Domain.Entities.ImportAudit> ImportAudit { get; set; }
         DbSet<Domain.Entities.PostcodeOutcode> Outcodes { get; set; }
+        
         int SaveChanges();
         string GetProviderName();
     }
@@ -26,7 +27,7 @@ namespace SFA.DAS.Location.Data
         public DbSet<Domain.Entities.LocationImport> LocationImports { get; set; }
         public DbSet<Domain.Entities.ImportAudit> ImportAudit { get; set; }
         public DbSet<Domain.Entities.PostcodeOutcode> Outcodes { get; set; }
-
+        
         public LocationDataContext()
         {
         }

@@ -1,4 +1,5 @@
 
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Api.ApiResponses
@@ -46,7 +47,9 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
-                }
+                },
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 
