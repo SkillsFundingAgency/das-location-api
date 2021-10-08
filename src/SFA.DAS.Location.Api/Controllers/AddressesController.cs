@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
@@ -43,10 +44,15 @@ namespace SFA.DAS.Location.Api.Controllers
 
                 return Ok(response);
             }
-            catch (Exception e)
+            catch(ArgumentOutOfRangeException ex)
             {
-                _logger.LogError(e, $"Unable to get address data for query:{query}");
+                _logger.LogError(ex, $"Unable to get address data for query:{query}/{minMatch}");
                 return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Unable to get address data for query:{query}/{minMatch}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }
