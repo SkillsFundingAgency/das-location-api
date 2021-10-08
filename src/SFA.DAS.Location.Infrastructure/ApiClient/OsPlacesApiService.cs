@@ -29,35 +29,30 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 throw new ArgumentOutOfRangeException($"{nameof(minMatch)} must be between 0.1 and 1.0", nameof(minMatch));
 
             var items = new List<LpiResultPlacesApiItem>();
-            var response = await _client.GetAsync(new Uri(string.Format(Constants.OsPlacesFindUrl, _config.OsPlacesApiKey, 
+            var response = await _client.GetAsync(new Uri(string.Format(Constants.OsPlacesFindUrl, _config.OsPlacesApiKey,
                 query, "lpi", Math.Round(minMatch, 1, MidpointRounding.ToZero), DecimalPlaces(minMatch, 10))));
 
             if (response.StatusCode.Equals(HttpStatusCode.NotFound))
             {
-                return null;
-            }
-            
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var item = JsonConvert.DeserializeObject<OsPlacesApiResponse>(jsonResponse);
-
-                if (item.Results != null)
-                {
-                    items.AddRange(item.Results.Select(p => p.Lpi));
-                }
-
-                return items
-                    .Where(c => c.PostalAddressCode == "D" && c.Match >= minMatch) // only include postal addresses and match using full match precision
-                    .OrderBy(c => (c.MatchDescrption == "EXACT" ? 0 : 1)) // sort the exact matches first
-                    .ThenByDescending(c => c.Match) // then sort by the match score highest first
-                    .ThenBy(c => c.PaoStartNumber, new MixedComparer()) // then sort by the house number lowest first
-                    .Select(c => (SuggestedAddress)c);
+                return new List<SuggestedAddress>();
             }
 
             response.EnsureSuccessStatusCode();
 
-            return null;
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var item = JsonConvert.DeserializeObject<OsPlacesApiResponse>(jsonResponse);
+
+            if (item.Results != null)
+            {
+                items.AddRange(item.Results.Select(p => p.Lpi));
+            }
+
+            return items
+                .Where(c => c.PostalAddressCode == "D" && c.Match >= minMatch) // only include postal addresses and match using full match precision
+                .OrderBy(c => (c.MatchDescrption == "EXACT" ? 0 : 1)) // sort the exact matches first
+                .ThenByDescending(c => c.Match) // then sort by the match score highest first
+                .ThenBy(c => c.PaoStartNumber, new MixedComparer()) // then sort by the house number lowest first
+                .Select(c => (SuggestedAddress)c);
         }
 
         public class MixedComparer : IComparer<string>

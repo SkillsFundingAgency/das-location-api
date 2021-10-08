@@ -36,11 +36,6 @@ namespace SFA.DAS.Location.Api.Controllers
                     MinMatch = minMatch
                 });
 
-                if (queryResult.Addresses == null)
-                {
-                    return Ok(new GetAddressesListResponse { Addresses = new List<GetAddressesListItem>() });
-                }
-
                 var response = new GetAddressesListResponse
                 {
                     Addresses = queryResult.Addresses.Select(c => (GetAddressesListItem)c).ToList()
