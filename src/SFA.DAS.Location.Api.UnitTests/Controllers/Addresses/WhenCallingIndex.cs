@@ -7,8 +7,10 @@ using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
 using SFA.DAS.Location.Application.Addresses.Queries;
+using SFA.DAS.Location.Domain.Models;
 using SFA.DAS.Testing.AutoFixture;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +53,7 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Addresses
                 .Setup(mediator => mediator.Send(
                     It.IsAny<GetAddressesQuery>(), 
                     It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new GetAddressesQueryResult{Addresses = null});
+                .ReturnsAsync(new GetAddressesQueryResult { Addresses = new List<SuggestedAddress>() });
             
             var controllerResult = await controller.Index(query, minMatch) as ObjectResult;
 
@@ -61,7 +63,7 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Addresses
         }
 
         [Test, MoqAutoData]
-        public async Task And_Exception_Then_Returns_Bad_Request(
+        public async Task And_ArgumentOutOfRange_Exception_Then_Returns_Bad_Request(
             string query,
             double minMatch,
             [Frozen] Mock<IMediator> mockMediator,
@@ -71,11 +73,29 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Addresses
                 .Setup(mediator => mediator.Send(
                     It.IsAny<GetAddressesQuery>(),
                     It.IsAny<CancellationToken>()))
-                .Throws<InvalidOperationException>();
+                .Throws<ArgumentOutOfRangeException>();
 
             var controllerResult = await controller.Index(query, minMatch) as StatusCodeResult;
 
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.BadRequest);
+        }
+
+        [Test, MoqAutoData]
+        public async Task And_Any_Other_Exception_Then_Returns_Internal_Server_Error(
+            string query,
+            double minMatch,
+            [Frozen] Mock<IMediator> mockMediator,
+            [Greedy] AddressesController controller)
+        {
+            mockMediator
+                .Setup(mediator => mediator.Send(
+                    It.IsAny<GetAddressesQuery>(),
+                    It.IsAny<CancellationToken>()))
+                .Throws<Exception>();
+
+            var controllerResult = await controller.Index(query, minMatch) as StatusCodeResult;
+
+            controllerResult.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
         }
     }
 }

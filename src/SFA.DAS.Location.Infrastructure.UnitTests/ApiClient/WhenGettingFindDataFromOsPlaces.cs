@@ -116,7 +116,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await osPlacesApiService.FindFromLpiDataset(query, 0.4);
 
             // Assert
-            actual.Should().BeNull();
+            actual.Should().BeEmpty();
         }
 
         [Test]
