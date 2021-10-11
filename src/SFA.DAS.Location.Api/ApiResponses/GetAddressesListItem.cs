@@ -5,9 +5,11 @@ namespace SFA.DAS.Location.Api.ApiResponses
     public class GetAddressesListItem
     {
         public string Uprn { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
+        public string HouseName { get; set; }
+        public string HouseNumber { get; set; }
+        public string StreetName { get; set; }
         public string Town { get; set; }
+        public string County { get; set; }
         public string Postcode { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
@@ -18,9 +20,11 @@ namespace SFA.DAS.Location.Api.ApiResponses
             return new GetAddressesListItem
             {
                 Uprn = source.Uprn,
-                AddressLine1 = source.AddressLine1,
-                AddressLine2 = source.AddressLine2,
+                HouseName = source.HouseName,
+                HouseNumber = source.HouseNumber,
+                StreetName = source.StreetName,
                 Town = source.Town,
+                County = source.County,
                 Postcode = source.Postcode,
                 Longitude = source.Longitude,
                 Latitude = source.Latitude,

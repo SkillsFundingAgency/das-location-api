@@ -25,17 +25,12 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
             };
 
             var actual = (SuggestedAddress) source;
-            if(!string.IsNullOrEmpty(source.PaoText))
-            {
-                actual.AddressLine1.Should().Be($"{source.PaoText + ", " + source.PaoStartNumber}");
-            }
-            else
-            {
-                actual.AddressLine1.Should().Be(source.PaoStartNumber);
-            }
 
-            actual.AddressLine2.Should().Be(source.StreetDescription);
+            actual.HouseName.Should().Be(source.PaoText);
+            actual.HouseNumber.Should().Be(source.PaoStartNumber);
+            actual.StreetName.Should().Be(source.StreetDescription);
             actual.Town.Should().Be(source.TownName);
+            actual.County.Should().Be(string.Empty);
             actual.Postcode.Should().Be(source.PostCodeLocator);
             actual.Latitude.Should().Be(source.Lat);
             actual.Longitude.Should().Be(source.Lng);
