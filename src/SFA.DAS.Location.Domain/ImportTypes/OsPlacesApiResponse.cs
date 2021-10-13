@@ -50,62 +50,89 @@ namespace SFA.DAS.Location.Domain.ImportTypes
 
     public class ResultPlacesApiItem
     {
-        [JsonProperty("LPI")]
-        public LpiResultPlacesApiItem Lpi { get; set; }
+        [JsonProperty("DPA")]
+        public DpaResultPlacesApiItem Dpa { get; set; }
     }
 
-    public class LpiResultPlacesApiItem
+    public class DpaResultPlacesApiItem
     {
         [JsonProperty("UPRN")]
         public string Uprn { get; set; }
 
+        [JsonProperty("UDPRN")]
+        public string Udprn { get; set; }
+
         [JsonProperty("ADDRESS")]
         public string Address { get; set; }
-        
-        [JsonProperty("USRN")]
-        public string Usrn { get; set; }
-        
-        [JsonProperty("LPI_KEY")]
-        public string LpiKey { get; set; }
 
-        [JsonProperty("PAO_START_NUMBER")]
-        public string PaoStartNumber { get; set; }
+        [JsonProperty("PO_BOX_NUMBER")]
+        public string PoBoxNumber { get; set; }
 
-        [JsonProperty("PAO_TEXT")]
-        public string PaoText { get; set; }
+        [JsonProperty("ORGANISATION_NAME")]
+        public string OrganisationName { get; set; }
 
-        [JsonProperty("STREET_DESCRIPTION")]
-        public string StreetDescription { get; set; }
+        [JsonProperty("DEPARTMENT_NAME")]
+        public string DepartmentName { get; set; }
 
-        [JsonProperty("TOWN_NAME")]
-        public string TownName { get; set; }
+        [JsonProperty("SUB_BUILDING_NAME")]
+        public string SubBuildingName { get; set; }
 
-        [JsonProperty("ADMINISTRATIVE_AREA")]
-        public string AdministrativeArea { get; set; }
-        
-        [JsonProperty("POSTCODE_LOCATOR")]
-        public string PostCodeLocator { get; set; }
+        [JsonProperty("BUILDING_NAME")]
+        public string BuildingName { get; set; }
+
+        [JsonProperty("BUILDING_NUMBER")]
+        public string BuildingNumber { get; set; }
+
+        [JsonProperty("DEPENDENT_THOROUGHFARE_NAME")]
+        public string DependentThoroughfareName { get; set; }
+
+        [JsonProperty("THOROUGHFARE_NAME")]
+        public string ThoroughfareName { get; set; }
+
+        [JsonProperty("DOUBLE_DEPENDENT_LOCALITY")]
+        public string DoubleDependentLocality { get; set; }
+
+        [JsonProperty("DEPENDENT_LOCALITY")]
+        public string DependentLocality { get; set; }
+
+        [JsonProperty("POST_TOWN")]
+        public string PostTown { get; set; }
+
+        [JsonProperty("POSTCODE")]
+        public string Postcode { get; set; }
 
         [JsonProperty("RPC")]
         public string Rpc { get; set; }
 
         [JsonProperty("X_COORDINATE")]
-        public decimal XCoordinate { get; set; }
+        public double? XCoordinate { get; set; }
 
         [JsonProperty("Y_COORDINATE")]
-        public decimal YCoordinate { get; set; }
+        public double? YCoordinate { get; set; }
 
         [JsonProperty("LNG")]
-        public double Lng { get; set; }
+        public double? Lng { get; set; }
 
         [JsonProperty("LAT")]
-        public double Lat { get; set; }
+        public double? Lat { get; set; }
 
         [JsonProperty("STATUS")]
         public string Status { get; set; }
 
-        [JsonProperty("LOGICAL_STATUS_CODE")]
-        public string LogicalStatusCode { get; set; }
+        [JsonProperty("MATCH")]
+        public double? Match { get; set; }
+
+        [JsonProperty("MATCH_DESCRIPTION")]
+        public string MatchDescription { get; set; }
+
+        [JsonProperty("LANGUAGE")]
+        public string Language { get; set; }
+
+        [JsonProperty("LOCAL_CUSTODIAN_CODE")]
+        public int? LocalCustodianCode { get; set; }
+
+        [JsonProperty("LOCAL_CUSTODIAN_CODE_DESCRIPTION")]
+        public string LocalCustodianCodeDescription { get; set; }
 
         [JsonProperty("CLASSIFICATION_CODE")]
         public string ClassificationCode { get; set; }
@@ -113,59 +140,37 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         [JsonProperty("CLASSIFICATION_CODE_DESCRIPTION")]
         public string ClassificationCodeDescription { get; set; }
 
-        [JsonProperty("LOCAL_CUSTODIAN_CODE")]
-        public int LocalCustodianCode { get; set; }
-
-        [JsonProperty("LOCAL_CUSTODIAN_CODE_DESCRIPTION")]
-        public string LocalCustodianCodeDescription { get; set; }
-
         [JsonProperty("POSTAL_ADDRESS_CODE")]
         public string PostalAddressCode { get; set; }
 
         [JsonProperty("POSTAL_ADDRESS_CODE_DESCRIPTION")]
         public string PostalAddressCodeDescription { get; set; }
 
+        [JsonProperty("LOGICAL_STATUS_CODE")]
+        public int? LogicalStatusCode { get; set; }
+
         [JsonProperty("BLPU_STATE_CODE")]
-        public string BlpuStateCode { get; set; }
+        public int? BlpuStateCode { get; set; }
 
         [JsonProperty("BLPU_STATE_CODE_DESCRIPTION")]
-        public string BlpuStateCodeDescrption { get; set; }
+        public string BlpuStateCodeDescription { get; set; }
 
         [JsonProperty("TOPOGRAPHY_LAYER_TOID")]
-        public string TopographyLayerToId { get; set; }
+        public string TopgrapghyLayerToID { get; set; }
+
+        [JsonProperty("PARENT_UPRN")]
+        public string ParentUprnARENT_UPR { get; set; }
 
         [JsonProperty("LAST_UPDATE_DATE")]
         public string LastUpdateDate { get; set; }
 
         [JsonProperty("ENTRY_DATE")]
         public string EntryDate { get; set; }
-        
+
+        [JsonProperty("LEGAL_NAME")]
+        public string LegalName { get; set; }
+
         [JsonProperty("BLPU_STATE_DATE")]
-        public string BlpuStaeDate { get; set; }
-        [JsonProperty("STREET_STATE_CODE")]
-        public string StreetStateCode { get; set; }
-
-        [JsonProperty("STREET_STATE_CODE_DESCRIPTION")]
-        public string StreetStateCodeDescription { get; set; }
-
-        [JsonProperty("STREET_CLASSIFICATION_CODE")]
-        public string StreepClassificationCode { get; set; }
-
-        [JsonProperty("STREET_CLASSIFICATION_CODE_DESCRIPTION")]
-        public string StreetClassificationCodeDescrption { get; set; }
-
-        [JsonProperty("LPI_LOGICAL_STATUS_CODE")]
-        public string LpiLogicalStatusCode { get; set; }
-
-        [JsonProperty("LPI_LOGICAL_STATUS_CODE_DESCRIPTION")]
-        public string LpiLogicalStatusCodeDescrption { get; set; }
-        [JsonProperty("LANGUAGE")]
-        public string Language { get; set; }
-        
-        [JsonProperty("MATCH")]
-        public double Match { get; set; }
-
-        [JsonProperty("MATCH_DESCRIPTION")]
-        public string MatchDescrption { get; set; }
+        public string BlpuStateDate { get; set; }
     }
 }

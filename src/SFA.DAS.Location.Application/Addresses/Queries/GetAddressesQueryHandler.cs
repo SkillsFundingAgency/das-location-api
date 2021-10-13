@@ -16,8 +16,8 @@ namespace SFA.DAS.Location.Application.Addresses.Queries
 
         public async Task<GetAddressesQueryResult> Handle(GetAddressesQuery request, CancellationToken cancellationToken)
         {
-            var result =
-                await _service.FindFromLpiDataset(request.Query, request.MinMatch);
+            var result = 
+                await _service.FindFromDpaDataset(request.Query, request.MinMatch);
 
             return new GetAddressesQueryResult
             {

@@ -1,5 +1,4 @@
-﻿using AutoFixture.NUnit3;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SFA.DAS.Location.Domain.Configuration;
@@ -32,16 +31,16 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString()};
 
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, 
-                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "lpi", minMatchBase, matchPrecision)));
+                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", minMatchBase, matchPrecision)));
             var client = new HttpClient(httpMessageHandler.Object);
             
             var osPlacesApiService = new OsPlacesApiService(client, config);
 
             // Act
-            var actual = await osPlacesApiService.FindFromLpiDataset(query, minMatch);
+            var actual = await osPlacesApiService.FindFromDpaDataset(query, minMatch);
 
             // Assert
-            actual.Should().BeEquivalentTo(osPlacesApiResponse.Results.Select(p => (SuggestedAddress)p.Lpi));
+            actual.Should().BeEquivalentTo(osPlacesApiResponse.Results.Select(p => (SuggestedAddress)p.Dpa));
         }
 
         static object[] TestCases =
@@ -53,15 +52,14 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
                     {
                         new ResultPlacesApiItem
                         {
-                            Lpi = new LpiResultPlacesApiItem
+                            Dpa = new DpaResultPlacesApiItem
                             {
                                 Uprn = "12345",
-                                PaoText = "The Dome",
-                                PaoStartNumber = "1",
-                                StreetDescription = "Fuller Street",
-                                TownName = "Buckminster",
-                                PostCodeLocator = "BM1 7YI",
-                                PostalAddressCode = "D",
+                                BuildingName = "The Dome",
+                                BuildingNumber = "1",
+                                ThoroughfareName = "Fuller Street",
+                                PostTown = "Buckminster",
+                                Postcode = "BM1 7YI",
                                 Lat = 0.23737578,
                                 Lng = 3.18373737,
                                 Match = 4.3879
@@ -76,15 +74,14 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
                     {
                         new ResultPlacesApiItem
                         {
-                            Lpi = new LpiResultPlacesApiItem
+                            Dpa = new DpaResultPlacesApiItem
                             {
                                 Uprn = "12345",
-                                PaoText = null,
-                                PaoStartNumber = "1",
-                                StreetDescription = "Fuller Street",
-                                TownName = "Buckminster",
-                                PostCodeLocator = "BM1 7YI",
-                                PostalAddressCode = "D",
+                                BuildingName = "The Dome",
+                                BuildingNumber = "1",
+                                ThoroughfareName = "Fuller Street",
+                                PostTown = "Buckminster",
+                                Postcode = "BM1 7YI",
                                 Lat = 0.23737578,
                                 Lng = 3.18373737,
                                 Match = 4.3879
@@ -107,13 +104,13 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "lpi", 0.4, 1)));
+                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 0.4, 1)));
             var client = new HttpClient(httpMessageHandler.Object);
 
             var osPlacesApiService = new OsPlacesApiService(client, config);
 
             // Act
-            var actual = await osPlacesApiService.FindFromLpiDataset(query, 0.4);
+            var actual = await osPlacesApiService.FindFromDpaDataset(query, 0.4);
 
             // Assert
             actual.Should().BeEmpty();
@@ -132,13 +129,13 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "lpi", 0.4, 1)));
+                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 0.4, 1)));
             var client = new HttpClient(httpMessageHandler.Object);
 
             var osPlacesApiService = new OsPlacesApiService(client, config);
 
             // Act & Assert
-            Assert.ThrowsAsync<HttpRequestException>(() => osPlacesApiService.FindFromLpiDataset(query, 0.4));
+            Assert.ThrowsAsync<HttpRequestException>(() => osPlacesApiService.FindFromDpaDataset(query, 0.4));
         }
 
         [Test]
@@ -154,13 +151,13 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
             var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "lpi", 1.1, 1)));
+                new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 1.1, 1)));
             var client = new HttpClient(httpMessageHandler.Object);
 
             var osPlacesApiService = new OsPlacesApiService(client, config);
 
             // Act & Assert
-            Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => osPlacesApiService.FindFromLpiDataset(query, 1.1));
+            Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => osPlacesApiService.FindFromDpaDataset(query, 1.1));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
         {
             //Arrange
             query.Query = searchTerm;
-            service.Setup(x => x.FindFromLpiDataset(query.Query, query.MinMatch)).ReturnsAsync(addresses);
+            service.Setup(x => x.FindFromDpaDataset(query.Query, query.MinMatch)).ReturnsAsync(addresses);
             //Act
             var actual = await handler.Handle(query, CancellationToken.None);
             //Assert

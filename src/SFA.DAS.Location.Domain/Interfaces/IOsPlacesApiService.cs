@@ -6,6 +6,6 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 {
     public interface IOsPlacesApiService
     {
-        Task<IEnumerable<SuggestedAddress>> FindFromLpiDataset(string query, double minMatch);
+        Task<IEnumerable<SuggestedAddress>> FindFromDpaDataset(string query, double minMatch);
     }
 }

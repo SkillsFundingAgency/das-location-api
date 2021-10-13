@@ -6,6 +6,6 @@ namespace SFA.DAS.Location.Domain.Interfaces
 {
     public interface IAddressesService
     {
-        Task<IEnumerable<SuggestedAddress>> FindFromLpiDataset(string query, double minMatch);
+        Task<IEnumerable<SuggestedAddress>> FindFromDpaDataset(string query, double minMatch);
     }
 }

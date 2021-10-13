@@ -15,9 +15,9 @@ namespace SFA.DAS.Location.Application.Addresses.Services
             _service = service;
         }
         
-        public async Task<IEnumerable<SuggestedAddress>> FindFromLpiDataset(string query, double minMatch)
+        public async Task<IEnumerable<SuggestedAddress>> FindFromDpaDataset(string query, double minMatch)
         {
-            var results = await _service.FindFromLpiDataset(query, minMatch);
+            var results = await _service.FindFromDpaDataset(query, minMatch);
 
             return results;
         }
