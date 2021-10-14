@@ -1,5 +1,6 @@
 ﻿using SFA.DAS.Location.Domain.ImportTypes;
 using System.Linq;
+using System.Globalization;
 
 namespace SFA.DAS.Location.Domain.Models
 {
@@ -21,16 +22,22 @@ namespace SFA.DAS.Location.Domain.Models
             return new SuggestedAddress
             {
                 Uprn = source.Uprn,
-                House = string.Join(", ", (new string[] { source.BuildingName, source.BuildingNumber }).Where(s => !string.IsNullOrEmpty(s))),
-                Street = string.Join(", ", (new string[] { source.ThoroughfareName, source.DependentThoroughfareName }).Where(s => !string.IsNullOrEmpty(s))),
-                Locality = string.Join(", ", (new string[] { source.DependentLocality, source.DoubleDependentLocality }).Where(s => !string.IsNullOrEmpty(s))),
-                PostTown = source.PostTown,
+                House = ToCamelCase(string.Join(", ", (new string[] { source.BuildingName, source.BuildingNumber }).Where(s => !string.IsNullOrEmpty(s)))),
+                Street = ToCamelCase(string.Join(", ", (new string[] { source.DependentThoroughfareName, source.ThoroughfareName }).Where(s => !string.IsNullOrEmpty(s)))),
+                Locality = ToCamelCase(string.Join(", ", (new string[] { source.DoubleDependentLocality, source.DependentLocality }).Where(s => !string.IsNullOrEmpty(s)))),
+                PostTown = ToCamelCase(source.PostTown),
                 County = string.Empty, // Unable to get county from OsPlaces API as county was not required for Uk postal addresses from 1997 onwards
                 Postcode = source.Postcode,
                 Longitude = source.Lng,
                 Latitude = source.Lat,
                 Match = source.Match
             };
+        }
+
+        private static string ToCamelCase(string input)
+        {
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(input.ToLower());
         }
     }
 

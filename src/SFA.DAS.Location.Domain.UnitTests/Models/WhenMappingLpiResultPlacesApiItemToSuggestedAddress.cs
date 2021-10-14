@@ -42,23 +42,23 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
         {
             new object[] 
                 { 
-                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = "BuildingNumber", ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = "DependentThoroughfareName", DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 }, 
-                    new SuggestedAddress { Uprn = "12345", House = "BuildingName, BuildingNumber", Street = "ThoroughfareName, DependentThoroughfareName", Locality = "DependentLocality, DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
+                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = "BuildingNumber", ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = "DependentThoroughfareName", DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "POSTCODE", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 }, 
+                    new SuggestedAddress { Uprn = "12345", House = "Buildingname, Buildingnumber", Street = "Dependentthoroughfarename, Thoroughfarename", Locality = "Doubledependentlocality, Dependentlocality", PostTown = "Posttown", Postcode = "POSTCODE", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
                 },
             new object[]
                 {
-                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = null, ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = null, DependentLocality = "DependentLocality", DoubleDependentLocality = null, PostTown = "PostTown", Postcode = "Postcode", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
-                    new SuggestedAddress { Uprn = "12345", House = "BuildingName", Street = "ThoroughfareName", Locality = "DependentLocality", PostTown = "PostTown", Postcode = "Postcode", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
+                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = null, ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = null, DependentLocality = "DependentLocality", DoubleDependentLocality = null, PostTown = "PostTown", Postcode = "POSTCODE", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
+                    new SuggestedAddress { Uprn = "12345", House = "Buildingname", Street = "Thoroughfarename", Locality = "Dependentlocality", PostTown = "Posttown", Postcode = "POSTCODE", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
                 },
             new object[]
                 {
-                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = null, ThoroughfareName = null, DependentThoroughfareName = null, DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
-                    new SuggestedAddress { Uprn = "12345", House = "BuildingName", Street = string.Empty, Locality = "DependentLocality, DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
+                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = "BuildingName", BuildingNumber = null, ThoroughfareName = null, DependentThoroughfareName = null, DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "POSTCODE", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
+                    new SuggestedAddress { Uprn = "12345", House = "Buildingname", Street = string.Empty, Locality = "Doubledependentlocality, Dependentlocality", PostTown = "Posttown", Postcode = "POSTCODE", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
                 },
             new object[]
                 {
-                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = null, BuildingNumber = null, ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = "DependentThoroughfareName", DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
-                    new SuggestedAddress { Uprn = "12345", House = string.Empty, Street = "ThoroughfareName, DependentThoroughfareName", Locality = "DependentLocality, DoubleDependentLocality", PostTown = "PostTown", Postcode = "Postcode", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
+                    new DpaResultPlacesApiItem { Uprn = "12345", BuildingName = null, BuildingNumber = null, ThoroughfareName = "ThoroughfareName", DependentThoroughfareName = "DependentThoroughfareName", DependentLocality = "DependentLocality", DoubleDependentLocality = "DoubleDependentLocality", PostTown = "PostTown", Postcode = "POSTCODE", Lat = 0.00000001, Lng = 3.00000001, Match = 0.44 },
+                    new SuggestedAddress { Uprn = "12345", House = string.Empty, Street = "Dependentthoroughfarename, Thoroughfarename", Locality = "Doubledependentlocality, Dependentlocality", PostTown = "Posttown", Postcode = "POSTCODE", County = string.Empty, Latitude = 0.00000001, Longitude = 3.00000001, Match = 0.44 }
                 },
         };
     }
