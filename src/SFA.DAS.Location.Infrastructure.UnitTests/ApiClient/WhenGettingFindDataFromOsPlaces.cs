@@ -55,6 +55,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
                             Dpa = new DpaResultPlacesApiItem
                             {
                                 Uprn = "12345",
+                                OrganisationName = "Org",
                                 BuildingName = "The Dome",
                                 BuildingNumber = "1",
                                 ThoroughfareName = "Fuller Street",

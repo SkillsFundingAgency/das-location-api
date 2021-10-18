@@ -23,7 +23,7 @@ namespace SFA.DAS.Location.Domain.Models
             return new SuggestedAddress
             {
                 Uprn = source.Uprn,
-                Organisation = ToCamelCase(source.OrganisationName) ?? string.Empty,
+                Organisation = ToCamelCase(source.OrganisationName ?? string.Empty),
                 House = ToCamelCase(string.Join(", ", (new string[] { source.BuildingName, source.BuildingNumber }).Where(s => !string.IsNullOrEmpty(s)))),
                 Street = ToCamelCase(string.Join(", ", (new string[] { source.DependentThoroughfareName, source.ThoroughfareName }).Where(s => !string.IsNullOrEmpty(s)))),
                 Locality = ToCamelCase(string.Join(", ", (new string[] { source.DoubleDependentLocality, source.DependentLocality }).Where(s => !string.IsNullOrEmpty(s)))),
