@@ -100,8 +100,10 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
         private int DecimalPlaces(double input, int maxDecimalPlaces)
         {
-            var inputAsString = string.Format("{0:0." + new string('0', maxDecimalPlaces-1) + "#}", input).Trim('0');
-            return inputAsString.Length-(inputAsString.IndexOf('.') + 1);
+            var inputAsString = string.Format("{0:0." + new string('0', maxDecimalPlaces - 1) + "#}", input).TrimEnd('0');
+            var decimalPlaces = Math.Max(1, inputAsString.Length - (inputAsString.IndexOf('.') + 1));
+            
+            return decimalPlaces;
         }
     }
 }
