@@ -5,6 +5,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
     public class GetAddressesListItem
     {
         public string Uprn { get; set; }
+        public string Organisation { get; set; }
         public string House { get; set; }
         public string Street { get; set; }
         public string Locality { get; set; }
@@ -20,6 +21,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
             return new GetAddressesListItem
             {
                 Uprn = source.Uprn,
+                Organisation = source.Organisation,
                 House = source.House,
                 Street = source.Street,
                 Locality = source.Locality,
