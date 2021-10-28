@@ -8,8 +8,8 @@ namespace SFA.DAS.Location.Domain.Models
     {
         public string Uprn { get; set; }
         public string Organisation { get; set; }
-        public string House { get; set; }
-        public string Street { get; set; }
+        public string Premises { get; set; }
+        public string Thoroughfare  { get; set; }
         public string Locality { get; set; }
         public string PostTown { get; set; }
         public string County { get; set; }
@@ -20,12 +20,15 @@ namespace SFA.DAS.Location.Domain.Models
 
         public static implicit operator SuggestedAddress(DpaResultPlacesApiItem source)
         {
+            // thoroughfare parts are joined with a comma but the bulding number will be prepended with a space
+            var thoroughfare = string.Join(", ", (new string[] { source.DependentThoroughfareName, source.ThoroughfareName }).Where(s => !string.IsNullOrEmpty(s)));
+
             return new SuggestedAddress
             {
                 Uprn = source.Uprn,
                 Organisation = ToCamelCase(source.OrganisationName ?? string.Empty),
-                House = ToCamelCase(string.Join(", ", (new string[] { source.BuildingName, source.BuildingNumber }).Where(s => !string.IsNullOrEmpty(s)))),
-                Street = ToCamelCase(string.Join(", ", (new string[] { source.DependentThoroughfareName, source.ThoroughfareName }).Where(s => !string.IsNullOrEmpty(s)))),
+                Premises = ToCamelCase(string.Join(", ", (new string[] { source.SubBuildingName, source.BuildingName }).Where(s => !string.IsNullOrEmpty(s)))),
+                Thoroughfare  = ToCamelCase(string.Join(" ", (new string[] { source.BuildingNumber, thoroughfare }).Where(s => !string.IsNullOrEmpty(s)))),
                 Locality = ToCamelCase(string.Join(", ", (new string[] { source.DoubleDependentLocality, source.DependentLocality }).Where(s => !string.IsNullOrEmpty(s)))),
                 PostTown = ToCamelCase(source.PostTown),
                 County = string.Empty, // Unable to get county from OsPlaces API as county was not required for Uk postal addresses from 1997 onwards

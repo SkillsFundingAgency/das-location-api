@@ -51,7 +51,8 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 .Where(c => c.Match >= minMatch) // only include postal addresses and match using full match precision
                 .OrderBy(c => (c.MatchDescription == "EXACT" ? 0 : 1)) // sort the exact matches first
                 .ThenByDescending(c => c.Match) // then sort by the match score highest first
-                .ThenBy(c => $"{c.BuildingNumber}", new MixedComparer()) // then sort by the house number lowest first
+                .ThenBy(c => $"{c.SubBuildingName}", new MixedComparer()) // then sort lowest first by the number part of a sub building name e.g. Flat 10
+                .ThenBy(c => $"{c.BuildingNumber}", new MixedComparer()) // and finally sort lowest first by the building name
                 .Select(c => (SuggestedAddress)c);
         }
 
@@ -66,7 +67,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 
                 if (firstIsNumber && !secondIsNumber)
                 {
-                    if (this.SplitNumber(s2, out second))
+                    if (SplitNumber(s2, out second))
                     {
                         return first.CompareTo(second);
                     }
@@ -78,13 +79,21 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
 
                 if (!firstIsNumber && secondIsNumber)
                 {
-                    if (this.SplitNumber(s1, out first))
+                    if (SplitNumber(s1, out first))
                     {
-                        return second.CompareTo(first);
+                        return first.CompareTo(second);
                     }
                     else
                     {
                         return 1;
+                    }
+                }
+
+                if(!firstIsNumber && !secondIsNumber)
+                {
+                    if (SplitNumber(s1, out first) && SplitNumber(s2, out second))
+                    {
+                        return first.CompareTo(second);
                     }
                 }
 
