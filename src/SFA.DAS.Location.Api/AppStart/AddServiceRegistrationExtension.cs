@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using SFA.DAS.Location.Application.Addresses.Services;
 using SFA.DAS.Location.Application.Location.Services;
 using SFA.DAS.Location.Application.LocationImport.Services;
 using SFA.DAS.Location.Application.Postcode.Services;
@@ -15,10 +16,16 @@ namespace SFA.DAS.Location.Api.AppStart
     {
         public static void AddServiceRegistration(this IServiceCollection services)
         {
-            services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
+            services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<ILocationImportService, LocationImportService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IPostcodeService, PostcodeService>();
+            
+            services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
+            
+            services.AddHttpClient<IOsPlacesApiService, OsPlacesApiService>()
+                .AddPolicyHandler(HttpClientRetryPolicy());
+            
             services.AddHttpClient<IPostcodeApiService, PostcodeApiService>()
                 .AddPolicyHandler(HttpClientRetryPolicy());
         }
