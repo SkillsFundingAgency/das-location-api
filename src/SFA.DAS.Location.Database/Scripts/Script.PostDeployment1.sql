@@ -10,6 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+
 Truncate table PostcodeOutcode
 
 /*  Insert Range of Birmingham Outcodes */
@@ -308,3 +309,6 @@ Insert into PostcodeOutcode
     ('W12','West London','London'),
     ('W13','West London','London'),
     ('W14','West London','London')
+
+:r .\FileLoad.sql
+
