@@ -16,9 +16,7 @@ namespace SFA.DAS.Location.Domain.UnitTests.Models
 
             //Assert
             actual.Should().BeEquivalentTo(source, options => options
-                .Excluding(c=>c.Country)
-                .Excluding(c=>c.Outcode)
-                );
+                .Excluding(c=>c.Outcode));
         }
     }
 }

@@ -12,6 +12,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
         public Geometry Location { get; set; }
         public string DistrictName { get; set; }
         public string Outcode { get; set; }
+        public string Country { get ; set ; }
 
         public static implicit operator GetLocationsListItem(Domain.Entities.Location source)
         {
@@ -37,6 +38,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Postcode = source.Postcode,
                 Outcode = source.Outcode,
                 DistrictName = source.AdminDistrict,
+                Country = source.Country,
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
@@ -50,6 +52,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
             {
                 Postcode = source.Postcode,
                 DistrictName = source.AdminDistrict,
+                Country = source.Country,
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
