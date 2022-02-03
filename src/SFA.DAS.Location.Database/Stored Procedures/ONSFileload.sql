@@ -1,13 +1,16 @@
 ﻿CREATE PROCEDURE [dbo].[ONSFileload]
-	@FilePath varchar(1000)
+	@FilePath varchar(1000), 
+    @Filename NVARCHAR(500)
 AS
 
--- Loads ONS Places file as held in IPN_GB_2021.csv
+-- Loads ONS Places file as held in csv file
 
 -- uses parameters
--- @FilePath is a SQL parameter for the Directory Path for local or BLOB
+-- @FilePath is the Directory Path for BLOB Storage, e.g. "https://bigdevtest.blob.core.windows.net/datafiles"
+-- @Filename is the file name, currently using "IPN_GB_2021.csv"
 /*    if working locally you can load directly from the Git directory using 
-      @FilePath = C:\<path to git>\GiT\das-location-api\src\SFA.DAS.Location.Database\data
+      @FilePath = 'C:\<path to git>\GiT\das-location-api\src\SFA.DAS.Location.Database\data'
+      @Filename = 'IPN_GB_2021.csv'
 
      if you want to use AZURE BLOB Storage (to test) you will need a storage account and set the values in the 
      @FilePath = this should be the path to the storage account starting with "http", but for now can just be "http"
@@ -27,14 +30,13 @@ AS
 
     For production only BLOB storage can be used, and the Database will need an External Data Source 'BlobStorage' 
     and the file will need to be copied from das-location-api\src\SFA.DAS.Location.Database\data
-
-    The file that has been downloaded can be found using
+    or the file that has been downloaded can be found using
     https://geoportal.statistics.gov.uk/datasets/ons::index-of-place-names-in-great-britain-november-2021/about
     Which will provides a zipped file containing the csv file and documentation.
     https://www.arcgis.com/sharing/rest/content/items/e786420d47c84dbfbbfbc0f6670d5474/data
     
-    Note, that later versions of the data will need to be found in a different location
-
+    Note, that later versions of the ONS data will need to be found in a different location
+    and wouldhave a different file name.
 
 */
 
@@ -44,8 +46,7 @@ DECLARE @FileLocation VARCHAR(1000) = @FilePath;
 DECLARE @LoadBLOB BIT = 0;  -- assume local - set to 1 if @FilePath starts with http
 
 BEGIN
-    DECLARE @filename NVARCHAR(500) = 'IPN_GB_2021.csv',
-            @sql NVARCHAR(4000),
+    DECLARE @sql NVARCHAR(4000),
             @sqlcount INT;
 
     -- START
@@ -70,10 +71,10 @@ BEGIN
     DELETE FROM [dbo].[ons_staging];
   
     IF @LoadBLOB = 1
-        SET @sql = 'BULK INSERT [dbo].[ons_staging] FROM '''+@filename+'''
+        SET @sql = 'BULK INSERT [dbo].[ons_staging] FROM '''+@Filename+'''
                     WITH ( DATA_SOURCE = ''BlobStorage'', FORMAT = ''CSV'', FIRSTROW=2, CODEPAGE=''ACP'' )';            
     ELSE
-        SET @sql = 'BULK INSERT [dbo].[ons_staging] FROM '''+@FileLocation+@filename+'''
+        SET @sql = 'BULK INSERT [dbo].[ons_staging] FROM '''+@FileLocation+@Filename+'''
                     WITH ( FORMAT = ''CSV'', FIRSTROW=2, CODEPAGE=''ACP'' )';            
 
     PRINT '-------- Load ONS data File using '+@sql+ ' --------';  
