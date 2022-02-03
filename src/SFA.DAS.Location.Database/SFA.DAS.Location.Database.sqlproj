@@ -60,35 +60,26 @@
     <Folder Include="Tables\" />
     <Folder Include="Scripts" />
     <Folder Include="Views" />
+    <Folder Include="Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\ImportAudit.sql" />
     <Build Include="Tables\Location.sql" />
     <Build Include="Tables\Location_Import.sql" />
     <Build Include="Tables\PostcodeOutcode.sql" />
-    <Build Include="Tables\os_open_names.sql" />
     <Build Include="Tables\ons_staging.sql" />
-    <Build Include="Tables\ons_data.sql" />
     <Build Include="Views\ons_staging_view.sql" />
     <Build Include="Tables\Local_Authority.sql" />
+    <Build Include="Stored Procedures\LoadLocationData.sql" />
+    <Build Include="Stored Procedures\ONSFileload.sql" />
+    <Build Include="Stored Procedures\SetupLocations.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment1.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\FileLoad.sql" />
     <None Include="SFA.DAS.Location.Database.publish.xml" />
     <None Include="SFA.DAS.Location.Database.BLOB.publish.xml" />
-    <None Include="Scripts\ONS_Fileload.sql" />
     <None Include="Scripts\Setup_Local_Authority.sql" />
-    <None Include="Scripts\Setup_Locations.sql" />
-    <None Include="Scripts\Setup_PostcodeOutcodes.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="FilePath">
-      <DefaultValue>
-      </DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
   </ItemGroup>
 </Project>

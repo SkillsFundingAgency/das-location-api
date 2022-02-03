@@ -1,15 +1,19 @@
-﻿-- Loads ONS Places file as held in IPN_GB_2021.csv
+﻿CREATE PROCEDURE [dbo].[ONSFileload]
+	@FilePath varchar(1000)
+AS
+
+-- Loads ONS Places file as held in IPN_GB_2021.csv
 
 -- uses parameters
--- $(FilePath) is a SQL parameter for the Directory Path for local or BLOB
+-- @FilePath is a SQL parameter for the Directory Path for local or BLOB
 /*    if working locally you can load directly from the Git directory using 
-      $(FilePath) = C:\<path to git>\GiT\das-location-api\src\SFA.DAS.Location.Database\data
+      @FilePath = C:\<path to git>\GiT\das-location-api\src\SFA.DAS.Location.Database\data
 
      if you want to use AZURE BLOB Storage (to test) you will need a storage account and set the values in the 
-     $(FilePath) = this should be the path to the storage account starting with "http", but for now can just be "http"
+     @FilePath = this should be the path to the storage account starting with "http", but for now can just be "http"
         The path is not currently used for the load, other than to tell the script to use BLOB storage container
         Ideally, the contents of the container could be determined dynamically (in T-SQL) - but so far this has eluded me ¯\_(ツ)_/¯
-        In additon to setting $(FilePath) the database requires an external data source to be setup:
+        In additon to setting @FilePath the database requires an external data source to be setup:
 
 		1. Create a database master key if one does not already exist in your local database, using your own password. 
            This key is used to encrypt the credential secret in next step.
@@ -35,9 +39,9 @@
 */
 
 
-DECLARE @FileLocation VARCHAR(100) = '$(FilePath)';
+DECLARE @FileLocation VARCHAR(1000) = @FilePath;
 
-DECLARE @LoadBLOB BIT = 0;  -- assume local - set to 1 if $(FilePath) starts with http
+DECLARE @LoadBLOB BIT = 0;  -- assume local - set to 1 if @FilePath starts with http
 
 BEGIN
     DECLARE @filename NVARCHAR(500) = 'IPN_GB_2021.csv',
@@ -45,7 +49,7 @@ BEGIN
             @sqlcount INT;
 
     -- START
-    SET @FileLocation = '$(FilePath)';
+    SET @FileLocation = @FilePath;
 
     -- find the files in BLOB Storage (or Local Dev)
 
@@ -72,7 +76,10 @@ BEGIN
         SET @sql = 'BULK INSERT [dbo].[ons_staging] FROM '''+@FileLocation+@filename+'''
                     WITH ( FORMAT = ''CSV'', FIRSTROW=2, CODEPAGE=''ACP'' )';            
 
-    EXECUTE sp_executesql @sql;
+    PRINT '-------- Load ONS data File using '+@sql+ ' --------';  
+
+
+    EXECUTE (@sql);
     
     SELECT @sqlcount = COUNT(*) FROM [dbo].[ons_staging];
 
@@ -81,18 +88,18 @@ BEGIN
     PRINT '-------- Patch Local Authority in ONS staging ----------';
 
     -- patch 'Bournemouth, Christchurch and Poole' 
-    UPDATE [ONS_staging] 
-    SET  LAD20NM = 'Bournemouth, Christchurch and Poole' 
-    WHERE LAD20NM ='Bournemouth, Christchurch an';
+    UPDATE [ons_staging] 
+    SET  lad20nm = 'Bournemouth, Christchurch and Poole' 
+    WHERE lad20nm ='Bournemouth, Christchurch an';
 
     /*
     The North Northamptonshire unitary will cover Corby, East Northants, Kettering and Wellingborough 
     and the West Northamptonshire unitary will cover Daventry District, Northampton and South Northamptonshire. 
     The existing district and borough councils and Northamptonshire County Council will all be abolished.
     */
-    UPDATE[ONS_staging]
-    SET LAD20NM  =
-    CASE LAD20NM 
+    UPDATE[ons_staging]
+    SET lad20nm  =
+    CASE lad20nm 
     WHEN 'Daventry' THEN 'West Northamptonshire'
     WHEN 'Northampton' THEN 'West Northamptonshire'
     WHEN 'South Northamptonshire' THEN 'West Northamptonshire'
@@ -100,13 +107,13 @@ BEGIN
     WHEN 'Kettering' THEN 'North Northamptonshire'
     WHEN 'Wellingborough' THEN 'North Northamptonshire'
     WHEN 'East Northamptonshire' THEN 'North Northamptonshire'
-    ELSE LAD20NM END 
-    WHERE LAD20NM IN ('Daventry' , 'Northampton', 'South Northamptonshire', 'Corby', 'Kettering', 'Wellingborough', 'East Northamptonshire' );
+    ELSE lad20nm END 
+    WHERE lad20nm IN ('Daventry' , 'Northampton', 'South Northamptonshire', 'Corby', 'Kettering', 'Wellingborough', 'East Northamptonshire' );
 
     PRINT '-------- Local Authority updated in ONS staging ----------';
 
-END
-GO
 
+RETURN 0;
+END;
 
 

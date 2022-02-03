@@ -10,21 +10,9 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
--- ONS data set merge with OS places data
-
--- load ONS data
-:r .\ONS_FileLoad.sql
-
 -- setup mapping for multi-local authority areas.
 :r .\Setup_Local_Authority.sql
 
--- setup locations table
-:r .\Setup_Locations.sql
 
--- setup PostcodeOutcodes (sample)
-:r .\Setup_PostcodeOutcodes.sql
-
--- load OS data
---:r .\FileLoad.sql
 
 
