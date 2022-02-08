@@ -16,6 +16,7 @@ resources:
     ref: refs/tags/0.4.34
     endpoint: SkillsFundingAgency
 
+stages:
 - stage: Build
   jobs:
   - template: pipeline-templates/job/code-build.yml
