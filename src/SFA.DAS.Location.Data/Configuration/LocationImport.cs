@@ -16,7 +16,9 @@ namespace SFA.DAS.Location.Data.Configuration
             builder.Property(x => x.LocalAuthorityName).HasColumnName("LocalAuthorityName").HasColumnType("varchar").HasMaxLength(256).IsRequired(false);
             builder.Property(x => x.Lat).HasColumnName("Lat").HasColumnType("float").IsRequired();
             builder.Property(x => x.Long).HasColumnName("Long").HasColumnType("float").IsRequired();
-            
+            builder.Property(x => x.Region).HasColumnName("Region");
+            builder.Property(x => x.LocalAuthorityDistrict).HasColumnName("LocalAuthorityDistrict");
+
         }
     }
 }

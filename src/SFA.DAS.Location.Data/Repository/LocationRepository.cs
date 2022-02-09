@@ -44,5 +44,13 @@ namespace SFA.DAS.Location.Data.Repository
             return result;
         }
 
+        public async Task<List<string>> GetLocalAuthorities()
+        {
+            return await _dataContext.Locations
+                .Select(location => location.LocalAuthorityDistrict)
+                .Distinct()
+                .OrderBy(la => la)
+                .ToListAsync();
+        }
     }
 }

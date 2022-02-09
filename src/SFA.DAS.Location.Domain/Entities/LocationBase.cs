@@ -8,5 +8,7 @@ namespace SFA.DAS.Location.Domain.Entities
         public string LocalAuthorityName { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }
+        public string LocalAuthorityDistrict { get; set; }
+        public string Region { get; set; }
     }
 }
