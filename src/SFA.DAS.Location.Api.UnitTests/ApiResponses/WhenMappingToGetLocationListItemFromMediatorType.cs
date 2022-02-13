@@ -21,6 +21,7 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
             actual.Should().BeEquivalentTo(location, options=> options.ExcludingMissingMembers());
             actual.Location.Coordinates.FirstOrDefault().Should().Be(location.Lat);
             actual.Location.Coordinates.LastOrDefault().Should().Be(location.Long);
+            actual.Country.Should().Be(location.Country);
             GetLocationsListItem.Geometry.Type.Should().Be("Point");
         }
 
@@ -35,6 +36,7 @@ namespace SFA.DAS.Location.Api.UnitTests.ApiResponses
             actual.Location.Coordinates.FirstOrDefault().Should().Be(postcode.Lat);
             actual.Location.Coordinates.LastOrDefault().Should().Be(postcode.Long);
             actual.DistrictName.Should().Be(source.Postcode.AdminDistrict);
+            actual.Country.Should().Be(source.Postcode.Country);
             GetLocationsListItem.Geometry.Type.Should().Be("Point");
         }
 

@@ -37,7 +37,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
         }
 
         [Test, AutoData]
-        public async Task Then_If_Postcode_Is_Not_English_Returns_Null(
+        public async Task Then_If_Postcode_Is_Not_English_Then_Returns_Location(
         PostcodeLocationApiResponse postcodeResponse,
         string query)
         {
@@ -55,7 +55,7 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
             var actual = await postcodeService.GetPostcodeData(query);
 
             //Assert
-            actual.Should().BeNull();
+            actual.Should().BeEquivalentTo(postcodeResponse.Result, options => options.ExcludingMissingMembers());
         }
 
         [Test, AutoData]

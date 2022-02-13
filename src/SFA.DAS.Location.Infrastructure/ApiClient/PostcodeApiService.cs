@@ -81,9 +81,7 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
-                var result = item.Result;
-
-                return result.Country.Equals( "England", StringComparison.CurrentCultureIgnoreCase) ? result : default;
+                return item.Result;
             }
 
             response.EnsureSuccessStatusCode();
