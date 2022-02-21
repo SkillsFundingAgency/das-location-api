@@ -255,7 +255,7 @@
         },
         {
             "apiVersion": "2020-06-01",
-            "name": "[concat('storage-account-container-', parameters('dataloadContainerName'),'location-api-data-load')]",
+            "name": "[concat('storage-account-container-', parameters('dataloadContainerName'))]",
             "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
