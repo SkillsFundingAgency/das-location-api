@@ -5,14 +5,16 @@ namespace SFA.DAS.Location.Api.ApiResponses
 {
     public class GetLocationsListItem
     {
-        public string LocalAuthorityName { get ; set ; }
-        public string CountyName { get ; set ; }
-        public string LocationName { get ; set ; }
+        public string LocalAuthorityName { get; set; }
+        public string CountyName { get; set; }
+        public string LocationName { get; set; }
         public string Postcode { get; set; }
         public Geometry Location { get; set; }
         public string DistrictName { get; set; }
         public string Outcode { get; set; }
-        public string Country { get ; set ; }
+        public string Country { get; set; }
+        public string Region { get; set; }
+        public string LocalAuthorityDistrict { get; set; }
 
         public static implicit operator GetLocationsListItem(Domain.Entities.Location source)
         {
@@ -24,7 +26,9 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Location = new Geometry
                 {
                     Coordinates = new []{ source.Lat, source.Long }
-                }
+                },
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 
@@ -42,7 +46,9 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 Location = new Geometry
                 {
                     Coordinates = new[] { source.Lat, source.Long }
-                }
+                },
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 

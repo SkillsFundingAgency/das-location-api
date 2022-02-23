@@ -9,6 +9,7 @@ namespace SFA.DAS.Location.Domain.Models
         public double Long { get; set; }
         public string AdminDistrict { get ; set ; }
         public string Country { get; set; }
+        public string Region { get; set; }
 
         public static implicit operator PostcodeData(PostcodesLocationApiItem source)
         {
@@ -23,7 +24,8 @@ namespace SFA.DAS.Location.Domain.Models
                 Lat = source.Lat,
                 Long = source.Long,
                 AdminDistrict = source.AdminDistrict,
-                Country = source.Country
+                Country = source.Country,
+                Region = source.Region
             };
         }
     }
