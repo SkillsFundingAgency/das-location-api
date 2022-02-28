@@ -19,6 +19,13 @@ namespace SFA.DAS.Location.Application.Location.Services
             return results;
         }
 
+        public async Task<IEnumerable<Domain.Entities.Location>> GetLocationsByLocalAuthoritySearch(string query, int resultCount)
+        {
+            var results = await _repository.GetAllStartingWithLocalAuthority(query, resultCount);
+
+            return results;
+        }
+
         public async Task<Domain.Entities.Location> GetLocationsByLocationAuthorityName(string locationName, string authorityName)
         {
             var result = await _repository.GetByLocationAndAuthorityName(locationName, authorityName);
