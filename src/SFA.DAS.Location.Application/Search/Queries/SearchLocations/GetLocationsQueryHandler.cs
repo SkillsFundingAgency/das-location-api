@@ -32,7 +32,8 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 
                 if (districtName != null)
                 {
-                    results.Insert(0, districtName);    
+                    districtName.Region = results.FirstOrDefault()?.Region;
+                    results.Insert(0, districtName);
                 }
 
                 return new GetLocationsQueryResult
@@ -49,6 +50,7 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 var results = postcodes.ToList(); 
                 if (districtName != null)
                 {
+                    districtName.Region = results.FirstOrDefault()?.Region;
                     results.Insert(0, districtName);
                 }
                 
