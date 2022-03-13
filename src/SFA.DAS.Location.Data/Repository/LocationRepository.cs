@@ -44,5 +44,11 @@ namespace SFA.DAS.Location.Data.Repository
             return result;
         }
 
+        public async Task<IEnumerable<Domain.Entities.Location>> GetByLocalAuthorityDistrict(string localAuthorityDistrict)
+        {
+            var result = await _dataContext.Locations.Where(c => c.LocalAuthorityDistrict.Equals(localAuthorityDistrict)).ToListAsync();
+
+            return result;
+        }
     }
 }

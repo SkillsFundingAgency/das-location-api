@@ -28,7 +28,9 @@ namespace SFA.DAS.Location.Domain.Models
                 Postcode = source.Postcode,
                 AdminDistrict = "",
                 Outcode = source.Outcode,
-                Country = source.Country
+                Country = source.Country,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.AdminDistrict
             };
         }
 
@@ -54,8 +56,9 @@ namespace SFA.DAS.Location.Domain.Models
                 Long = source.Long,
                 Postcode = source.Postcode,
                 AdminDistrict = source.AdminDistrict.FirstOrDefault(),
-                Outcode =source.Outcode,
-                Country = source.Country.FirstOrDefault()
+                Outcode = source.Outcode,
+                Country = source.Country.FirstOrDefault(),
+                LocalAuthorityDistrict = source.AdminDistrict.FirstOrDefault()
             };
         }
     }

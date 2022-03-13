@@ -41,6 +41,8 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         public string AdminDistrict { get; set; }
         [JsonProperty("country")]
         public string Country { get; set; }
+        [JsonProperty("region")]
+        public string Region { get; set; }
     }
 
     public class PostcodeDistrictLocationApiResponse : PostcodesLocationApi
