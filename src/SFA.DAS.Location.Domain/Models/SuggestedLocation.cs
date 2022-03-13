@@ -28,7 +28,9 @@ namespace SFA.DAS.Location.Domain.Models
                 Postcode = source.Postcode,
                 AdminDistrict = "",
                 Outcode = source.Outcode,
-                Country = source.Country
+                Country = source.Country,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.AdminDistrict
             };
         }
 

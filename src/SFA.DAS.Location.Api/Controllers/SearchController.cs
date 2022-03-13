@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
+using SFA.DAS.Location.Application.Search.Queries.SearchLocalAuthority;
 using SFA.DAS.Location.Application.Search.Queries.SearchLocations;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,37 @@ namespace SFA.DAS.Location.Api.Controllers
                     return Ok(new GetLocationsListResponse {Locations = new List<GetLocationsListItem>()});
                 }
                 
+                var response = new GetLocationsListResponse
+                {
+                    Locations = queryResult.SuggestedLocations.Select(c => (GetLocationsListItem)c).ToList()
+                };
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get location data for {query} - number of results {results}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("LocalAuthority")]
+        public async Task<IActionResult> GetLocalAuthoritySearch([FromQuery] string query, [FromQuery] int results = 20)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetLocalAuthoritySearchQuery
+                {
+                    Query = query,
+                    ResultCount = results
+                });
+
+                if (queryResult.SuggestedLocations == null)
+                {
+                    return Ok(new GetLocationsListResponse { Locations = new List<GetLocationsListItem>() });
+                }
+
                 var response = new GetLocationsListResponse
                 {
                     Locations = queryResult.SuggestedLocations.Select(c => (GetLocationsListItem)c).ToList()

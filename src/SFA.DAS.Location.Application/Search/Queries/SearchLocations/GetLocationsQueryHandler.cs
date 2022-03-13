@@ -49,7 +49,7 @@ namespace SFA.DAS.Location.Application.Search.Queries.SearchLocations
                 var results = postcodes.ToList(); 
                 if (districtName != null)
                 {
-                    results.Insert(0, districtName);    
+                    results.Insert(0, districtName);
                 }
                 
                 return new GetLocationsQueryResult

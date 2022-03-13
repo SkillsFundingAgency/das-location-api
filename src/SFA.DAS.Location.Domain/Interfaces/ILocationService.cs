@@ -6,6 +6,7 @@ namespace SFA.DAS.Location.Domain.Interfaces
     public interface ILocationService
     {
         Task<IEnumerable<Domain.Entities.Location>> GetLocationsByQuery(string query, int resultCount);
+        Task<IEnumerable<Domain.Entities.Location>> GetLocationsByLocalAuthoritySearch(string query, int resultCount);
         Task<Domain.Entities.Location> GetLocationsByLocationAuthorityName(string locationName, string authorityName);
     }    
 }

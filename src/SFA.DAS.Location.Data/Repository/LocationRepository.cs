@@ -36,6 +36,17 @@ namespace SFA.DAS.Location.Data.Repository
             return results;
         }
 
+        public async Task<IEnumerable<Domain.Entities.Location>> GetAllStartingWithLocalAuthority(string query, int resultCount = 10)
+        {
+            var results = await _dataContext
+                .Locations
+                .Where(c => c.LocalAuthorityDistrict.StartsWith(query) || c.LocalAuthorityName.StartsWith(query))
+                .Take(resultCount)
+                .ToListAsync();
+
+            return results;
+        }
+
         public async Task<Domain.Entities.Location> GetByLocationAndAuthorityName(string locationName, string authorityName)
         {
             var result = await _dataContext.Locations.FirstOrDefaultAsync(c =>
