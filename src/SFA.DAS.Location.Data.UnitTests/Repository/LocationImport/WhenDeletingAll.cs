@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Data.UnitTests.DatabaseMock;
+using SFA.DAS.Location.Domain.Configuration;
 
 namespace SFA.DAS.Location.Data.UnitTests.Repository.LocationImport
 {
     public class WhenDeletingAll
     {
         private Mock<ILocationDataContext> _locationDataContext;
+        private Mock<LocationApiConfiguration> _locationApiConfiguration;
         private List<Domain.Entities.LocationImport> _items;
         private Data.Repository.LocationImportRepository _locationImportRepository;
 
@@ -29,8 +31,9 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.LocationImport
             _locationDataContext = new Mock<ILocationDataContext>();
             _locationDataContext.Setup(x => x.LocationImports).ReturnsDbSet(_items);
 
+            _locationApiConfiguration = new Mock<LocationApiConfiguration>();
 
-            _locationImportRepository = new Data.Repository.LocationImportRepository(_locationDataContext.Object);
+            _locationImportRepository = new Data.Repository.LocationImportRepository(_locationDataContext.Object, _locationApiConfiguration.Object);
         }
 
         [Test]

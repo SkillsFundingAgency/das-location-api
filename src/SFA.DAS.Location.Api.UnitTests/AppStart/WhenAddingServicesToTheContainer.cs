@@ -19,6 +19,7 @@ namespace SFA.DAS.Location.Api.UnitTests.AppStart
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDatabaseRegistration(new LocationApiConfiguration(), "DEV");
+            serviceCollection.AddSingleton(new LocationApiConfiguration());
             serviceCollection.AddServiceRegistration();
             
             var provider = serviceCollection.BuildServiceProvider();

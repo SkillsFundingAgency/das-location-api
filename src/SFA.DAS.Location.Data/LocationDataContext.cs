@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SFA.DAS.Location.Domain.Configuration;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Data
 {
@@ -13,6 +14,7 @@ namespace SFA.DAS.Location.Data
         DbSet<Domain.Entities.ImportAudit> ImportAudit { get; set; }
         int SaveChanges();
         string GetProviderName();
+        Task RunDataLoad(string filePath, string fileName);
     }
     
     public class LocationDataContext : DbContext, ILocationDataContext
@@ -64,6 +66,11 @@ namespace SFA.DAS.Location.Data
             modelBuilder.ApplyConfiguration(new Configuration.Location());
             modelBuilder.ApplyConfiguration(new Configuration.LocationImport());
             modelBuilder.ApplyConfiguration(new Configuration.ImportAudit());
+        }
+
+        public async Task RunDataLoad(string filePath, string fileName)
+        {
+            await Database.ExecuteSqlRawAsync($"EXEC LoadLocationData '{filePath}', '{fileName}'");
         }
     }
 }
