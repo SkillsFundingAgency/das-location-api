@@ -5,5 +5,7 @@ namespace SFA.DAS.Location.Domain.Configuration
         public string ConnectionString { get ; set ; }
 
         public string OsPlacesApiKey { get; set; }
+        public string LocationImportFilePath { get; set; }
+        public string LocationImportFileName { get; set; }
     }
 }
