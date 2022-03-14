@@ -21,7 +21,8 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.Location
             {
                 Id = 4,
                 LocationName = "different",
-                LocalAuthorityName = "test1"
+                LocalAuthorityName = "test1",
+                LocalAuthorityDistrict = "testDistrict"
             };
             _items = new List<Domain.Entities.Location>
             {
@@ -29,19 +30,22 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.Location
                 {
                     Id = 1,
                     LocationName = "testing",
-                    LocalAuthorityName = "test1"
+                    LocalAuthorityName = "test1",
+                    LocalAuthorityDistrict = "testDistrict"
                 },
                 new Domain.Entities.Location
                 {
                     Id = 2,
                     LocationName = "test",
-                    LocalAuthorityName = "test1"
+                    LocalAuthorityName = "test1",
+                    LocalAuthorityDistrict = "testDistrict"
                 },
                 new Domain.Entities.Location
                 {
                     Id = 3,
                     LocationName = "retest",
-                    LocalAuthorityName = "test1"
+                    LocalAuthorityName = "test1",
+                    LocalAuthorityDistrict = "testDistrict"
                 },
                 _expectedLocation
                 
@@ -62,9 +66,18 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.Location
         
             //Assert
             actual.Should().BeEquivalentTo(_expectedLocation);
-        }     
-        
-        
+        }
+
+        [Test]
+        public async Task Then_The_Location_Is_Returned_That_Has_Matching_Name_And_District()
+        {
+            //Act
+            var actual = await _locationRepository.GetByLocationAndAuthorityName(_expectedLocation.LocationName, _expectedLocation.LocalAuthorityDistrict);
+
+            //Assert
+            actual.Should().BeEquivalentTo(_expectedLocation);
+        }
+
         [Test]
         public async Task Then_Null_Is_Returned_If_No_Match()
         {

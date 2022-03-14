@@ -39,7 +39,7 @@ namespace SFA.DAS.Location.Data.Repository
         public async Task<Domain.Entities.Location> GetByLocationAndAuthorityName(string locationName, string authorityName)
         {
             var result = await _dataContext.Locations.FirstOrDefaultAsync(c =>
-                c.LocationName.Equals(locationName) && c.LocalAuthorityName.Equals(authorityName));
+                c.LocationName.Equals(locationName) && (c.LocalAuthorityName.Equals(authorityName) || c.LocalAuthorityDistrict.Equals(authorityName)));
 
             return result;
         }
