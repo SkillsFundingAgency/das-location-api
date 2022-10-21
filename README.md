@@ -4,6 +4,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SkillsFundingAgency_das-location-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=SkillsFundingAgency_das-location-api)
 
+New text
+
 ## Requirements
 
 - DotNet Core 3.1 and any supported IDE for DEV running.
