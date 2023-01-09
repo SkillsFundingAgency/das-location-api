@@ -39,7 +39,8 @@ namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
             var actual = await handler.Handle(query, CancellationToken.None);
 
             //Assert
-            actual.SuggestedLocations.Should().Contain(locations, district);
+            actual.SuggestedLocations.Should().Contain(district);
+            actual.SuggestedLocations.Should().Contain(locations);
             actual.SuggestedLocations.First().Should().Be(district);
         }
 

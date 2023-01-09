@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29503.13
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Api", "SFA.DAS.Location.Api\SFA.DAS.Location.Api.csproj", "{F3EDD9B6-AC2F-4D55-B26B-7CACB927FFE4}"
 EndProject
@@ -15,17 +15,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Api.UnitTe
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.Location.Database", "SFA.DAS.Location.Database\SFA.DAS.Location.Database.sqlproj", "{B5442815-7C0F-49D4-BD85-8718528A1539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Infrastructure.UnitTests", "SFA.DAS.Location.Infrastructure.UnitTests\SFA.DAS.Location.Infrastructure.UnitTests.csproj", "{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Infrastructure.UnitTests", "SFA.DAS.Location.Infrastructure.UnitTests\SFA.DAS.Location.Infrastructure.UnitTests.csproj", "{77612332-1FC2-4CB0-B2B0-5C59C2C4ADF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Data.UnitTests", "SFA.DAS.Location.Data.UnitTests\SFA.DAS.Location.Data.UnitTests.csproj", "{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Data.UnitTests", "SFA.DAS.Location.Data.UnitTests\SFA.DAS.Location.Data.UnitTests.csproj", "{31EE6434-7803-44FF-B0DC-D56EB9D8B11E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Data", "SFA.DAS.Location.Data\SFA.DAS.Location.Data.csproj", "{632189EE-70C6-4FA8-8B1C-A15ED41964AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Data", "SFA.DAS.Location.Data\SFA.DAS.Location.Data.csproj", "{632189EE-70C6-4FA8-8B1C-A15ED41964AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Application.UnitTests", "SFA.DAS.Location.Application.UnitTests\SFA.DAS.Location.Application.UnitTests.csproj", "{5AD97631-C6FA-4AE1-9F84-1FA5F39BB89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Application.UnitTests", "SFA.DAS.Location.Application.UnitTests\SFA.DAS.Location.Application.UnitTests.csproj", "{5AD97631-C6FA-4AE1-9F84-1FA5F39BB89D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Application", "SFA.DAS.Location.Application\SFA.DAS.Location.Application.csproj", "{79C01D1B-5E41-49B6-9E53-17D90F0AF456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Application", "SFA.DAS.Location.Application\SFA.DAS.Location.Application.csproj", "{79C01D1B-5E41-49B6-9E53-17D90F0AF456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.Domain.UnitTests", "SFA.DAS.Location.Domain.UnitTests\SFA.DAS.Location.Domain.UnitTests.csproj", "{524AB332-0500-403D-82AB-CFEC893D0D55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Location.Domain.UnitTests", "SFA.DAS.Location.Domain.UnitTests\SFA.DAS.Location.Domain.UnitTests.csproj", "{524AB332-0500-403D-82AB-CFEC893D0D55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Location.MockAPIs", "SFA.DAS.Location.MockAPIs\SFA.DAS.Location.MockAPIs.csproj", "{14A91D52-4D4D-4F52-9DB8-73E6205CA15E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{524AB332-0500-403D-82AB-CFEC893D0D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{524AB332-0500-403D-82AB-CFEC893D0D55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{524AB332-0500-403D-82AB-CFEC893D0D55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A91D52-4D4D-4F52-9DB8-73E6205CA15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A91D52-4D4D-4F52-9DB8-73E6205CA15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A91D52-4D4D-4F52-9DB8-73E6205CA15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A91D52-4D4D-4F52-9DB8-73E6205CA15E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{31EE6434-7803-44FF-B0DC-D56EB9D8B11E} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
 		{5AD97631-C6FA-4AE1-9F84-1FA5F39BB89D} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
 		{524AB332-0500-403D-82AB-CFEC893D0D55} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
+		{14A91D52-4D4D-4F52-9DB8-73E6205CA15E} = {E99E239B-C9EB-4FC8-8D32-FC292CA468E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8D4C9D0-DB29-42C7-8F69-AFB64BE056CD}
