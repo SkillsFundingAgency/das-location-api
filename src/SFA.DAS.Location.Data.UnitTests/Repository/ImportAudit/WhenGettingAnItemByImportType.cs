@@ -38,7 +38,7 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
             var auditRecord = await _importAuditRepository.GetLastImportByType(ImportType.OnsLocation);
             
             //Assert
-            Assert.IsNotNull(auditRecord);
+            Assert.That(auditRecord, Is.Not.Null);
             auditRecord.RowsImported.Should().Be(200);
             auditRecord.Name.Should().Be("test");
         }
@@ -57,7 +57,7 @@ namespace SFA.DAS.Location.Data.UnitTests.Repository.ImportAudit
             var auditRecord = await _importAuditRepository.GetLastImportByType(ImportType.OnsLocation);
             
             //Assert
-            Assert.IsNull(auditRecord);
+            Assert.That(auditRecord, Is.Null);
         }
     }
 }
