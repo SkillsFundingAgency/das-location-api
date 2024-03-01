@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Infrastructure.ApiClient
@@ -69,9 +70,18 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             return null;
         }
 
-        public Task<List<PostcodeData>> GetBulkPostCodeData(List<string> postcodes)
+        public async Task<List<PostcodeData>> GetBulkPostCodeData(GetBulkPostcodeRequest postcodes)
         {
-            throw new NotImplementedException();
+            var response = await _client.PostAsync(new Uri(Constants.BulkPostcodeUrl),
+                new StringContent(JsonConvert.SerializeObject(postcodes), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<PostcodeData>();
+            }
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var item = JsonConvert.DeserializeObject<PostcodesBulkLocationApiResponse>(jsonResponse);
+            return item.Result.Select(c=>(PostcodeData)c.Result).ToList();
         }
 
         public async Task<PostcodeData> GetPostcodeData(string query)

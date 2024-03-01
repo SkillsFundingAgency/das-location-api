@@ -21,7 +21,7 @@ public class WhenHandlingGetBulkPostcodesQuery
         [Frozen]Mock<IPostcodeApiService> postcodeApiService,
         GetBulkPostcodesQueryHandler handler)
     {
-        postcodeApiService.Setup(x => x.GetBulkPostCodeData(query.Postcodes)).ReturnsAsync(data);
+        postcodeApiService.Setup(x => x.GetBulkPostCodeData(It.Is<GetBulkPostcodeRequest>(c=> c.Postcodes == query.Postcodes))).ReturnsAsync(data);
 
         var actual = await handler.Handle(query, CancellationToken.None);
 

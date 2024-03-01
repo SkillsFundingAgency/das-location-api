@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace SFA.DAS.Location.Domain.ImportTypes
 {
+    public class PostcodesBulkLocationApiResponse
+    {
+        [JsonProperty("result")]
+        public List<PostcodeLocationApiResponse> Result { get; set; }
+    }
+    
     public class PostcodesLocationApiResponse
     {
         [JsonProperty("result")]
