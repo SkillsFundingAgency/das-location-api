@@ -14,6 +14,8 @@ namespace SFA.DAS.Location.Domain.Models
         public string AdminDistrict { get; set; }
         public string Outcode { get; set; }
         public string Country { get; set; }
+        public string Region { get; set; }
+        public string LocalAuthorityDistrict { get; set; }
 
 
 
@@ -25,7 +27,7 @@ namespace SFA.DAS.Location.Domain.Models
                 Long = source.Long,
                 Postcode = source.Postcode,
                 AdminDistrict = "",
-                Outcode =source.Outcode,
+                Outcode = source.Outcode,
                 Country = source.Country
             };
         }
@@ -39,6 +41,8 @@ namespace SFA.DAS.Location.Domain.Models
                 CountyName = source.CountyName,
                 LocationName = source.LocationName,
                 LocalAuthorityName = source.LocalAuthorityName,
+                Region = source.Region,
+                LocalAuthorityDistrict = source.LocalAuthorityDistrict
             };
         }
 
@@ -55,5 +59,4 @@ namespace SFA.DAS.Location.Domain.Models
             };
         }
     }
-
 }

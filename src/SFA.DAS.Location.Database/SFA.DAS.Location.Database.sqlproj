@@ -57,10 +57,26 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables\" />
+    <Folder Include="Scripts" />
+    <Folder Include="Views" />
+    <Folder Include="Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\ImportAudit.sql" />
     <Build Include="Tables\Location.sql" />
     <Build Include="Tables\Location_Import.sql" />
+    <Build Include="Views\ons_staging_view.sql" />
+    <Build Include="Tables\ons_staging.sql" />
+    <Build Include="Tables\PostcodeOutcode.sql" />
+    <Build Include="Tables\LocalAuthority.sql" />
+    <Build Include="Stored Procedures\SetupLocations.sql" />
+    <Build Include="Stored Procedures\ONSFileload.sql" />
+    <Build Include="Stored Procedures\LoadLocationData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\Setup_Local_Authority.sql" />
   </ItemGroup>
 </Project>
