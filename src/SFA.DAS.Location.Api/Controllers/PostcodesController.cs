@@ -94,7 +94,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
                 var response = new GetLocationsListResponse
                 {
-                    Locations = queryResult.PostCodes.Select(c=>(GetLocationsListItem)c).ToList()
+                    Locations = queryResult.PostCodes.Where(c=>c!=null).Select(c=>(GetLocationsListItem)c).ToList()
                 };
 
                 return Ok(response);
