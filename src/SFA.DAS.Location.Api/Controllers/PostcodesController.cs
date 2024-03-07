@@ -5,7 +5,11 @@ using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -74,6 +78,31 @@ namespace SFA.DAS.Location.Api.Controllers
             {
                 _logger.LogError(e, $"Unable to get location data for postcode:{outcode}");
                 return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("bulk")]
+        public async Task<IActionResult> BulkPostcode(List<string> postcodes)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetBulkPostcodesQuery
+                {
+                    Postcodes = postcodes
+                });
+
+                var response = new GetLocationsListResponse
+                {
+                    Locations = queryResult.PostCodes.Where(c=>c!=null).Select(c=>(GetLocationsListItem)c).ToList()
+                };
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get bulk postcode data");
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }
     }

@@ -9,14 +9,15 @@ namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient
 {
     public class MessageHandler
     {
-        public static Mock<HttpMessageHandler> SetupMessageHandlerMock(HttpResponseMessage response, Uri uri)
+        public static Mock<HttpMessageHandler> SetupMessageHandlerMock(HttpResponseMessage response, Uri uri, HttpMethod method = null)
         {
+            method ??= HttpMethod.Get;
             var httpMessageHandler = new Mock<HttpMessageHandler>();
             httpMessageHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(c =>
-                        c.Method.Equals(HttpMethod.Get)
+                        c.Method.Equals(method)
                         && c.RequestUri.Equals(uri)
                     ),
                     ItExpr.IsAny<CancellationToken>()

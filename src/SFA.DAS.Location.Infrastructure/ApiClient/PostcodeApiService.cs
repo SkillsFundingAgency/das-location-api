@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Infrastructure.ApiClient
@@ -69,6 +70,20 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
             return null;
         }
 
+        public async Task<List<PostcodeData>> GetBulkPostCodeData(GetBulkPostcodeRequest postcodes)
+        {
+            var response = await _client.PostAsync(new Uri(Constants.BulkPostcodeUrl),
+                new StringContent(JsonConvert.SerializeObject(postcodes), Encoding.UTF8, "application/json"));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<PostcodeData>();
+            }
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var item = JsonConvert.DeserializeObject<PostcodesBulkLocationApiResponse>(jsonResponse);
+            return item.Result.Select(c=>(PostcodeData)c.Result).ToList();
+        }
+
         public async Task<PostcodeData> GetPostcodeData(string query)
         {
             var response = await _client.GetAsync(new Uri(string.Format(Constants.PostcodeUrl, query)));
@@ -82,28 +97,6 @@ namespace SFA.DAS.Location.Infrastructure.ApiClient
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
                 return item.Result;
-            }
-
-            response.EnsureSuccessStatusCode();
-
-            return null;
-        }
-
-        public async Task<PostcodeData> GetFullPostcodeDataByOutcode(string query)
-        {
-            var response = await _client.GetAsync(new Uri(string.Format(Constants.DistrictNameUrl, query)));
-
-            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
-            {
-                return null;
-            }
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var item = JsonConvert.DeserializeObject<PostcodeLocationApiResponse>(jsonResponse);
-                var result = item.Result;
-
-                return result.Country.Equals("England", StringComparison.CurrentCultureIgnoreCase) ? result : default;
             }
 
             response.EnsureSuccessStatusCode();

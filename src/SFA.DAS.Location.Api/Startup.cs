@@ -83,7 +83,7 @@ namespace SFA.DAS.Location.Api
             
             services.AddDatabaseRegistration(locationApiConfiguration, _configuration["Environment"]);
             services.AddServiceRegistration();
-            services.AddMediatR(typeof(ImportDataCommand).Assembly);
+            services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ImportDataCommand).Assembly));
             
             if (_configuration["Environment"] != "DEV")
             {

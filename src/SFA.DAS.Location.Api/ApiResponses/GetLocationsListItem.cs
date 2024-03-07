@@ -48,6 +48,11 @@ namespace SFA.DAS.Location.Api.ApiResponses
 
         public static implicit operator GetLocationsListItem(PostcodeData source)
         {
+            if (source == null)
+            {
+                return null;
+                
+            }
             return new GetLocationsListItem
             {
                 Postcode = source.Postcode,
