@@ -7,6 +7,7 @@ using SFA.DAS.Location.Application.Addresses.Queries;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Asp.Versioning;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
