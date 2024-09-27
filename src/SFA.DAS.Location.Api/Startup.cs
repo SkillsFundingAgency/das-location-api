@@ -102,9 +102,9 @@ namespace SFA.DAS.Location.Api
                         o.Conventions.Add(new AuthorizeControllerModelConvention(new List<string>{PolicyNames.DataLoad}));
                     }
                     o.Conventions.Add(new ApiExplorerGroupPerVersionConvention());
-                }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                });
 
-            services.AddApplicationInsightsTelemetry(_configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            services.AddOpenTelemetryRegistration(_configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]!);
 
             services.AddSwaggerGen(c =>
             {
