@@ -190,10 +190,6 @@
                                     "value": "[parameters('configurationStorageConnectionString')]"
                                 },
                                 {
-                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference('api-application-insights').outputs.InstrumentationKey.value]"
-                                },
-                                {
                                     "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                                     "value": "[reference(concat(variables('appServiceName'), '-application-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
                                 }
