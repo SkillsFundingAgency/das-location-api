@@ -14,7 +14,7 @@
         "sharedEnvResourceGroup": {
             "type": "string"
         },
-        "ApiCustomHostname": {
+        "apiCustomHostname": {
             "type": "string"
         },
         "configurationStorageConnectionString": {
@@ -203,8 +203,8 @@
                           ]
                         }
                     },
-                    "ApiCustomHostname": {
-                        "value": "[parameters('ApiCustomHostname')]"
+                    "customHostName": {
+                        "value": "[parameters('apiCustomHostname')]"
                     },
                     "certificateThumbprint": {
                         "value": "[reference(concat(variables('apiAppServiceName'), '-app-service-certificate-', parameters('utcValue'))).outputs.certificateThumbprint.value]"
