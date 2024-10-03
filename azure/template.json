@@ -195,7 +195,7 @@
                             },
                             {
                               "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                              "value": "[reference(concat(variables('apiAppServiceName'), '-application-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
+                              "value": "[reference('api-application-insights').outputs.InstrumentationKey.value]"
                             },
                             {
                                 "name": "Version",
