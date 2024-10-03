@@ -71,6 +71,10 @@
         },
         "configurationStorageConnectionString": {
             "type": "securestring"
+        },
+        "utcValue": {
+            "type": "string",
+            "defaultValue": "[utcNow()]"
         }
     },
     "variables": {
