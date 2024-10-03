@@ -20,7 +20,7 @@
         "configurationStorageConnectionString": {
             "type": "securestring"
         },
-        "keyVaultCertificateName": {
+        "keyvaultCertificateName": {
             "type": "string"
         },
         "loggingRedisConnectionString": {
@@ -80,9 +80,9 @@
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
-        "resourceGroupName": "[concat(variables('resourceNamePrefix'), 'api-rg')]",
-        "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]",
+        "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
         "apiAppServiceName": "[concat(variables('resourceNamePrefix'), 'api-as')]",
+        "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]",
         "configNames": "SFA.DAS.Location.Api"
     },
     "resources": [
@@ -107,7 +107,7 @@
                 },
                 "parameters": {
                     "keyVaultCertificateName": {
-                        "value": "[parameters('keyVaultCertificateName')]"
+                        "value": "[parameters('keyvaultCertificateName')]"
                     },
                     "keyVaultName": {
                         "value": "[parameters('sharedKeyVaultName')]"
