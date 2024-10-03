@@ -38,9 +38,6 @@
         "sharedBackEndAppServicePlanName": {
             "type": "string"
         },
-        "sharedServiceBusName": {
-            "type": "string"
-        },
         "backEndAccessRestrictions": {
             "type": "array"
         },
@@ -277,9 +274,6 @@
                     },
                     "assignmentType": {
                         "value": "ServiceBusOwner"
-                    },
-                    "resourceName": {
-                        "value": "[parameters('sharedServiceBusName')]"
                     }
                 }
             }
