@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MediatR;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -102,9 +100,9 @@ namespace SFA.DAS.Location.Api
                         o.Conventions.Add(new AuthorizeControllerModelConvention(new List<string>{PolicyNames.DataLoad}));
                     }
                     o.Conventions.Add(new ApiExplorerGroupPerVersionConvention());
-                }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                });
 
-            services.AddApplicationInsightsTelemetry(_configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            services.AddOpenTelemetryRegistration(_configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]!);
 
             services.AddSwaggerGen(c =>
             {
