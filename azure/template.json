@@ -86,7 +86,7 @@
         "resourceGroupName": "[concat(variables('resourceNamePrefix'), 'api-rg')]",
         "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]",
         "apiAppServiceName": "[concat(variables('resourceNamePrefix'), 'api-as')]",
-        "configNames": "SFA.DAS.HmrcMock"
+        "configNames": "SFA.DAS.Location.Api"
     },
     "resources": [
         {
