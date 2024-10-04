@@ -195,7 +195,7 @@
                             },
                             {
                               "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                              "value": "[reference('api-application-insights').outputs.InstrumentationKey.value]"
+                              "value": "[reference('api-application-insights').outputs.ConnectionString.value]"
                             },
                             {
                                 "name": "Version",
