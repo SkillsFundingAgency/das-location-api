@@ -2,12 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "tags": {
-            "type": "object"
-        },
-        "resourceGroupLocation": {
-            "type": "string"
-        },
         "resourceEnvironmentName": {
             "type": "string"
         },
@@ -20,33 +14,45 @@
         "sharedEnvResourceGroup": {
             "type": "string"
         },
-        "sharedBackEndAppServicePlanName": {
+        "apiCustomHostname": {
             "type": "string"
         },
-        "sharedBackEndSubnetResourceId": {
+        "configurationStorageConnectionString": {
+            "type": "securestring"
+        },
+        "keyvaultCertificateName": {
+            "type": "string"
+        },
+        "loggingRedisConnectionString": {
+            "type": "securestring"
+        },
+        "loggingRedisKey": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "object"
+        },
+        "resourceGroupLocation": {
+            "type": "string"
+        },
+        "sharedBackEndAppServicePlanName": {
             "type": "string"
         },
         "backEndAccessRestrictions": {
             "type": "array"
         },
-        "apiCustomHostname": {
-            "type": "string"
-        },
-        "keyvaultCertificateName": {
+        "sharedBackEndSubnetResourceId": {
             "type": "string"
         },
         "sharedKeyVaultName": {
-            "type": "string"
-        },
-        "sharedManagementResourceGroup": {
             "type": "string"
         },
         "sharedSQLServerName": {
             "type": "string"
         },
         "elasticPoolName": {
-            "defaultValue": "",
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         },
         "databaseSkuName": {
             "type": "string",
@@ -60,17 +66,15 @@
             "type": "string",
             "defaultValue": "[subscription().subscriptionId]"
         },
+        "sharedManagementResourceGroup": {
+            "type": "string"
+        },
         "logAnalyticsWorkspaceName": {
             "type": "string"
         },
-        "loggingRedisConnectionString": {
-            "type": "securestring"
-        },
-        "loggingRedisKey": {
-            "type": "string"
-        },
-        "configurationStorageConnectionString": {
-            "type": "securestring"
+        "utcValue": {
+            "type": "string",
+            "defaultValue": "[utcNow()]"
         }
     },
     "variables": {
@@ -78,7 +82,8 @@
         "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
         "apiAppServiceName": "[concat(variables('resourceNamePrefix'), 'api-as')]",
-        "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]"
+        "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]",
+        "configNames": "SFA.DAS.Location.Api"
     },
     "resources": [
         {
@@ -87,14 +92,13 @@
             "type": "Microsoft.Resources/resourceGroups",
             "location": "[parameters('resourceGroupLocation')]",
             "tags": "[parameters('tags')]",
-            "properties": {
-            }
+            "properties": {}
         },
         {
             "apiVersion": "2021-04-01",
             "name": "api-app-service-certificate",
-            "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -117,8 +121,8 @@
         {
             "apiVersion": "2021-04-01",
             "name": "api-application-insights",
-            "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -141,8 +145,8 @@
         {
             "apiVersion": "2021-04-01",
             "name": "api-app-service",
-            "resourceGroup": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('resourceGroupName')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -164,49 +168,56 @@
                     },
                     "appServiceAppSettings": {
                         "value": {
-                            "array": [
-                                {
-                                    "name": "Environment",
-                                    "value": "[parameters('environmentName')]"
-                                },
-                                {
-                                    "name": "ConfigNames",
-                                    "value": "SFA.DAS.Location.Api"
-                                },
-                                {
-                                    "name": "LoggingRedisConnectionString",
-                                    "value": "[parameters('loggingRedisConnectionString')]"
-                                },
-                                {
-                                    "name": "LoggingRedisKey",
-                                    "value": "[parameters('loggingRedisKey')]"
-                                },
-                                {
-                                    "name": "EnvironmentName",
-                                    "value": "[parameters('environmentName')]"
-                                },
-                                {
-                                    "name": "ConfigurationStorageConnectionString",
-                                    "value": "[parameters('configurationStorageConnectionString')]"
-                                },
-                                {
-                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference('api-application-insights').outputs.InstrumentationKey.value]"
-                                }
-                            ]
+                          "array": [
+                            {
+                              "name": "Environment",
+                              "value": "[parameters('environmentName')]"
+                            },
+                            {
+                                "name": "ConfigNames",
+                                "value": "[variables('configNames')]"
+                            },
+                            {
+                                "name": "LoggingRedisConnectionString",
+                                "value": "[parameters('loggingRedisConnectionString')]"
+                            },
+                            {
+                                "name": "LoggingRedisKey",
+                                "value": "[parameters('loggingRedisKey')]"
+                            },
+                            {
+                                "name": "EnvironmentName",
+                                "value": "[parameters('environmentName')]"
+                            },   
+                            {
+                              "name": "ConfigurationStorageConnectionString",
+                              "value": "[parameters('configurationStorageConnectionString')]"
+                            },
+                            {
+                              "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                              "value": "[reference('api-application-insights').outputs.ConnectionString.value]"
+                            },
+                            {
+                                "name": "Version",
+                                "value": "1.0"
+                            }
+                          ]
                         }
                     },
                     "customHostName": {
                         "value": "[parameters('apiCustomHostname')]"
                     },
                     "certificateThumbprint": {
-                        "value": "[reference('api-app-service-certificate').outputs.certificateThumbprint.value]"
+                         "value": "[reference('api-app-service-certificate').outputs.certificateThumbprint.value]"
                     },
                     "ipSecurityRestrictions": {
                         "value": "[parameters('backEndAccessRestrictions')]"
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[variables('resourceGroupName')]"
+            ]
         },
         {
             "apiVersion": "2021-04-01",
@@ -252,7 +263,7 @@
         "ResourceGroupName": {
             "type": "string",
             "value": "[variables('resourceGroupName')]"
-        },
+         },
         "ApiAppServiceName": {
             "type": "string",
             "value": "[variables('apiAppServiceName')]"

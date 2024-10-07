@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using NLog.Web;
 
 namespace SFA.DAS.Location.Api
 {
@@ -13,7 +12,6 @@ namespace SFA.DAS.Location.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>())
-                .UseNLog();
+                .ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
     }
 }
