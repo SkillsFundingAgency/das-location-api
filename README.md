@@ -6,8 +6,11 @@
 
 ## Requirements
 
-- DotNet Core 3.1 and any supported IDE for DEV running.
-- *If you are not wishing to run the in memory database then*
+- .Net Core 8.0
+- .Net Framework 4.5 for the Database project
+- an appropriate IDE for development
+
+Note: If you **do not** wish to run the in memory db, you will also need:
 - SQL Server database.
 - Azure Storage Account
 
