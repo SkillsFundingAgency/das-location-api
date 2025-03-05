@@ -9,51 +9,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;
 
-namespace SFA.DAS.Location.Api.Controllers
+namespace SFA.DAS.Location.Api.Controllers;
+
+[ApiVersion("1.0")]
+[ApiController]
+[Route("/api/[controller]/")]
+public class AddressesController(IMediator mediator, ILogger<AddressesController> logger) : ControllerBase
 {
-    [ApiVersion("1.0")]
-    [ApiController]
-    [Route("/api/[controller]/")]
-    public class AddressesController : ControllerBase
+    [HttpGet]
+    [Route("")]
+    public async Task<IActionResult> Index(string query, double minMatch)
     {
-        private readonly IMediator _mediator;
-        private readonly ILogger<AddressesController> _logger;
-
-        public AddressesController(IMediator mediator, ILogger<AddressesController> logger)
+        try
         {
-            _mediator = mediator;
-            _logger = logger;
+            var queryResult = await mediator.Send(new GetAddressesQuery
+            {
+                Query = query,
+                MinMatch = minMatch
+            });
+
+            var response = new GetAddressesListResponse
+            {
+                Addresses = queryResult.Addresses.Select(GetAddressesListItem.From).ToList()
+            };
+
+            return Ok(response);
         }
-
-        [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> Index(string query, double minMatch)
+        catch(ArgumentOutOfRangeException ex)
         {
-            try
-            {
-                var queryResult = await _mediator.Send(new GetAddressesQuery
-                {
-                    Query = query,
-                    MinMatch = minMatch
-                });
-
-                var response = new GetAddressesListResponse
-                {
-                    Addresses = queryResult.Addresses.Select(c => (GetAddressesListItem)c).ToList()
-                };
-
-                return Ok(response);
-            }
-            catch(ArgumentOutOfRangeException ex)
-            {
-                _logger.LogError(ex, $"Unable to get address data for query:{query}/{minMatch}");
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Unable to get address data for query:{query}/{minMatch}");
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            logger.LogError(ex, "Unable to get address data for query:{query}/{minMatch}", query, minMatch);
+            return BadRequest();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Unable to get address data for query:{query}/{minMatch}", query, minMatch);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }
