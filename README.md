@@ -4,6 +4,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SkillsFundingAgency_das-location-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=SkillsFundingAgency_das-location-api)
 
+[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?longCache=true&style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+
 ## Requirements
 
 - .Net Core 8.0
