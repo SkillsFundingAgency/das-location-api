@@ -4,10 +4,10 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Application.Postcode.Services;
 using SFA.DAS.Location.Domain.Models;
-using SFA.DAS.Location.Infrastructure.ApiClient;
 using SFA.DAS.Testing.AutoFixture;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Application.UnitTests.Postcode.Services
 {

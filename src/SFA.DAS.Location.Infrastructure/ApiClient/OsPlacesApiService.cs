@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Infrastructure.ApiClient;
 
@@ -20,8 +21,8 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
             throw new ArgumentOutOfRangeException($"{nameof(minMatch)} must be between 0.1 and 1.0", nameof(minMatch));
 
         var items = new List<DpaResultPlacesApiItem>();
-        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey,
-            query, "dpa", Math.Round(minMatch, 1, MidpointRounding.ToZero), DecimalPlaces(minMatch, 10))));
+        client.DefaultRequestHeaders.Add("key", config.OsPlacesApiKey);
+        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesFindUrl, query, "dpa", Math.Round(minMatch, 1, MidpointRounding.ToZero), DecimalPlaces(minMatch, 10))));
 
         if (response.StatusCode.Equals(HttpStatusCode.NotFound))
         {
@@ -45,6 +46,27 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
             .ThenBy(c => $"{c.SubBuildingName}", new MixedComparer()) // then sort lowest first by the number part of a sub building name e.g. Flat 10
             .ThenBy(c => $"{c.BuildingNumber}", new MixedComparer()) // and finally sort lowest first by the building name
             .Select(SuggestedAddress.From);
+    }
+
+    public async Task<SuggestedPlace> NearestFromDpaDataset(string query, int radius = 50)
+    {
+        client.DefaultRequestHeaders.Add("key", config.OsPlacesApiKey);
+        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesNearestUrl, query, radius)));
+
+        if (response.StatusCode.Equals(HttpStatusCode.NotFound))
+        {
+            return new SuggestedPlace();
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var item = JsonConvert.DeserializeObject<OsNearestApiResponse>(jsonResponse);
+
+        if (item != null && (item.Results == null || !item.Results.Any())) return new SuggestedPlace();
+        
+        var nearestResult = item.Results.First().Dpa;
+        return SuggestedPlace.From(nearestResult);
     }
 
     private class MixedComparer : IComparer<string>

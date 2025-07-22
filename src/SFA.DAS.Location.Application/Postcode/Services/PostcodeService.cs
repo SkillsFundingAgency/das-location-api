@@ -1,6 +1,5 @@
 ﻿using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
-using SFA.DAS.Location.Infrastructure.ApiClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

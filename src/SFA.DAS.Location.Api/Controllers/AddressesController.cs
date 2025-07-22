@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;
+using SFA.DAS.Location.Application.Addresses.AddressByCoordinates;
 
 namespace SFA.DAS.Location.Api.Controllers;
 
@@ -43,6 +44,23 @@ public class AddressesController(IMediator mediator, ILogger<AddressesController
         catch (Exception ex)
         {
             logger.LogError(ex, "Unable to get address data for query:{query}/{minMatch}", query, minMatch);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    [HttpGet]
+    [Route("ByCoordinates")]
+    public async Task<IActionResult> Nearest([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] int radius = 50)
+    {
+        try
+        {
+            var queryResult = await mediator.Send(new GetAddressByCoordinatesQuery(latitude, longitude, radius));
+
+            return Ok(queryResult.Place);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Unable to get nearest address for latitude:{latitude} and longitude:{longitude}", latitude, longitude);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

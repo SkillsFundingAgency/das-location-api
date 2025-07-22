@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using SFA.DAS.Location.Domain.Interfaces;
 
 namespace SFA.DAS.Location.Infrastructure.ApiClient
 {
