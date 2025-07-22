@@ -7,7 +7,7 @@ public class GetAddressByCoordinatesQueryHandler(IAddressesService service) : Me
 {
     public async Task<GetAddressByCoordinatesQueryResult> Handle(GetAddressByCoordinatesQuery request, CancellationToken cancellationToken)
     {
-        var response = await service.NearestFromDpaDataset($"{request.Latitude},{request.Longitude}");
+        var response = await service.NearestFromDpaDataset($"{request.Latitude},{request.Longitude}", request.Radius);
 
         return new GetAddressByCoordinatesQueryResult(response);            
     }

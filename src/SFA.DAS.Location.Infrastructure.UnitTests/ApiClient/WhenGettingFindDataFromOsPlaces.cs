@@ -31,8 +31,9 @@ public class WhenGettingFindDataFromOsPlaces
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString()};
 
         var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, 
-            new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", minMatchBase, matchPrecision)));
+            new Uri(string.Format(Constants.OsPlacesFindUrl, query, "dpa", minMatchBase, matchPrecision)));
         var client = new HttpClient(httpMessageHandler.Object);
+        client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
             
         var osPlacesApiService = new OsPlacesApiService(client, config);
 
@@ -105,8 +106,9 @@ public class WhenGettingFindDataFromOsPlaces
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
         var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 0.4, 1)));
+            new Uri(string.Format(Constants.OsPlacesFindUrl, query, "dpa", 0.4, 1)));
         var client = new HttpClient(httpMessageHandler.Object);
+        client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
         var osPlacesApiService = new OsPlacesApiService(client, config);
 
@@ -130,8 +132,9 @@ public class WhenGettingFindDataFromOsPlaces
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
         var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 0.4, 1)));
+            new Uri(string.Format(Constants.OsPlacesFindUrl, query, "dpa", 0.4, 1)));
         var client = new HttpClient(httpMessageHandler.Object);
+        client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
         var osPlacesApiService = new OsPlacesApiService(client, config);
 
@@ -140,7 +143,7 @@ public class WhenGettingFindDataFromOsPlaces
     }
 
     [Test]
-    public void Then_If_Arguments_Are_Out_Of_Range_An_Expception_Is_Thrown()
+    public void Then_If_Arguments_Are_Out_Of_Range_An_Exception_Is_Thrown()
     {
         var response = new HttpResponseMessage
         {
@@ -152,8 +155,9 @@ public class WhenGettingFindDataFromOsPlaces
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
         var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesFindUrl, config.OsPlacesApiKey, query, "dpa", 1.1, 1)));
+            new Uri(string.Format(Constants.OsPlacesFindUrl, query, "dpa", 1.1, 1)));
         var client = new HttpClient(httpMessageHandler.Object);
+        client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
         var osPlacesApiService = new OsPlacesApiService(client, config);
 
