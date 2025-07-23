@@ -50,8 +50,9 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
 
     public async Task<SuggestedPlace> NearestFromDpaDataset(string query, int radius = 50)
     {
+        // https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/nearest
         client.DefaultRequestHeaders.Add("key", config.OsPlacesApiKey);
-        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesNearestUrl, query, radius)));
+        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesNearestUrl, query, radius, "dpa")));
 
         if (response.StatusCode.Equals(HttpStatusCode.NotFound))
         {

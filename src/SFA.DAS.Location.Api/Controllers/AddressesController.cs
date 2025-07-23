@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Application.Addresses.Queries;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;

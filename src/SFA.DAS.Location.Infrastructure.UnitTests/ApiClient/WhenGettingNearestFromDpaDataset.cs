@@ -78,12 +78,10 @@ public class WhenGettingNearestFromDpaDataset
     [Test, MoqAutoData]
     public async Task NearestFromDpaDataset_ReturnsSuggestedPlace_WhenResultExists(OsNearestApiResponse.Dpa dpa)
     {
+        dpa.Countrycode = "E";
         var responseObj = new OsNearestApiResponse
         {
-            Results = new List<OsNearestApiResponse.Result>
-            {
-                new OsNearestApiResponse.Result { Dpa = dpa }
-            }
+            Results = [new OsNearestApiResponse.Result {Dpa = dpa}]
         };
         var response = JsonConvert.SerializeObject(responseObj);
         var client = CreateHttpClient(HttpStatusCode.OK, response);

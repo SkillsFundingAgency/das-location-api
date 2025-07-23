@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Location.Domain.ImportTypes;
+﻿using SFA.DAS.Location.Domain.Extensions;
+using SFA.DAS.Location.Domain.ImportTypes;
 
 namespace SFA.DAS.Location.Domain.Models;
 public record SuggestedPlace
@@ -9,6 +10,7 @@ public record SuggestedPlace
     public string AddressLine2 { get; init; }
     public string AddressLine3 { get; init; }
     public string Postcode { get; init; }
+    public string Country { get; init; }
     public double? Longitude { get; init; }
     public double? Latitude { get; init; }
 
@@ -22,6 +24,7 @@ public record SuggestedPlace
             AddressLine2 = nearestResult.Thoroughfarename,
             AddressLine3 = nearestResult.Posttown,
             Postcode = nearestResult.Postcode,
+            Country = nearestResult.Countrycode.ToCountry(),
             Longitude = nearestResult.Lng,
             Latitude = nearestResult.Lat,
         };
