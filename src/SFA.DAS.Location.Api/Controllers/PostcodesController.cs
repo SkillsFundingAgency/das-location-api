@@ -14,7 +14,6 @@ using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
-    [ApiVersion("1.0")]
     [ApiController]
     [Route("/api/[controller]/")]
     public class PostcodesController : ControllerBase
@@ -30,7 +29,35 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> Index(string postcode)
+        {
+            try
+            {
+                var queryResult = await _mediator.Send(new GetPostcodeQuery
+                {
+                    Postcode = postcode
+                }); ;
+
+                if (queryResult.Postcode == null)
+                {
+                    return Ok(new GetLocationsListItem());
+                }
+
+                var response = (GetLocationsListItem)queryResult.Postcode;
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Unable to get location data for postcode:{postcode}");
+                return BadRequest();
+            }
+        }
+        
+        [HttpGet]
+        [Route("dd"), ApiVersion("2.0")]
+        public async Task<IActionResult> IndexV2([FromQuery] string postcode)
         {
             try
             {
@@ -57,6 +84,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("outcode")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> Outcode([FromQuery]string outcode)
         {
             try
@@ -84,6 +112,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpPost]
         [Route("bulk")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> BulkPostcode(List<string> postcodes)
         {
             try

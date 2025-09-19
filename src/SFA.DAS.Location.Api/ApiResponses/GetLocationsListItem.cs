@@ -23,7 +23,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
                 LocalAuthorityName = source.LocalAuthorityName,
                 Location = new Geometry
                 {
-                    Coordinates = new []{ source.Lat, source.Long }
+                    Coordinates = [source.Lat, source.Long]
                 }
             };
         }
@@ -68,7 +68,7 @@ namespace SFA.DAS.Location.Api.ApiResponses
         public class Geometry
         {
             public static string Type => "Point";
-            public double[] Coordinates { get; set; }
+            public double?[] Coordinates { get; set; }
         }
     }
 }

@@ -9,8 +9,8 @@ namespace SFA.DAS.Location.Domain.Models
         public string LocationName { get; set; }
         public string LocalAuthorityName { get; set; }
         public string Postcode { get; set; }
-        public double Lat { get; set; }
-        public double Long { get; set; }
+        public double? Lat { get; set; }
+        public double? Long { get; set; }
         public string AdminDistrict { get; set; }
         public string Outcode { get; set; }
         public string Country { get; set; }

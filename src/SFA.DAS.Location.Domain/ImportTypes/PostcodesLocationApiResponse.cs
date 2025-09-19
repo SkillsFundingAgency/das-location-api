@@ -33,10 +33,10 @@ namespace SFA.DAS.Location.Domain.ImportTypes
         public string Postcode { get; set; }
 
         [JsonProperty("latitude")]
-        public double Lat { get; set; }
+        public double? Lat { get; set; }
 
         [JsonProperty("longitude")]
-        public double Long { get; set; }
+        public double? Long { get; set; }
 
         [JsonProperty("outcode")]
         public string Outcode { get; set; }
