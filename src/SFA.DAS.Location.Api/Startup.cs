@@ -91,7 +91,7 @@ namespace SFA.DAS.Location.Api
                     HealthStatus.Unhealthy,
                     new[] {"ready"});
             }
-            
+
             services
                 .AddMvc(o =>
                 {
@@ -110,7 +110,7 @@ namespace SFA.DAS.Location.Api
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.ReportApiVersions = true;
-            });
+            }).AddMvc();
             
             services.AddSwaggerGen(c =>
             {
@@ -121,6 +121,8 @@ namespace SFA.DAS.Location.Api
             });
             
             services.AddLogging();
+
+            //services.AddEndpointsApiExplorer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,7 +132,7 @@ namespace SFA.DAS.Location.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LocationAPI v1");
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "LocationAPI v2");
+                //c.SwaggerEndpoint("/swagger/v2/swagger.json", "LocationAPI v2");
                 c.SwaggerEndpoint("/swagger/operations/swagger.json", "Operations v1");
                 c.RoutePrefix = string.Empty;
             });
