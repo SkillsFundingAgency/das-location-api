@@ -107,12 +107,13 @@ namespace SFA.DAS.Location.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LocationApi", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "LocationApi", Version = "v2" });
                 c.SwaggerDoc("operations", new OpenApiInfo { Title = "LocationApi operations" });
                 c.OperationFilter<SwaggerVersionHeaderFilter>();
             });
-            services.AddApiVersioning(opt => {
-                opt.ApiVersionReader = new HeaderApiVersionReader("X-Version");
-            });
+            services
+                .AddApiVersioning(opt => { opt.ApiVersionReader = new HeaderApiVersionReader("X-Version"); })
+                .AddMvc();
             services.AddLogging();
         }
 
@@ -123,6 +124,7 @@ namespace SFA.DAS.Location.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LocationAPI v1");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "LocationAPI v2");
                 c.SwaggerEndpoint("/swagger/operations/swagger.json", "Operations v1");
                 c.RoutePrefix = string.Empty;
             });

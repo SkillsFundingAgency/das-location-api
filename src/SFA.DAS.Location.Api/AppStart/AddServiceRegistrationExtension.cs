@@ -28,6 +28,10 @@ namespace SFA.DAS.Location.Api.AppStart
             
             services.AddHttpClient<IPostcodeApiService, PostcodeApiService>()
                 .AddPolicyHandler(HttpClientRetryPolicy());
+            
+            services
+                .AddHttpClient<IPostcodeApiV2Service, PostCodeApiV2Service>()
+                .AddPolicyHandler(HttpClientRetryPolicy());
         }
         private static IAsyncPolicy<HttpResponseMessage> HttpClientRetryPolicy()
         {
