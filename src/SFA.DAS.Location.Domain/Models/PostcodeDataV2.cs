@@ -1,4 +1,5 @@
-﻿using SFA.DAS.Location.Domain.ImportTypes;
+﻿using System.Linq;
+using SFA.DAS.Location.Domain.ImportTypes;
 
 namespace SFA.DAS.Location.Domain.Models;
 
@@ -12,7 +13,7 @@ public class PostcodeDataV2
     public string AdminDistrict { get; set; }
     public string Country { get; set; }
 
-    public static PostcodeDataV2 From(PostcodeResponse response)
+    public static PostcodeDataV2 From(PostcodeLookupResult response)
     {
         return new PostcodeDataV2
         {
