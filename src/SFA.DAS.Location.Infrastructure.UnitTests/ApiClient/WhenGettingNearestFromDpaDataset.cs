@@ -18,7 +18,7 @@ public class WhenGettingNearestFromDpaDataset
     private readonly LocationApiConfiguration _config = new() { OsPlacesApiKey = ApiKey };
     private const string Query = "test-query";
 
-    private HttpClient CreateHttpClient(HttpStatusCode statusCode, string content)
+    private static HttpClient CreateHttpClient(HttpStatusCode statusCode, string content)
     {
         var handlerMock = new Mock<HttpMessageHandler>();
         handlerMock.Protected()
