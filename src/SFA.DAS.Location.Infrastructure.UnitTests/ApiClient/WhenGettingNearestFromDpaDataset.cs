@@ -1,18 +1,14 @@
 ﻿using FluentAssertions;
-using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using SFA.DAS.Location.Domain.Configuration;
+using SFA.DAS.Location.Domain.ImportTypes;
 using SFA.DAS.Location.Domain.Models;
 using SFA.DAS.Location.Infrastructure.ApiClient;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
-using SFA.DAS.Location.Domain.ImportTypes;
-using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Infrastructure.UnitTests.ApiClient;
 [TestFixture]

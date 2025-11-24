@@ -51,23 +51,24 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
     public async Task<SuggestedPlace> NearestFromDpaDataset(string query, int radius = 50)
     {
         // https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/nearest
-        client.DefaultRequestHeaders.Add("key", config.OsPlacesApiKey);
-        var response = await client.GetAsync(new Uri(string.Format(Constants.OsPlacesNearestUrl, query, radius, "dpa")));
+        using var request = new HttpRequestMessage(HttpMethod.Get,
+            string.Format(Constants.OsPlacesNearestUrl, query, radius, "dpa"));
 
-        if (response.StatusCode.Equals(HttpStatusCode.NotFound))
-        {
-            return new SuggestedPlace();
-        }
+        request.Headers.Add("key", config.OsPlacesApiKey);
+
+        using var response = await client.SendAsync(request);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+            return Empty;
 
         response.EnsureSuccessStatusCode();
 
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        var item = JsonConvert.DeserializeObject<OsNearestApiResponse>(jsonResponse);
+        var json = await response.Content.ReadAsStringAsync();
+        var api = JsonConvert.DeserializeObject<OsNearestApiResponse>(json);
 
-        if (item != null && (item.Results == null || !item.Results.Any())) return new SuggestedPlace();
-        
-        var nearestResult = item.Results.First().Dpa;
-        return SuggestedPlace.From(nearestResult);
+        var dpa = api?.Results?.FirstOrDefault()?.Dpa;
+
+        return dpa == null ? Empty : SuggestedPlace.From(dpa);
     }
 
     private class MixedComparer : IComparer<string>
@@ -128,4 +129,6 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
             
         return decimalPlaces;
     }
+
+    public static readonly SuggestedPlace Empty = new SuggestedPlace();
 }

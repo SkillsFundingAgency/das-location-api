@@ -61,7 +61,7 @@ public class AddressesController(IMediator mediator, ILogger<AddressesController
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Unable to get nearest address for latitude:{latitude} and longitude:{longitude}", latitude, longitude);
+            logger.LogError(ex, "Unable to get nearest address for latitude:{lat} and longitude:{long}", latitude, longitude);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

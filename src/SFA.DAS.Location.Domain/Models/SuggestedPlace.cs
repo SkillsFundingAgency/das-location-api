@@ -16,6 +16,8 @@ public record SuggestedPlace
 
     public static SuggestedPlace From(OsNearestApiResponse.Dpa nearestResult)
     {
+        if (nearestResult is null) return null;
+
         return new SuggestedPlace
         {
             Uprn = nearestResult.Uprn,
