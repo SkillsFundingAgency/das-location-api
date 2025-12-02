@@ -6,8 +6,8 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes;
+using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
-using SFA.DAS.Location.Infrastructure.ApiClient;
 using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Application.UnitTests.Postcode.Queries;

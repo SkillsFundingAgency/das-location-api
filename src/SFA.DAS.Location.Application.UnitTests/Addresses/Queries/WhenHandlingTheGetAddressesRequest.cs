@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoFixture.NUnit3;
 using FluentAssertions;
 using Moq;
@@ -6,11 +9,8 @@ using SFA.DAS.Location.Application.Addresses.Queries;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
 using SFA.DAS.Testing.AutoFixture;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SFA.DAS.Location.Application.UnitTests.Search.Queries
+namespace SFA.DAS.Location.Application.UnitTests.Addresses.Queries
 {
     public class WhenHandlingTheGetAddressesRequest
     {

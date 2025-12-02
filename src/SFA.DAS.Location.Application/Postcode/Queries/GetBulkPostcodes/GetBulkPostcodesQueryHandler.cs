@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
-using SFA.DAS.Location.Infrastructure.ApiClient;
 
 namespace SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes;
 
