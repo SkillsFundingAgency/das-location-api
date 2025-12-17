@@ -1,15 +1,14 @@
-﻿using MediatR;
+﻿using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
-using SFA.DAS.Location.Application.Addresses.Queries;
+using SFA.DAS.Location.Application.Addresses.AddressByCoordinates;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Asp.Versioning;
-using SFA.DAS.Location.Application.Addresses.AddressByCoordinates;
+using SFA.DAS.Location.Application.Addresses.Queries;
 
 namespace SFA.DAS.Location.Api.Controllers;
 

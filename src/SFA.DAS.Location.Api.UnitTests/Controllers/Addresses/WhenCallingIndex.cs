@@ -1,19 +1,14 @@
-using AutoFixture.NUnit3;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
 using SFA.DAS.Location.Application.Addresses.Queries;
 using SFA.DAS.Location.Domain.Models;
-using SFA.DAS.Testing.AutoFixture;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Api.UnitTests.Controllers.Addresses
 {

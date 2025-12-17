@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
+using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes.V1;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByFullPostcode;
 using SFA.DAS.Location.Application.Postcode.Queries.GetByOutcode;
 using System;
@@ -9,8 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Asp.Versioning;
-using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -88,21 +88,21 @@ namespace SFA.DAS.Location.Api.Controllers
         {
             try
             {
-                var queryResult = await _mediator.Send(new GetBulkPostcodesQuery
+                var queryResult = await _mediator.Send(new GetBulkPostcodesQueryV1
                 {
                     Postcodes = postcodes
                 });
 
                 var response = new GetLocationsListResponse
                 {
-                    Locations = queryResult.PostCodes.Where(c=>c!=null).Select(c=>(GetLocationsListItem)c).ToList()
+                    Locations = queryResult.PostCodes.Where(c => c != null).Select(c => (GetLocationsListItem)c).ToList()
                 };
 
                 return Ok(response);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"Unable to get bulk postcode data");
+                _logger.LogError(e, "Unable to get bulk postcode data from v1");
                 return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
             }
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Interfaces;
 using SFA.DAS.Location.Domain.Models;
@@ -12,6 +13,11 @@ namespace SFA.DAS.Location.Application.Addresses.Services
             var results = await service.FindFromDpaDataset(query, minMatch);
 
             return results;
+        }
+
+        public async Task<IEnumerable<SuggestedAddress>> FindFromDpaOsPlaces(string query, double minMatch, CancellationToken cancellationToken)
+        {
+            return await service.FindFromDpaOsPlaces(query, minMatch, cancellationToken);
         }
 
         public async Task<SuggestedPlace> NearestFromDpaDataset(string query, int radius = 50)
