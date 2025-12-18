@@ -45,7 +45,7 @@ public class PostcodesController(ILogger<PostcodesController> logger,
             var queryResult = await mediator.Send(new GetBulkPostcodesQueryV2(postcodes));
             var response = new GetLocationsListResponse
             {
-                Locations = queryResult.Postcodes.Where(c => c != null).Select(c => (GetLocationsListItem)c).ToList()
+                Locations = queryResult.PostCodes.Where(c => c != null).Select(c => (GetLocationsListItem)c).ToList()
             };
 
             return Ok(response);

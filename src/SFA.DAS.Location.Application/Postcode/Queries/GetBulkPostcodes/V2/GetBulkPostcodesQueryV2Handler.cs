@@ -12,25 +12,27 @@ public class GetBulkPostcodesQueryV2Handler(IAddressesService addressesService) 
 {
     public async Task<GetBulkPostcodesQueryV2Result> Handle(GetBulkPostcodesQueryV2 request, CancellationToken cancellationToken)
     {
-        var options = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 10,          
-            CancellationToken = cancellationToken
-        };
-
+        // Limit the degree of parallelism to avoid exceeding OS Places API rate limits
+        // https://docs.os.uk/os-apis/core-concepts/rate-limiting-policy
         var results = new ConcurrentBag<PostcodeData>();
 
-        await Parallel.ForEachAsync(request.Postcodes, options, async (postcode, ct) =>
+        await Parallel.ForEachAsync(request.Postcodes, new ParallelOptions
+        {
+            MaxDegreeOfParallelism = 10, 
+            CancellationToken = cancellationToken
+        }, async (postcode, token) =>
         {
             var response = await addressesService
-                .FindFromDpaOsPlaces(postcode, 1.0, ct);
+                .FindFromDpaOsPlaces(postcode, 1.0, token);
 
             var suggestedAddresses = response.ToList();
-            if (!suggestedAddresses.Any())
+
+            // No results for this postcode - skip it
+            if (suggestedAddresses.Count == 0)
                 return;
 
+            // Take the first result as the best match for the postcode
             var first = suggestedAddresses.First();
-
             results.Add(new PostcodeData
             {
                 Postcode = first.Postcode,
@@ -40,8 +42,6 @@ public class GetBulkPostcodesQueryV2Handler(IAddressesService addressesService) 
             });
         });
 
-        var list = results.ToList();
-
-        return new GetBulkPostcodesQueryV2Result(list);
+        return new GetBulkPostcodesQueryV2Result(results.ToList());
     }
 }

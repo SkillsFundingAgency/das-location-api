@@ -12,7 +12,7 @@ using SFA.DAS.Testing.AutoFixture;
 
 namespace SFA.DAS.Location.Application.UnitTests.Postcode.Queries;
 
-public class WhenHandlingGetBulkPostcodesQuery
+public class WhenHandlingGetBulkPostcodesQueryV1
 {
     [Test, MoqAutoData]
     public async Task Then_The_Api_Is_Called_And_Postcode_Data_Returned(
