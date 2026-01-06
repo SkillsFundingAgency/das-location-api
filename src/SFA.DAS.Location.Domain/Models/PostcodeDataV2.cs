@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using SFA.DAS.Location.Domain.ImportTypes;
+﻿using SFA.DAS.Location.Domain.ImportTypes;
 
 namespace SFA.DAS.Location.Domain.Models;
 

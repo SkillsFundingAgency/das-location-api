@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Domain.Interfaces;
 
@@ -17,7 +18,7 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
 {
     public async Task<IEnumerable<SuggestedAddress>> FindFromDpaDataset(string query, double minMatch)
     {
-        if (minMatch < 0.1 || minMatch > 1.0)
+        if (minMatch is < 0.1 or > 1.0)
             throw new ArgumentOutOfRangeException($"{nameof(minMatch)} must be between 0.1 and 1.0", nameof(minMatch));
 
         var items = new List<DpaResultPlacesApiItem>();
@@ -39,13 +40,50 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
             items.AddRange(item.Results.Select(p => p.Dpa));
         }
 
-        return items
-            .Where(c => c.Match >= minMatch) // only include postal addresses and match using full match precision
-            .OrderBy(c => (c.MatchDescription == "EXACT" ? 0 : 1)) // sort the exact matches first
-            .ThenByDescending(c => c.Match) // then sort by the match score highest first
-            .ThenBy(c => $"{c.SubBuildingName}", new MixedComparer()) // then sort lowest first by the number part of a sub building name e.g. Flat 10
-            .ThenBy(c => $"{c.BuildingNumber}", new MixedComparer()) // and finally sort lowest first by the building name
-            .Select(SuggestedAddress.From);
+        // Filter + sort
+        return SortAndFilterSuggestedAddresses(items, minMatch);
+    }
+
+    public async Task<IEnumerable<SuggestedAddress>> FindFromDpaOsPlaces(string query,
+        double minMatch = 1.0,
+        CancellationToken cancellation = default)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            throw new ArgumentException("Query must not be null or empty.", nameof(query));
+
+        if (minMatch is < 0.1 or > 1.0)
+            throw new ArgumentOutOfRangeException(
+                nameof(minMatch),
+                minMatch,
+                "minMatch must be between 0.1 and 1.0 (inclusive).");
+
+        // Build request with per-call headers instead of mutating DefaultRequestHeaders each time
+        var requestUri = new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa"));
+        using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+        // Only set the header here; avoids duplicate header issues with DefaultRequestHeaders
+        request.Headers.TryAddWithoutValidation("key", config.OsPlacesApiKey);
+
+        using var response = await client.SendAsync(request, cancellation);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+            return [];
+
+        response.EnsureSuccessStatusCode();
+
+        var jsonResponse = await response.Content.ReadAsStringAsync(cancellation);
+
+        var payload = JsonConvert.DeserializeObject<OsPlacesApiResponse>(jsonResponse);
+        if (payload?.Results == null || payload.Results.Count == 0)
+            return [];
+
+        var items = payload.Results
+            .Select(r => r.Dpa)
+            .Where(d => d != null)
+            .ToList();
+
+        // Filter + sort
+        return SortAndFilterSuggestedAddresses(items, minMatch);
     }
 
     public async Task<SuggestedPlace> NearestFromDpaDataset(string query, int radius = 50)
@@ -122,7 +160,7 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
         }
     }
 
-    private int DecimalPlaces(double input, int maxDecimalPlaces)
+    private static int DecimalPlaces(double input, int maxDecimalPlaces)
     {
         var inputAsString = string.Format("{0:0." + new string('0', maxDecimalPlaces - 1) + "#}", input).TrimEnd('0');
         var decimalPlaces = Math.Max(1, inputAsString.Length - (inputAsString.IndexOf('.') + 1));
@@ -130,5 +168,17 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
         return decimalPlaces;
     }
 
-    public static readonly SuggestedPlace Empty = new SuggestedPlace();
+    public static readonly SuggestedPlace Empty = new();
+
+    private static List<SuggestedAddress> SortAndFilterSuggestedAddresses(List<DpaResultPlacesApiItem> items, double minMatch)
+    {
+        return items
+            .Where(c => c.Match >= minMatch) // only include postal addresses and match using full match precision
+            .OrderBy(c => c.MatchDescription == "EXACT" ? 0 : 1) // sort the exact matches first
+            .ThenByDescending(c => c.Match) // then sort by the match score highest first
+            .ThenBy(c => $"{c.SubBuildingName}", new MixedComparer()) // then sort lowest first by the number part of a sub building name e.g. Flat 10
+            .ThenBy(c => $"{c.BuildingNumber}", new MixedComparer()) // and finally sort lowest first by the building name
+            .Select(SuggestedAddress.From)
+            .ToList();
+    }
 }
