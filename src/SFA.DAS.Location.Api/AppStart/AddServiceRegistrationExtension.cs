@@ -38,7 +38,7 @@ namespace SFA.DAS.Location.Api.AppStart
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(0.2,
                     retryAttempt)));
         }
     }
