@@ -26,8 +26,7 @@ internal class WhenGettingFindFromDpaOsPlaces
         var minMatchBase = Math.Round(minMatch, 1, MidpointRounding.ToZero);
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
-        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa")));
+        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(OsPlacesUrlBuilder.Create(query)));
         var client = new HttpClient(httpMessageHandler.Object);
         client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
@@ -101,8 +100,7 @@ internal class WhenGettingFindFromDpaOsPlaces
         const string query = "AB1 1AB";
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
-        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa")));
+        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(OsPlacesUrlBuilder.Create(query)));
         var client = new HttpClient(httpMessageHandler.Object);
         client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
@@ -126,9 +124,7 @@ internal class WhenGettingFindFromDpaOsPlaces
         // Arrange
         const string query = "AB1 1AB";
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
-
-        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa")));
+        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(OsPlacesUrlBuilder.Create(query)));
         var client = new HttpClient(httpMessageHandler.Object);
         client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 
@@ -150,8 +146,7 @@ internal class WhenGettingFindFromDpaOsPlaces
         const string query = "AB1 1AB";
         var config = new LocationApiConfiguration { OsPlacesApiKey = Guid.NewGuid().ToString() };
 
-        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response,
-            new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa")));
+        var httpMessageHandler = MessageHandler.SetupMessageHandlerMock(response, new Uri(OsPlacesUrlBuilder.Create(query)));
         var client = new HttpClient(httpMessageHandler.Object);
         client.DefaultRequestHeaders.Add("Key", config.OsPlacesApiKey);
 

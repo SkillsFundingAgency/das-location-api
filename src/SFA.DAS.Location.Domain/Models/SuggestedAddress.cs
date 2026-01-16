@@ -11,6 +11,7 @@ public class SuggestedAddress
     public string Premises { get; set; }
     public string Thoroughfare  { get; set; }
     public string Locality { get; set; }
+    public string LocalCustodian { get; set; }
     public string PostTown { get; set; }
     public string County { get; set; }
     public string Postcode { get; set; }
@@ -31,6 +32,7 @@ public class SuggestedAddress
             Premises = ToCamelCase(string.Join(", ", new [] { source.SubBuildingName, source.BuildingName }.Where(s => !string.IsNullOrEmpty(s)))),
             Thoroughfare  = ToCamelCase(string.Join(" ", new [] { source.BuildingNumber, thoroughfare }.Where(s => !string.IsNullOrEmpty(s)))),
             Locality = ToCamelCase(string.Join(", ", new [] { source.DoubleDependentLocality, source.DependentLocality }.Where(s => !string.IsNullOrEmpty(s)))),
+            LocalCustodian = ToCamelCase(source.LocalCustodianCodeDescription),
             PostTown = ToCamelCase(source.PostTown),
             County = string.Empty, // Unable to get county from OsPlaces API as county was not required for Uk postal addresses from 1997 onwards
             Postcode = source.Postcode,
@@ -50,6 +52,10 @@ public class SuggestedAddress
 
     private static string ToCamelCase(string input)
     {
+        if (input is null)
+        {
+            return null;
+        }
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
         return textInfo.ToTitleCase(input.ToLower());
     }

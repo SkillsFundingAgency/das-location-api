@@ -10,36 +10,32 @@ using SFA.DAS.Location.Infrastructure.ApiClient;
 using System;
 using System.Net.Http;
 
-namespace SFA.DAS.Location.Api.AppStart
+namespace SFA.DAS.Location.Api.AppStart;
+
+public static class AddServiceRegistrationExtension
 {
-    public static class AddServiceRegistrationExtension
+    public static void AddServiceRegistration(this IServiceCollection services)
     {
-        public static void AddServiceRegistration(this IServiceCollection services)
-        {
-            services.AddTransient<IAddressesService, AddressesService>();
-            services.AddTransient<ILocationImportService, LocationImportService>();
-            services.AddTransient<ILocationService, LocationService>();
-            services.AddTransient<IPostcodeService, PostcodeService>();
+        services.AddTransient<IAddressesService, AddressesService>();
+        services.AddTransient<ILocationImportService, LocationImportService>();
+        services.AddTransient<ILocationService, LocationService>();
+        services.AddTransient<IPostcodeService, PostcodeService>();
+        services.AddTransient<IPostcodeApiV2Service, PostCodeApiV2Service>();
             
-            services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
+        services.AddHttpClient<INationalStatisticsLocationService, NationalStatisticsLocationService>();
             
-            services.AddHttpClient<IOsPlacesApiService, OsPlacesApiService>()
-                .AddPolicyHandler(HttpClientRetryPolicy());
+        services.AddHttpClient<IOsPlacesApiService, OsPlacesApiService>()
+            .AddPolicyHandler(HttpClientRetryPolicy());
             
-            services.AddHttpClient<IPostcodeApiService, PostcodeApiService>()
-                .AddPolicyHandler(HttpClientRetryPolicy());
-            
-            services
-                .AddHttpClient<IPostcodeApiV2Service, PostCodeApiV2Service>()
-                .AddPolicyHandler(HttpClientRetryPolicy());
-        }
-        private static IAsyncPolicy<HttpResponseMessage> HttpClientRetryPolicy()
-        {
-            return HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,
-                    retryAttempt)));
-        }
+        services.AddHttpClient<IPostcodeApiService, PostcodeApiService>()
+            .AddPolicyHandler(HttpClientRetryPolicy());
+    }
+    private static IAsyncPolicy<HttpResponseMessage> HttpClientRetryPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,
+                retryAttempt)));
     }
 }
