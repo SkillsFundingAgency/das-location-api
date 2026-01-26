@@ -8,7 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes.V2;
-public class GetBulkPostcodesQueryV2Handler(IAddressesService addressesService) : IRequestHandler<GetBulkPostcodesQueryV2, GetBulkPostcodesQueryV2Result>
+
+public class GetBulkPostcodesQueryV2Handler(IOsPlacesApiService osPlacesApiService) : IRequestHandler<GetBulkPostcodesQueryV2, GetBulkPostcodesQueryV2Result>
 {
     public async Task<GetBulkPostcodesQueryV2Result> Handle(GetBulkPostcodesQueryV2 request, CancellationToken cancellationToken)
     {
@@ -22,17 +23,16 @@ public class GetBulkPostcodesQueryV2Handler(IAddressesService addressesService) 
             CancellationToken = cancellationToken
         }, async (postcode, token) =>
         {
-            var response = await addressesService
-                .FindFromDpaOsPlaces(postcode, 1.0, token);
-
-            var suggestedAddresses = response.ToList();
-
-            // No results for this postcode - skip it
-            if (suggestedAddresses.Count == 0)
-                return;
-
+            var response = await osPlacesApiService.FindFromDpaOsPlaces(postcode, 1, 1.0, token);
+            
             // Take the first result as the best match for the postcode
-            var first = suggestedAddresses.First();
+            var first = response.FirstOrDefault();
+            if (first is null)
+            {
+                // No results for this postcode - skip it
+                return;
+            }
+            
             results.Add(new PostcodeData
             {
                 Postcode = first.Postcode,

@@ -48,20 +48,20 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
         double minMatch = 1.0,
         CancellationToken cancellation = default)
     {
-        if (string.IsNullOrWhiteSpace(query))
-            throw new ArgumentException("Query must not be null or empty.", nameof(query));
-
-        if (minMatch is < 0.1 or > 1.0)
-            throw new ArgumentOutOfRangeException(
-                nameof(minMatch),
-                minMatch,
-                "minMatch must be between 0.1 and 1.0 (inclusive).");
-
-        // Build request with per-call headers instead of mutating DefaultRequestHeaders each time
-        var requestUri = new Uri(string.Format(Constants.OsPlacesPostCodeUrl, query, "dpa"));
-        using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-
-        // Only set the header here; avoids duplicate header issues with DefaultRequestHeaders
+        return await FindFromDpaOsPlaces(query, null, minMatch, cancellation);
+    }
+    
+    public async Task<IEnumerable<SuggestedAddress>> FindFromDpaOsPlaces(
+        string query,
+        int? maxResults = null,
+        double minMatch = 1.0,
+        CancellationToken cancellation = default)
+    {
+        if (string.IsNullOrWhiteSpace(query)) throw new ArgumentException("Query must not be null or empty.", nameof(query));
+        if (maxResults is < 1 or > 100) throw new ArgumentOutOfRangeException(nameof(maxResults), maxResults, "maxResults must be between 1 and 100 (inclusive)");
+        if (minMatch is < 0.1 or > 1.0) throw new ArgumentOutOfRangeException(nameof(minMatch), minMatch, "minMatch must be between 0.1 and 1.0 (inclusive).");
+        
+        using var request = new HttpRequestMessage(HttpMethod.Get, OsPlacesUrlBuilder.Create(query, maxResults: maxResults));
         request.Headers.TryAddWithoutValidation("key", config.OsPlacesApiKey);
 
         using var response = await client.SendAsync(request, cancellation);
@@ -72,7 +72,6 @@ public class OsPlacesApiService(HttpClient client, LocationApiConfiguration conf
         response.EnsureSuccessStatusCode();
 
         var jsonResponse = await response.Content.ReadAsStringAsync(cancellation);
-
         var payload = JsonConvert.DeserializeObject<OsPlacesApiResponse>(jsonResponse);
         if (payload?.Results == null || payload.Results.Count == 0)
             return [];

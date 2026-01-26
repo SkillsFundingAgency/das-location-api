@@ -17,16 +17,19 @@ public class WhenHandlingGetBulkPostcodesQueryV2
     public async Task Then_The_Api_Is_Called_And_Postcode_Data_Returned(
         SuggestedAddress data,
         string postcode,
-        [Frozen] Mock<IAddressesService> postcodeApiService,
+        [Frozen] Mock<IOsPlacesApiService> postcodeApiService,
         [Greedy] GetBulkPostcodesQueryV2Handler handler)
     {
+        // arrange
         var query = new GetBulkPostcodesQueryV2([postcode]);
         data.Postcode = postcode;
 
-        postcodeApiService.Setup(x => x.FindFromDpaOsPlaces(It.IsAny<string>(), It.IsAny<double>(),It.IsAny<CancellationToken>())).ReturnsAsync([data]);
+        postcodeApiService.Setup(x => x.FindFromDpaOsPlaces(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>())).ReturnsAsync([data]);
 
+        // act
         var actual = await handler.Handle(query, CancellationToken.None);
 
+        // assert
         actual.PostCodes[0].Postcode.Should().Be(data.Postcode);
         actual.PostCodes[0].Lat.Should().Be(data.Latitude);
         actual.PostCodes[0].Long.Should().Be(data.Longitude);
