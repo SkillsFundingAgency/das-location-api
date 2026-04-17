@@ -24,9 +24,9 @@ namespace SFA.DAS.Location.Api.UnitTests.AppStart
 
             var type = provider.GetService<ILocationDataContext>();
             
-            Assert.IsNotNull(type);
+            Assert.That(type, Is.Not.Null);
             var tokenProvider = provider.GetService<AzureServiceTokenProvider>(); 
-            Assert.IsNotNull(tokenProvider);
+            Assert.That(tokenProvider, Is.Not.Null);
         }
         
         [Test]
@@ -43,7 +43,7 @@ namespace SFA.DAS.Location.Api.UnitTests.AppStart
 
             var type = provider.GetService<ILocationDataContext>();
             
-            Assert.IsNotNull(type);
+            Assert.That(type, Is.Not.Null);
             type.GetProviderName().Should().EndWith("SqlServer");
             
         }
@@ -62,7 +62,7 @@ namespace SFA.DAS.Location.Api.UnitTests.AppStart
 
             var type = provider.GetService<ILocationDataContext>();
             
-            Assert.IsNotNull(type);
+            Assert.That(type, Is.Not.Null);
             type.GetProviderName().Should().EndWith("InMemory");
             
         }

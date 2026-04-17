@@ -1,15 +1,16 @@
+using AutoFixture.NUnit4;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.Location.Api.ApiResponses;
 using SFA.DAS.Location.Api.Controllers;
+using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes.V1;
 using SFA.DAS.Location.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using SFA.DAS.Location.Application.Postcode.Queries.GetBulkPostcodes.V1;
 
 namespace SFA.DAS.Location.Api.UnitTests.Controllers.Postcodes;
 

@@ -1,16 +1,12 @@
-using System;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture.NUnit3;
+using AutoFixture.NUnit4;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
 using SFA.DAS.Location.Api.Controllers;
 using SFA.DAS.Location.Application.LocationImport.Handlers.ImportLocations;
-using SFA.DAS.Testing.AutoFixture;
+using System;
+using System.Net;
+using System.Threading;
 
 namespace SFA.DAS.Location.Api.UnitTests.Controllers.Import
 {
@@ -24,7 +20,7 @@ namespace SFA.DAS.Location.Api.UnitTests.Controllers.Import
             var controllerResult = await controller.Index() as NoContentResult;
 
             mockMediator.Verify(x=>x.Send(It.IsAny<ImportDataCommand>(), It.IsAny<CancellationToken>()), Times.Once);
-            Assert.IsNotNull(controllerResult);
+            Assert.That(controllerResult, Is.Not.Null);
             controllerResult.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
         }
 
