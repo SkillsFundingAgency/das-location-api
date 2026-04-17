@@ -20,7 +20,6 @@
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
         <PackageReference Include="SFA.DAS.Testing.AutoFixture" Version="17.1.165" />
-        <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     </ItemGroup>
 
     <ItemGroup>
