@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -27,6 +28,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("")]
+        [ProducesResponseType(typeof(GetLocationsListResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index([FromQuery] string query, [FromQuery] int results = 20)
         {
             try
