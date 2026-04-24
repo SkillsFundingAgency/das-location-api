@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SFA.DAS.ApiContracts.Build" Version="17.1.185-prerelease-2" />
+        <PackageReference Include="SFA.DAS.ApiContracts.Build" Version="17.1.186" />
         <PackageReference Include="SFA.DAS.Apim.Shared" Version="17.1.184" />
     </ItemGroup>
 
@@ -36,16 +36,16 @@
             <_V2NSwagJsonLibrary Condition="'$(ApiContractsJsonLibrary)' != 'Both'">$(ApiContractsJsonLibrary)</_V2NSwagJsonLibrary>
             <_V2NSwagJsonLibrary Condition="'$(_V2NSwagJsonLibrary)' == ''">SystemTextJson</_V2NSwagJsonLibrary>
         </PropertyGroup>
-        <Exec Command="$(ApiContractsNSwagCommand) openapi2csclient /input:&quot;$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json&quot; /namespace:$(ApiContractsNamespace).ApiResponses.V2 /output:&quot;$(ApiContractsOutputDirectory)/Responses_v2.g.cs&quot; /generateClientClasses:false /generateDtoTypes:true /generateDefaultValues:true /generateDataAnnotations:false /classStyle:POCO /generateNullableReferenceTypes:true /jsonLibrary:$(_V2NSwagJsonLibrary)"
+        <Exec Command="$(ApiContractsNSwagCommand) $(ApiContractsNSwagDtoFlags) /input:&quot;$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json&quot; /namespace:$(ApiContractsNamespace).ApiResponses.V2 /output:&quot;$(MSBuildThisFileDirectory)Generated\V2\Responses.g.cs&quot;"
               WorkingDirectory="$(MSBuildProjectDirectory)" />
         <AddSystemTextJsonAttributes
             Condition="'$(ApiContractsJsonLibrary)' == 'Both'"
-            FilePath="$(ApiContractsOutputDirectory)/Responses_v2.g.cs" />
+            FilePath="$(ApiContractsOutputDirectory)/V2/Responses.g.cs" />
         <GenerateApiRequestWrappers
             SwaggerPath="$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json"
             Namespace="$(ApiContractsNamespace).ApiRequests.V2"
             ResponsesNamespace="$(ApiContractsNamespace).ApiResponses.V2"
-            OutputPath="$(ApiContractsOutputDirectory)/Requests_v2.g.cs" />
+            OutputPath="$(ApiContractsOutputDirectory)/V2/Requests_v2.g.cs" />
     </Target>
 
 </Project>

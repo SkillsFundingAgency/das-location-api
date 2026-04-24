@@ -15,7 +15,7 @@ using SFA.DAS.Apim.Shared.Interfaces;
 using SFA.DAS.Location.Contracts.ApiResponses;
 
 /// <summary>GET /api/Addresses &#x2192; <see cref="GetAddressesListResponse"/></summary>
-public record GetAddressesApiRequest(string Query, double? MinMatch) : IGetApiRequest
+public record GetAddressesApiRequest(string? Query, double? MinMatch) : IGetApiRequest
 {
     public string GetUrl => QueryHelpers.AddQueryString($"api/Addresses", new Dictionary<string, string?> { ["query"] = Query, ["minMatch"] = MinMatch?.ToString() });
 }
@@ -27,19 +27,19 @@ public record GetAddressesByCoordinatesApiRequest(double? Latitude, double? Long
 }
 
 /// <summary>GET /api/Locations &#x2192; <see cref="GetLocationsListItem"/></summary>
-public record GetLocationsApiRequest(string LocationName, string AuthorityName) : IGetApiRequest
+public record GetLocationsApiRequest(string? LocationName, string? AuthorityName) : IGetApiRequest
 {
     public string GetUrl => QueryHelpers.AddQueryString($"api/Locations", new Dictionary<string, string?> { ["locationName"] = LocationName, ["authorityName"] = AuthorityName });
 }
 
 /// <summary>GET /api/Postcodes &#x2192; <see cref="GetLocationsListItem"/></summary>
-public record GetPostcodesApiRequest(string Postcode) : IGetApiRequest
+public record GetPostcodesApiRequest(string? Postcode) : IGetApiRequest
 {
     public string GetUrl => QueryHelpers.AddQueryString($"api/Postcodes", new Dictionary<string, string?> { ["postcode"] = Postcode });
 }
 
 /// <summary>GET /api/Postcodes/outcode &#x2192; <see cref="GetLocationsListItem"/></summary>
-public record GetPostcodesOutcodeApiRequest(string Outcode) : IGetApiRequest
+public record GetPostcodesOutcodeApiRequest(string? Outcode) : IGetApiRequest
 {
     public string GetUrl => QueryHelpers.AddQueryString($"api/Postcodes/outcode", new Dictionary<string, string?> { ["outcode"] = Outcode });
 }
@@ -52,7 +52,7 @@ public class PostPostcodesBulkApiRequest : IPostApiRequest<System.Collections.Ge
 }
 
 /// <summary>GET /api/Search &#x2192; <see cref="GetLocationsListResponse"/></summary>
-public record GetSearchApiRequest(string Query, int? Results) : IGetApiRequest
+public record GetSearchApiRequest(string? Query, int? Results) : IGetApiRequest
 {
     public string GetUrl => QueryHelpers.AddQueryString($"api/Search", new Dictionary<string, string?> { ["query"] = Query, ["results"] = Results?.ToString() });
 }
