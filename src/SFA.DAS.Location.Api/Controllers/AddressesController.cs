@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.Location.Application.Addresses.Queries;
+using SFA.DAS.Location.Domain.Models;
 
 namespace SFA.DAS.Location.Api.Controllers;
 
@@ -19,6 +20,7 @@ public class AddressesController(IMediator mediator, ILogger<AddressesController
 {
     [HttpGet]
     [Route("")]
+    [ProducesResponseType(typeof(GetAddressesListResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Index(string query, double minMatch)
     {
         try
@@ -50,6 +52,7 @@ public class AddressesController(IMediator mediator, ILogger<AddressesController
 
     [HttpGet]
     [Route("ByCoordinates")]
+    [ProducesResponseType(typeof(SuggestedPlace), StatusCodes.Status200OK)]
     public async Task<IActionResult> Nearest([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] int radius = 50)
     {
         try

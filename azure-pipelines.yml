@@ -5,11 +5,14 @@ trigger:
       - "master"
 
 variables:
+  - name: SolutionBaseName
+    value: SFA.DAS.Location.Api
   - name: buildConfiguration
     value: 'release'
 
 resources:
   repositories:
+  - repository: self
   - repository: das-platform-building-blocks
     type: github
     name: SkillsFundingAgency/das-platform-building-blocks
@@ -21,3 +24,5 @@ stages:
   jobs:
   - template: pipeline-templates/job/code-build.yml
   - template: pipeline-templates/job/dacpac-build.yml
+
+- template: azure-pipelines-templates/deploy/stage/nuget-publish.yml@das-platform-building-blocks

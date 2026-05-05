@@ -1,4 +1,4 @@
-﻿using AutoFixture.NUnit3;
+﻿using AutoFixture.NUnit4;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SFA.DAS.Location.Domain.ImportTypes;

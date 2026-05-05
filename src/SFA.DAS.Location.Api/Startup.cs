@@ -108,7 +108,7 @@ namespace SFA.DAS.Location.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LocationApi", Version = "v1" });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "LocationApi", Version = "v2" });
-                c.SwaggerDoc("operations", new OpenApiInfo { Title = "LocationApi operations" });
+                c.SwaggerDoc("operations", new OpenApiInfo { Title = "LocationApi operations", Version = "v1"});
                 c.OperationFilter<SwaggerVersionHeaderFilter>();
             });
             services

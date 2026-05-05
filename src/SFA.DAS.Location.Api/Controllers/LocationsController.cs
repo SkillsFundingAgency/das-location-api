@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFA.DAS.Location.Api.ApiResponses;
@@ -25,6 +26,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("")]
+        [ProducesResponseType(typeof(GetLocationsListItem), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index(string locationName, string authorityName)
         {
             try

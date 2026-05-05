@@ -38,6 +38,7 @@ public class PostcodesController(ILogger<PostcodesController> logger,
 
     [HttpPost]
     [Route("bulk")]
+    [ProducesResponseType(typeof(GetLocationsListResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> BulkPostcode(List<string> postcodes)
     {
         try

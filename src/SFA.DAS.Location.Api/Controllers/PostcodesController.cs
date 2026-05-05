@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace SFA.DAS.Location.Api.Controllers
 {
@@ -30,6 +31,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("")]
+        [ProducesResponseType(typeof(GetLocationsListItem), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index(string postcode)
         {
             try
@@ -57,6 +59,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpGet]
         [Route("outcode")]
+        [ProducesResponseType(typeof(GetLocationsListItem), StatusCodes.Status200OK)]
         public async Task<IActionResult> Outcode([FromQuery]string outcode)
         {
             try
@@ -84,6 +87,7 @@ namespace SFA.DAS.Location.Api.Controllers
 
         [HttpPost]
         [Route("bulk")]
+        [ProducesResponseType(typeof(GetLocationsListResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> BulkPostcode(List<string> postcodes)
         {
             try

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>SFA.DAS.Location.Contracts</RootNamespace>
+        <AssemblyName>SFA.DAS.Location.Contracts</AssemblyName>
+        <ApiContractsSwaggerJsonPath>$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v1.json</ApiContractsSwaggerJsonPath>
+        <ApiContractsNamespace>SFA.DAS.Location.Contracts</ApiContractsNamespace>
+        <ApiContractsOutputDirectory>$(MSBuildThisFileDirectory)Generated</ApiContractsOutputDirectory>
+        <ApiContractsClientName>LocationApi</ApiContractsClientName>
+        <ApiContractsJsonLibrary>Both</ApiContractsJsonLibrary>
+        <IsPackable>true</IsPackable>
+        <Authors>GOV.UK Education and Skills Funding Agency (ESFA) Digital Apprenticeship Service (DAS)</Authors>
+        <Description>Location inner API request and response for use with APIM.</Description>
+        <License>https://github.com/SkillsFundingAgency/das-shared-packages/blob/master/LICENSE</License>
+        <PackageProjectUrl>https://github.com/SkillsFundingAgency/das-Location-api</PackageProjectUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="SFA.DAS.ApiContracts.Build" Version="17.1.186" />
+        <PackageReference Include="SFA.DAS.Apim.Shared" Version="17.1.184" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Generated\" />
+    </ItemGroup>
+
+    <Target Name="GenerateV2Contracts" AfterTargets="GenerateApiContracts"
+            Condition="'$(ApiContractsGenerationEnabled)' == 'true'
+                       and Exists('$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json')">
+        <PropertyGroup>
+            <_V2NSwagJsonLibrary Condition="'$(ApiContractsJsonLibrary)' == 'Both'">NewtonsoftJson</_V2NSwagJsonLibrary>
+            <_V2NSwagJsonLibrary Condition="'$(ApiContractsJsonLibrary)' != 'Both'">$(ApiContractsJsonLibrary)</_V2NSwagJsonLibrary>
+            <_V2NSwagJsonLibrary Condition="'$(_V2NSwagJsonLibrary)' == ''">SystemTextJson</_V2NSwagJsonLibrary>
+        </PropertyGroup>
+        <Exec Command="$(ApiContractsNSwagCommand) $(ApiContractsNSwagDtoFlags) /input:&quot;$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json&quot; /namespace:$(ApiContractsNamespace).ApiResponses.V2 /output:&quot;$(MSBuildThisFileDirectory)Generated\V2\Responses.g.cs&quot;"
+              WorkingDirectory="$(MSBuildProjectDirectory)" />
+        <AddSystemTextJsonAttributes
+            Condition="'$(ApiContractsJsonLibrary)' == 'Both'"
+            FilePath="$(ApiContractsOutputDirectory)/V2/Responses.g.cs" />
+        <GenerateApiRequestWrappers
+            SwaggerPath="$(MSBuildThisFileDirectory)..\SFA.DAS.Location.Api\swagger_v2.json"
+            Namespace="$(ApiContractsNamespace).ApiRequests.V2"
+            ResponsesNamespace="$(ApiContractsNamespace).ApiResponses.V2"
+            OutputPath="$(ApiContractsOutputDirectory)/V2/Requests_v2.g.cs" />
+    </Target>
+
+</Project>
