@@ -1,3 +1,7 @@
+parameters:
+  SolutionBaseName:
+  BuildConfiguration:
+
 jobs:
 - job: CodeBuild
   pool:
@@ -5,8 +9,6 @@ jobs:
     demands: LATEST_DOTNET_VERSION -equals 3.1
   variables:
   - group: BUILD Management Resources
-  - name: buildConfiguration
-    value: release
   workspace:
     clean: all
   steps:
@@ -25,7 +27,9 @@ jobs:
       command: publish
       publishWebProjects: false
       projects: 'src/SFA.DAS.Location.Api/SFA.DAS.Location.Api.csproj'
-      arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+      arguments: '--configuration ${{ parameters.BuildConfiguration }} --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+      modifyOutputPath: true
+      zipAfterPublish: true
 
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -35,10 +39,11 @@ jobs:
       TargetFolder: '$(build.artifactstagingdirectory)/publish'
       OverWrite: true
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)/publish'
+      targetPath: '$(build.artifactstagingdirectory)/publish'
+      artifactName: ${{ parameters.SolutionBaseName }}
 
   - template: azure-pipelines-templates/build/step/nuget-pack.yml@das-platform-building-blocks
     parameters:
